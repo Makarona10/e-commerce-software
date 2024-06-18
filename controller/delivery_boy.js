@@ -12,7 +12,6 @@ const change_status = async (req, res) => {
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Order not found' });
         }
-
         res.status(200).json({ message: 'Order updated successfully' });
     } catch (error) {
         console.error('Error updating order:', error);
@@ -21,4 +20,4 @@ const change_status = async (req, res) => {
 }
 
 
-export { accept_order }
+export { change_status }
