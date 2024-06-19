@@ -70,7 +70,7 @@ const orders_table = `CREATE TABLE IF NOT EXISTS orders (
     content JSONB,
     adress VARCHAR(255),
     amount REAL,
-    status VARCHAR(255),
+    status VARCHAR(255) DEFAULT 'pending',
     data_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     )`
 

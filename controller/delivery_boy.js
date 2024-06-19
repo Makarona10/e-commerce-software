@@ -19,5 +19,23 @@ const change_status = async (req, res) => {
     }
 }
 
+const accept_order = async (req, res) => {
+    try {
+        const result = await connection.query(
+            `UPDATE orders
+             SET status = accepted
+             WHERE order_id = $1`,
+            [req.params.order_id]
+        );
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Order not found' });
+        }
+        res.status(200).json({ message: `Order accepted` });
+    } catch (error) {
+        console.error('Error accepting the order:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
-export { change_status }
+
+export { change_status, accept_order }
