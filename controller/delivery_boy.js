@@ -1,4 +1,6 @@
-import { connection } from "../DB"
+import { connection } from "../DB";
+
+
 
 const change_status = async (req, res) => {    
     try {
@@ -23,14 +25,15 @@ const accept_order = async (req, res) => {
     try {
         const result = await connection.query(
             `UPDATE orders
-             SET status = accepted
-             WHERE order_id = $1`,
-            [req.params.order_id]
+             SET status = accepted,
+             delivery_id = $1
+             WHERE order_id = $2`,
+            [req.user_id ,req.params.order_id]
         );
         if (result.rowCount === 0) {
             return res.status(404).json({ error: 'Order not found' });
         }
-        res.status(200).json({ message: `Order accepted` });
+        res.status(200).json({ message: 'Order accepted' });
     } catch (error) {
         console.error('Error accepting the order:', error);
         res.status(500).json({ error: 'Internal Server Error' });
