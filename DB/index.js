@@ -42,7 +42,7 @@ const products_table = `CREATE TABLE IF NOT EXISTS products (
     product_name VARCHAR(255),
     description VARCHAR(255),
     price REAL,
-    quantity INTEGER,
+    quantity INTEGER (quantity >= 0),
     image BYTEA,
     merchant_id BIGINT REFERENCES merchants(id)
     )`
