@@ -28,14 +28,26 @@ const cancel_order = async (req, res) => {
     if (!user_id) return res.status(403).json({ err: 'unauthorized!' });
 
     try {
-        const check = await connection.query(`SELECT status FROM orders
+        await connection.query('BEGIN');
+
+        const query = await connection.query(`SELECT status FROM orders
             WHERE order_id = $1 LIMIT 1`, [order_id])
+
+        const order = query.rows[0];
         
-        if (check.rows.length === 0)
+        if (query.rows.length === 0)
             return res.status(404).json({ err: 'Order not found' });
 
-        if (check.rows[0].status === 'done') {
+        if (order.status === 'done') {
             return res.status(400).json({ err: 'Order is delivered and closed' })
+        }
+
+        for (let x=0; x < (order.content).length; x++){
+            await connection.query(
+                `UPDATE products
+                SET quantity = quantity + $1
+                WHERE id = $2
+                `,[order.content[x].quantity], [order.content[x].product_id]);
         }
 
         await connection.query(
@@ -45,8 +57,10 @@ const cancel_order = async (req, res) => {
 
         // Here comes the part of the cash back (will be handled later)
 
+        await connection.query('COMMIT');
         return res.status(200).json({ msg: 'Order canceled successfully.' })
     } catch (err) {
+        await connection.query('ROLLBACK')
         console.error(err);
         return res.status(500).json({ msg: 'Query execution error' })
     }
