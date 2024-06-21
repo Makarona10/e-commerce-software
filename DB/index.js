@@ -72,6 +72,7 @@ const orders_table = `CREATE TABLE IF NOT EXISTS orders (
     amount REAL,
     status VARCHAR(255) DEFAULT 'pending',
     data_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    deliver_date TIMESTAMPTZ DEFAULT NULL
     )`
 
 
@@ -84,9 +85,6 @@ const reviews_table = `CREATE TABLE IF NOT EXISTS reviews (
     rating INTEGER CHECK (rating >= 0 AND rating <= 5)
     )`
 
-connection.query(users_table)
-connection.query(merchants_table)
-connection.query(products_table)
 
 app.listen(3001, () => console.log('listening to 3001'))
 

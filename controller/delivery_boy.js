@@ -40,5 +40,40 @@ const accept_order = async (req, res) => {
     }
 }
 
+const list_pending_orders = async (req, res) => {
+    
+    try {
+        const result = await connection.query(
+            `SELECT first_name, last_name, content, address, amount, date_created
+            FROM orders LEFT JOIN clients
+            ON orders.client_id = clients.client_id
+            WHERE status = 'pending'`);
+        
+        return res.status(200).json(result.rows); 
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({msg: 'Error executing the query!'})
+    }
+} 
 
-export { change_status, accept_order }
+const list_worker_orders = async (req, res) => {
+    const user_id = req.user_id;
+
+    try {
+        const result = connection.query(
+            `SELECT order_id, first_name, last_name, address, amount, status, phone_number, deliver_date
+            FROM orders
+            LEFT JOIN clients ON clients.clients_id = orders.client_id
+            LEFT JOIN users ON clients.clients_id = users.id
+            WHERE orders.delivery_id = $1`,
+            [user_id]
+        );
+        return res.status(200).json(result.rows);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({msg: 'Error executing the query!'});
+    }
+}
+
+
+export { change_status, accept_order, list_pending_orders, list_worker_orders }
