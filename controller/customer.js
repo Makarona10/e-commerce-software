@@ -141,4 +141,4 @@ const post_review = async (req, res) => {
 };
 
 
-export { list_orders, cancel_order, place_order, post_review }
+export default { list_orders, cancel_order, place_order, post_review }

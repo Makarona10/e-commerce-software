@@ -76,4 +76,4 @@ const list_worker_orders = async (req, res) => {
 }
 
 
-export { change_status, accept_order, list_pending_orders, list_worker_orders }
+export default { change_status, accept_order, list_pending_orders, list_worker_orders }
