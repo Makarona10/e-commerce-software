@@ -105,14 +105,14 @@ const place_order = async (req, res) => {
         return res.status(500).json({ err: 'Error executing the query' });
     }
 
-}
+};
 
+
+// Posts a review to a product in a specific order
 const post_review = async (req, res) => {
     const user_id = req.user_id;
-    const order_id = req.params.order_id;
-    const product_id = req.params.product;
-    const comment = req.body.comment;
-    const rating = req.body.rating;
+    const {order_id, product_id} = req.params;
+    const {comment, rating} = req.body;
 
     try {
         let result = await connection.query(
@@ -138,6 +138,7 @@ const post_review = async (req, res) => {
         console.log(err);
         return res.status(500).json({ err: 'Error executing the query' });
     }
-}
+};
+
 
 export { list_orders, cancel_order, place_order, post_review }
