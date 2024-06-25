@@ -46,7 +46,7 @@ const cancel_order = async (req, res) => {
             await connection.query(
                 `UPDATE products
                 SET quantity = quantity + $1
-                WHERE id = $2
+                WHERE product_id = $2
                 `,[order.content[x].quantity], [order.content[x].product_id]);
         }
 
@@ -82,8 +82,8 @@ const place_order = async (req, res) => {
             await connection.query(
                 `UPDATE products
                 SET quantity = quantity - $1
-                WHERE id = $2`,
-                products[x]['quantity'], products[x]['id']
+                WHERE product_id = $2`,
+                products[x]['quantity'], products[x]['product_id']
             );
         }
 
