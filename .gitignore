@@ -5,6 +5,8 @@ logs
 npm-debug.log*
 
 .env
+.*
+.gitignore
 
 .vscode/
 .idea/

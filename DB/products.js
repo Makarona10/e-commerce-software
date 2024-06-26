@@ -6,4 +6,4 @@ export const products_table = `CREATE TABLE IF NOT EXISTS products (
     quantity INTEGER CHECK (quantity >= 0) NOT NULL,
     image VARCHAR(255),
     merchant_id BIGINT REFERENCES merchants(merchant_id)
-    )`
+    )`;
