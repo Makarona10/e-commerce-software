@@ -49,7 +49,7 @@ export const registerController = async (req, res, next) => {
       throw Error('user_type not found');
   }
 
-  res.json(dataObj(201, `${user_type} user created successfully`, newUser));
+  res.json(dataObj(201, newUser, `${user_type} user created successfully`));
 };
 
 export const loginController = async (req, res, next) => {
@@ -62,15 +62,34 @@ export const loginController = async (req, res, next) => {
   if (!user || !(await argon2.verify(user.rows[0].password, password)))
     return res.json(failureMsg(400, 'invalid email or password'));
 
-  const payload = { id: user.rows[0].id, role: user.rows[0].role };
-  const options = { expiresIn: process.env.JWT_EXPIRATION };
+  const payload = { user_id: user.rows[0].id, role: user.rows[0].role };
+  const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
   let access_token = null;
 
-  jwt.sign(payload, process.env.JWT_SECRET, options, (err, token) => {
+  jwt.sign(payload, process.env.JWT_ACC_SECRET, options, (err, token) => {
     if (err) {
       return next(new Error('something went wrong, please try again'));
     }
     access_token = token;
   });
-  res.json(dataObj(200, 'user logged in successfully', access_token));
+
+  let refresh_token = null;
+  jwt.sign(
+    { user_id: user.rows[0].id },
+    process.env.JWT_REF_SECRET,
+    { expiresIn: process.env.JWT_REF_EXPIRATION },
+    (err, token) => {
+      if (err) {
+        return next(new Error('something went wrong, please try again'));
+      }
+      refresh_token = token;
+    },
+  );
+  res.json(
+    dataObj(
+      200,
+      [{ access_token, refresh_token }],
+      'user logged in successfully',
+    ),
+  );
 };
