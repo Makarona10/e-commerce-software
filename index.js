@@ -11,6 +11,7 @@ app.use('api/customer', cust)
 app.use('api/merchant', merchant)
 app.use('api/delivery', delivery)
 
+
 app.listen(3001, () => {
     console.log("listening on 3001");
 });
