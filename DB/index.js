@@ -44,6 +44,4 @@ try {
 }
 
 
-app.listen(3001, () => console.log('listening to 3001'))
-
 export { connection };

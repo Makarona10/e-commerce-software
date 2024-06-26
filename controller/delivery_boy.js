@@ -1,4 +1,4 @@
-import { connection } from "../DB";
+import { connection } from "../DB/index.js";
 
 
 

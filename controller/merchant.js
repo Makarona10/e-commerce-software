@@ -2,7 +2,7 @@ import { connection } from "../DB/index.js";
 import { upload } from '../middleware/photos_handler.js';
 import fs from 'fs';
 
-const DOMAIN_NAME = 'localhost:3000'
+const DOMAIN_NAME = 'localhost:3001'
 
 
 
