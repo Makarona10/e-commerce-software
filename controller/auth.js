@@ -16,7 +16,7 @@ export const registerController = async (req, res, next) => {
   } = req.body;
 
   const user = await connection.query(
-    `SELECT email FROM ${user_type} WHERE email = $1 ;`,
+    `SELECT email FROM users WHERE email = $1 ;`,
     [email],
   );
 
@@ -32,14 +32,14 @@ export const registerController = async (req, res, next) => {
   switch (user_type) {
     case 'client' || 'delivery_boy':
       await connection.query(
-        `INSERT INTO ${user_type}(${user_type}_id, first_name, last_name ) VALUES ($1,$2,$3) ;`,
+        `INSERT INTO ${user_type}s (${user_type}_id, first_name, last_name ) VALUES ($1,$2,$3) ;`,
         [newUser.rows[0].id, first_name, last_name],
       );
       break;
 
     case 'merchant':
       await connection.query(
-        `INSERT INTO ${user_type}(merchant_id, store_name, location)
+        `INSERT INTO ${user_type}s (merchant_id, store_name, location)
         VALUES ($1,$2,$3) ;`,
         [newUser.rows[0].id, store_name, location],
       );
@@ -53,9 +53,9 @@ export const registerController = async (req, res, next) => {
 };
 
 export const loginController = async (req, res, next) => {
-  const { email, password, user_type } = req.body;
+  const { email, password } = req.body;
   const user = await connection.query(
-    `SELECT password FROM ${user_type} WHERE email = $1 ;`,
+    `SELECT password FROM users WHERE email = $1 ;`,
     [email],
   );
 
