@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
-import { failureObj } from '../../trait/api-traits';
-import { checkUserType } from './register';
+import { failureObj } from '../../trait/api-traits.js';
+import { checkUserType } from './register.js';
 
 export const validateLogin = async (req, res, next) => {
   for (let validation of loginSchema) {

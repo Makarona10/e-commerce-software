@@ -1,5 +1,5 @@
-import { connection } from '../DB/index';
-import { dataObj, failureMsg } from '../trait/api-traits';
+import { connection } from '../DB/index.js';
+import { dataObj, failureMsg } from '../trait/api-traits.js';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 
@@ -16,7 +16,7 @@ export const registerController = async (req, res, next) => {
   } = req.body;
 
   const user = await connection.query(
-    `SELECT email FROM ${user_type} WHERE email = $1 ;`,
+    `SELECT email FROM ${user_type}s WHERE email = $1 ;`,
     [email],
   );
 

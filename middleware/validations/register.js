@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
-import { failureMsg } from '../../trait/api-traits';
+import { failureMsg } from '../../trait/api-traits.js';
+import { validationResult } from 'express-validator';
 
 export const validateRegister = async (req, res, next) => {
   const result1 = await checkUserType.run(req);

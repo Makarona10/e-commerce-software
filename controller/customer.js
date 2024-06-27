@@ -86,23 +86,20 @@ const place_order = async (req, res) => {
 
   if (!user_id) return res.status(403).json({ err: 'unauthorized!' });
 
-  Promise.all;
-  const amouts = await products.map(async (item) => {
-    return {
-      amount: await connection.query(
-        `SELECT price
+  try {
+    const amounts = await Promise.all(
+      products.map(async (item, idx) => {
+        const res = await connection.query(
+          `SELECT product_name, price
                 FROM products
                 WHERE product_id = $1`,
-        [item.id],
-      ),
-    };
-  });
-  const amount = products.reduce(
-    (total, obj) => total + obj['amount'] * obj['quantity'],
-    0,
-  );
+          [item.id],
+        )
+        products[idx].price = res.rows[0].price;
+        products[idx].name = res.rows[0].product_name;
+      }
+      ));
 
-  try {
     await connection.query('BEGIN');
 
     for (let x = 0; products[x]; x++) {
@@ -117,7 +114,7 @@ const place_order = async (req, res) => {
     // Here comes the payment part
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: req.body.cart.map((item) => {
+      line_items: products.map((item) => {
         return {
           price_data: {
             currency: 'usd',
