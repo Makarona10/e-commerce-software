@@ -1,7 +1,11 @@
+import { delivery_table } from '../DB/delivery.js';
 import { connection } from '../DB/index.js';
 import { dataObj, failureMsg } from '../trait/api-traits.js';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const registerController = async (req, res, next) => {
   const {
@@ -13,78 +17,96 @@ export const registerController = async (req, res, next) => {
     mobile,
     location,
     store_name,
+    national_id
   } = req.body;
 
-  const user = await connection.query(
-    `SELECT email FROM users WHERE email = $1 ;`,
-    [email],
-  );
+  try {
+    connection.query('BEGIN');
+    const user = await connection.query(
+      `SELECT email FROM users WHERE email = $1;`,
+      [email],
+    );
 
-  if (user) return res.json(failureMsg(409, 'Email already exists.'));
+    if (user.rows[0]) return res.json(failureMsg(409, 'Email already exists.'));
 
-  const hashedPassword = await argon2.hash(password);
-  const newUser = await connection.query(
-    `INSERT INTO users(email, password, mobile, role)
-    VALUES ($1, $2, $3, $4) ;`,
-    [email, hashedPassword, mobile, user_type],
-  );
+    const hashedPassword = await argon2.hash(password);
+    const newUser = await connection.query(
+      `INSERT INTO users(email, password, phone_number, role)
+    VALUES ($1, $2, $3, $4)
+    RETURNING *;`,
+      [email, hashedPassword, mobile, user_type],
+    );
+    switch (user_type) {
+      case 'client':
+        await connection.query(
+          `INSERT INTO clients (client_id, first_name, last_name)
+          VALUES ($1,$2,$3);`,
+          [newUser.rows[0].id, first_name, last_name],
+        );
+        break;
 
-  switch (user_type) {
-    case 'client' || 'delivery_boy':
-      await connection.query(
-        `INSERT INTO ${user_type}s (${user_type}_id, first_name, last_name ) VALUES ($1,$2,$3) ;`,
-        [newUser.rows[0].id, first_name, last_name],
-      );
-      break;
+      case 'delivery_boy':
+        await connection.query(
+          `INSERT INTO delivery_boys (delivery_id, first_name, last_name, national_id)
+          VALUES ($1,$2,$3,$4);`,
+          [newUser.rows[0].id, first_name, last_name, national_id],
+        );
+        break;
 
-    case 'merchant':
-      await connection.query(
-        `INSERT INTO ${user_type}s (merchant_id, store_name, location)
-        VALUES ($1,$2,$3) ;`,
-        [newUser.rows[0].id, store_name, location],
-      );
-      break;
+      case 'merchant':
+        await connection.query(
+          `INSERT INTO ${user_type}s (merchant_id, store_name, location)
+          VALUES ($1,$2,$3) ;`,
+          [newUser.rows[0].id, store_name, location],
+        );
+        break;
 
-    default:
-      throw Error('user_type not found');
+      default:
+        return res.json(failureMsg(400, 'userType not found'));
+    }
+    connection.query('COMMIT');
+    return res.json(dataObj(201, newUser, `${user_type} user created successfully`));
+  } catch (err) {
+    connection.query('ROLLBACK');
+    console.log(err);
+    return res.json(failureMsg(500, 'Internal server error!'));
   }
-
-  res.json(dataObj(201, newUser, `${user_type} user created successfully`));
 };
 
 export const loginController = async (req, res, next) => {
   const { email, password } = req.body;
   const user = await connection.query(
-    `SELECT password FROM users WHERE email = $1 ;`,
+    `SELECT * FROM users WHERE email = $1;`,
     [email],
   );
-
-  if (!user || !(await argon2.verify(user.rows[0].password, password)))
+  if (!user.rows.length || !(await argon2.verify(user.rows[0].password, password)))
     return res.json(failureMsg(400, 'invalid email or password'));
-
+  
   const payload = { user_id: user.rows[0].id, role: user.rows[0].role };
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
-  let access_token = null;
 
-  jwt.sign(payload, process.env.JWT_ACC_SECRET, options, (err, token) => {
-    if (err) {
-      return next(new Error('something went wrong, please try again'));
-    }
-    access_token = token;
+  const access_token = await new Promise((resolve, reject) => {
+    jwt.sign(payload, process.env.JWT_ACC_SECRET, options, (err, token) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(token);
+    })
   });
 
-  let refresh_token = null;
-  jwt.sign(
-    { user_id: user.rows[0].id },
-    process.env.JWT_REF_SECRET,
-    { expiresIn: process.env.JWT_REF_EXPIRATION },
-    (err, token) => {
-      if (err) {
-        return next(new Error('something went wrong, please try again'));
-      }
-      refresh_token = token;
-    },
-  );
+  const refresh_token = await new Promise((resolve, reject) => {
+    jwt.sign(
+      { user_id: user.rows[0].id },
+      process.env.JWT_REF_SECRET,
+      { expiresIn: process.env.JWT_REF_EXPIRATION },
+      (err, token) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(token);
+      },
+    );
+  });
   res.json(
     dataObj(
       200,

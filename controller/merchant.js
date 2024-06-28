@@ -1,6 +1,9 @@
 import { connection } from '../DB/index.js';
 import { upload } from '../middleware/photos_handler.js';
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
 
 const DOMAIN_NAME = 'localhost:3001';
 
@@ -25,15 +28,22 @@ const publish_product = async (req, res) => {
   const merchant_id = req.user_id;
   const { product_name, quantity, description, price } = req.body;
 
-  if (!merchant_id) return res.status(403).json({ msg: 'unauthorized!' });
+  console.log(product_name)
+  if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
 
   upload(req, res, async (err) => {
-    if (err) return res.status(500).json({ error: err.message });
-
+    // if (err) {
+    //   console.error('File upload error:', err);
+    //   return res.status(500).json({ error: "File upload failed!" });
+    // }
     if (!req.file) return res.status(400).json({ msg: 'No image uploaded!' });
 
-    const image_url = `http://${DOMAIN_NAME}/uploads/${req.file.filename}`;
-
+    // const image_url = `http://${DOMAIN_NAME}/uploads/${req.file.filename}`;
+    const filePath = fileURLToPath(import.meta.url);
+    console.log("filename: ", filePath)
+    const directoryPath = path.dirname(path.dirname(filePath));
+    console.log("direc: ", directoryPath)
+    const image_url = path.join(directoryPath, 'uploads', req.file.filename);
     try {
       await connection.query(
         `INSERT INTO products (product_name, description, price, quantity, image, merchant_id)
@@ -62,14 +72,16 @@ const update_product = async (req, res) => {
   if (!merchant_id) return res.status(403).json({ msg: 'unauthorized!' });
 
   try {
-    await connection.query(
+    const result = await connection.query(
       `UPDATE products
             SET quantity = $1,
             price = $2,
             description = $3
-            WHERE id = $4 AND merchant_id = $5`,
+            WHERE product_id = $4 AND merchant_id = $5`,
       [new_quantity, new_price, new_description, product_id, merchant_id],
     );
+    if (result.rowCount === 0) return res.status(200).json({msg: 'This product doesn\'t exist'})
+    res.status(200).json({msg: "Product updated successfully"})
   } catch (err) {
     console.log(err);
     return res.status(500).json({ err: 'Error executing the query!' });
