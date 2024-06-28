@@ -1,8 +1,6 @@
 import { connection } from '../DB/index.js';
 import Stripe from 'stripe';
-import dotenv from 'dotenv';
 
-dotenv.config();
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
 const list_orders = async (req, res) => {
