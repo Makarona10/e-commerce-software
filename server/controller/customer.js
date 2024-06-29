@@ -3,6 +3,16 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
+const list_products = async (req, res) => {
+  try {
+    const products = await connection.query(`SELECT * FROM products`)
+    res.status(200).json(products.rows);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ msg: 'Internal server error' });
+  }
+};
+
 const list_orders = async (req, res) => {
   const user_id = req.user_id;
 
@@ -13,7 +23,7 @@ const list_orders = async (req, res) => {
       `SELECT first_name, last_name, content, address, amount, status, date_created
         FROM orders LEFT JOIN clients
         ON orders.client_id = clients.client_id
-        WHERE $1 = client_id
+        WHERE $1 = orders.client_id
         ORDER BY date_created DESC`,
       [user_id],
     );
@@ -35,12 +45,13 @@ const cancel_order = async (req, res) => {
     await connection.query('BEGIN');
 
     const query = await connection.query(
-      `SELECT status FROM orders
+      `SELECT * FROM orders
             WHERE order_id = $1 LIMIT 1`,
       [order_id],
     );
 
     const order = query.rows[0];
+    // console.log(query);
 
     if (query.rows.length === 0)
       return res.status(404).json({ err: 'Order not found' });
@@ -48,22 +59,20 @@ const cancel_order = async (req, res) => {
     if (order.status === 'done') {
       return res.status(400).json({ err: 'Order is delivered and closed' });
     }
-
     for (let x = 0; x < order.content.length; x++) {
-      await connection.query(
+      connection.query(
         `UPDATE products
                 SET quantity = quantity + $1
                 WHERE product_id = $2
                 `,
-        [order.content[x].quantity],
-        [order.content[x].product_id],
+        [order.content[x].quantity, order.content[x].product_id]
       );
     }
 
     await connection.query(
       `DELETE FROM orders
             WHERE order_id = $1`,
-      [order_id],
+      [order_id]
     );
 
     // Here comes the part of the cash back (will be handled later)
@@ -79,37 +88,55 @@ const cancel_order = async (req, res) => {
 
 const place_order = async (req, res) => {
   const user_id = req.user_id;
-  const products = req.body.cart;
-  const address = req.body.address;
-  
-  if (!user_id) return res.status(403).json({ err: 'unauthorized!' });
+  const { products, address } = req.body;
+
+  if (!user_id) return res.status(401).json({ err: 'unauthorized!' });
 
   try {
-    const amounts = await Promise.all(
+    await Promise.all(
       products.map(async (item, idx) => {
-        const res = await connection.query(
+        console.log(products);
+        const result = await connection.query(
           `SELECT product_name, price
-                FROM products
-                WHERE product_id = $1`,
-          [item.id],
-        )
-        products[idx].price = res.rows[0].price;
-        products[idx].name = res.rows[0].product_name;
-      }
-      ));
+                  FROM products
+                  WHERE product_id = $1`,
+          [item.product_id]
+        );
+        if (result.rows.length > 0) {
+          products[idx].price = result.rows[0].price;
+          products[idx].name = result.rows[0].product_name;
+        } else {
+          throw new Error(`Product with id ${item.product_id} not found`);
+        }
+      })
+    );
 
+    const total_amount = products.reduce((accum, ele) =>
+      accum + ele['price'] * ele['quantity'],
+      0
+    );
+    console.log('Total amount = ', total_amount)
     await connection.query('BEGIN');
 
-    for (let x = 0; products[x]; x++) {
-      connection.query(
-        `UPDATE products
-                SET quantity = quantity - $1
-                WHERE product_id = $2`,
-        products[x]['quantity'],
-        products[x]['product_id'],
-      );
-    }
-    // Here comes the payment part
+    await Promise.all(
+      products.map(item =>
+        connection.query(
+          `UPDATE products
+          SET quantity = quantity - $1
+          WHERE product_id = $2`,
+          [item.quantity, item.product_id]
+        )
+      )
+    );
+
+    const result = await connection.query(
+      `INSERT INTO orders (client_id, content, address, amount)
+            VALUES ($1, $2, $3, $4)
+            RETURNING *`,
+      [user_id, JSON.stringify(products), address, total_amount]
+    );
+    const order_id = result.rows[0].order_id;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: products.map((item) => {
@@ -119,30 +146,24 @@ const place_order = async (req, res) => {
             product_data: {
               name: item.name,
             },
-            unit_amount: item.price,
+            unit_amount: item.price * 100, // Convert dollars to cents
           },
           quantity: item.quantity,
         };
       }),
       mode: 'payment',
-      success_url: 'https://example.com/success',
-      cancel_url: 'https://example.com/cancel',
+      success_url: `https://example.com/success/${order_id}`, // => A page to be created (Takes the id of the order to activate the order in database)
+      cancel_url: `https://example.com/cancel/${order_id}`, // => A page to be created (Takes the id of the order to delete the order from database)
     });
 
     console.log('Checkout Session:', session);
 
-    await connection.query(
-      `INSERT INTO orders (client_id, content, address, amount)
-            VALUES ($1, $2, $3, $4)`,
-      [user_id, JSON.stringify(products), address, amount],
-    );
-
     await connection.query('COMMIT');
-    return res.status(200).json({ msg: 'Order placed successfully!' });
+    return res.status(200).json({ msg: 'Order placed successfully!', sessionId: session.id });
   } catch (err) {
     await connection.query('ROLLBACK');
-    console.log(err);
-    return res.status(500).json({ err: 'Error executing the query' });
+    console.error(err);
+    return res.status(500).json({ err: 'Internal server error' });
   }
 };
 
@@ -151,33 +172,41 @@ const post_review = async (req, res) => {
   const user_id = req.user_id;
   const { order_id, product_id } = req.params;
   const { comment, rating } = req.body;
+  let exists = 0;
 
   try {
     let result = await connection.query(
-      `SELECT order_id
-            FROM orders
-            WHERE order_id = $1
-            LIMIT 1`,
-      [req.params.order_id],
+      `SELECT order_id, status, content
+      FROM orders
+      WHERE order_id = $1
+      LIMIT 1`,
+      [order_id],
     );
+
     if (result.rows.length === 0)
       return res.status(404).json({ err: 'Order not found!' });
 
     if (result.rows[0].status !== 'done')
       return res.status(400).json({ msg: 'Order not deliverd yet!' });
 
-    await connection.query(
-      `INSERT INTO reviews (order_id, product_id, client_id, comment, rating)
-            VALUES ($1, $2, $3, $4, $5)
-            `,
-      [order_id, product_id, user_id, comment, rating],
-    );
-
-    return res.status(200).json({ msg: 'Review published successfully!' });
+    (result.rows[0].content).forEach(async e => {
+      if (Number(product_id) === Number(e.product_id)) {
+        exists = 1;
+        await connection.query(
+          `INSERT INTO reviews (order_id, product_id, client_id, comment, rating)
+                VALUES ($1, $2, $3, $4, $5)
+                `,
+          [order_id, product_id, user_id, comment, rating],
+        );
+        return res.status(200).json({ msg: 'Review published successfully!' });
+      }
+    });
+    exists === 0 ? res.status(400).json({ msg: 'This product is not included into this order!' }) : null;
+    
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ err: 'Error executing the query' });
+    return res.status(500).json({ err: 'Internal server error' });
   }
 };
 
-export default { list_orders, cancel_order, place_order, post_review };
+export default { list_products, list_orders, cancel_order, place_order, post_review };

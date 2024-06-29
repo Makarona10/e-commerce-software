@@ -10,8 +10,11 @@ router
   .post(auth, controller.place_order);
 
 router
-  .route('/:id')
+  .route('/:order_id')
   .delete(auth, controller.cancel_order)
+
+router
+  .route('/:order_id/:product_id')
   .post(auth, controller.post_review);
 
 export default router;

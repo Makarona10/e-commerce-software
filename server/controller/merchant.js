@@ -5,8 +5,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 
-const DOMAIN_NAME = 'localhost:3001';
-
 const get_store_products = async (req, res) => {
   const merchant_id = req.user_id;
 
@@ -95,17 +93,25 @@ const delete_product = async (req, res) => {
   if (!merchant_id) return res.status(403).json({ msg: 'unauthorized!' });
 
   try {
-    await connection.query(
+    connection.query('BEGIN');
+    const del_row = await connection.query(
       `DELETE FROM products
-            WHERE product_id = $1 AND merchant_id = $2`,
+            WHERE product_id = $1 AND merchant_id = $2
+            RETURNING *`,
       [product_id, merchant_id],
     );
-    fs.unlink(path.join('uploads', req.file.filename), (err) => {
+    if (del_row.rowCount === 0) return res.status(400).json({msg: 'product doesn\'t exist'});
+    console.log(product_id, merchant_id);
+    fs.unlink(del_row.rows[0].image, (err) => {
       if (err) {
+        connection.query('ROLLBACK');
         console.error(`Failed to delete file: ${err.message}`);
       }
+    connection.query('COMMIT');
+    res.status(200).json({msg: 'product deleted successfully!'})
     });
   } catch (err) {
+    connection.query('ROLLBACK');
     console.log(err);
     return res.status(500).json({ err: 'Error executing the query!' });
   }

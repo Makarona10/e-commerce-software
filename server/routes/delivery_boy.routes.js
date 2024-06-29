@@ -6,11 +6,13 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth, controller.accept_order)
   .get(auth, controller.list_pending_orders);
 
-router.route('/accepted').get(auth, controller.list_worker_orders);
+router.route('/accepted')
+  .get(auth, controller.list_worker_orders);
 
-router.route('/:id').patch(auth, controller.change_status);
+router.route('/:order_id')
+  .post(auth, controller.accept_order)
+  .patch(auth, controller.change_status);
 
 export default router;

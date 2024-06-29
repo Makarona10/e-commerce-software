@@ -26,8 +26,7 @@ export const registerController = async (req, res, next) => {
       `SELECT email FROM users WHERE email = $1;`,
       [email],
     );
-
-    if (user.rows[0]) return res.json(failureMsg(409, 'Email already exists.'));
+    if (user.rows[0]) res.json(failureMsg(409, 'Email already exists.'));
 
     const hashedPassword = await argon2.hash(password);
     const newUser = await connection.query(
@@ -62,7 +61,7 @@ export const registerController = async (req, res, next) => {
         break;
 
       default:
-        return res.json(failureMsg(400, 'userType not found'));
+        res.json(failureMsg(400, 'userType not found'));
     }
     connection.query('COMMIT');
     return res.json(dataObj(201, newUser, `${user_type} user created successfully`));
