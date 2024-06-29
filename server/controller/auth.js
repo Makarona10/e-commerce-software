@@ -3,9 +3,6 @@ import { connection } from '../DB/index.js';
 import { dataObj, failureMsg } from '../trait/api-traits.js';
 import * as argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export const registerController = async (req, res, next) => {
   const {
@@ -17,7 +14,7 @@ export const registerController = async (req, res, next) => {
     mobile,
     location,
     store_name,
-    national_id
+    national_id,
   } = req.body;
 
   try {
@@ -62,11 +59,15 @@ export const registerController = async (req, res, next) => {
 
       default:
         res.json(failureMsg(400, 'userType not found'));
+        await connection.query('ROLLBACK');
+        return res.json(failureMsg(400, 'userType not found'));
     }
-    connection.query('COMMIT');
-    return res.json(dataObj(201, newUser, `${user_type} user created successfully`));
+    await connection.query('COMMIT');
+    return res.json(
+      dataObj(201, newUser, `${user_type} user created successfully`),
+    );
   } catch (err) {
-    connection.query('ROLLBACK');
+    await connection.query('ROLLBACK');
     console.log(err);
     return res.json(failureMsg(500, 'Internal server error!'));
   }
@@ -74,13 +75,15 @@ export const registerController = async (req, res, next) => {
 
 export const loginController = async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await connection.query(
-    `SELECT * FROM users WHERE email = $1;`,
-    [email],
-  );
-  if (!user.rows.length || !(await argon2.verify(user.rows[0].password, password)))
+  const user = await connection.query(`SELECT * FROM users WHERE email = $1;`, [
+    email,
+  ]);
+  if (
+    !user.rows.length ||
+    !(await argon2.verify(user.rows[0].password, password))
+  )
     return res.json(failureMsg(400, 'invalid email or password'));
-  
+
   const payload = { user_id: user.rows[0].id, role: user.rows[0].role };
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
 
@@ -90,7 +93,7 @@ export const loginController = async (req, res, next) => {
         reject(err);
       }
       resolve(token);
-    })
+    });
   });
 
   const refresh_token = await new Promise((resolve, reject) => {
