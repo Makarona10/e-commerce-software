@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+}
+
+.logbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #141516;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 66px;
+}
+
+.brand {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.nav-link:hover,
+.nav-link.hovered {
+    color: wheat;
+}
+
+.contact {
+    position: relative;
+    top: 1px;
+    left: 8px;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s ease;
+}
+
+.contact:hover {
+    transform: scale(1.1);
+}
+
+.login-icon {
+    width: 46px;
+    cursor: pointer;
+}
+
+#logIco {
+    display: inline;
+    align-items: center;
+    position: relative;
+    width: 150px;
+    right: 30px;
+}
+/* #logIco img{
+    margin-right: 2%;
+} */
+
+.login-drop {
+    display: inline;
+}
+
+#logIco .drop {
+    width: 150px;
+    display: block;
+    color: #141516ce;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 999;
+}
+
+#logIco .drop ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#logIco .drop ul li {
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#logIco .drop ul li:hover {
+    background-color: #88509a;
+    color: #fff;
+}
+.hidden {
+    display: none;
+}
