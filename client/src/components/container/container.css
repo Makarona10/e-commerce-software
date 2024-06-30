@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    grid-column: 500px 500px;
+    flex-wrap: wrap;
+    position: relative;
+    width: 1000px;
+    box-shadow: 1px 1px 50px rgba(103, 103, 103, 0.097);
+    margin-top: 80px;
+    padding-top: 40px;
+}
+
+.product {
+    min-width: 450px;
+    flex: 1;
+    display: flex;
+    height: 200px;
+    padding-left: 10px;
+}
+
+.det {
+    display: flex;
+    flex-direction: column;
+}
+
+.det:nth-child(2) {
+    position: relative;
+    bottom: 0;
+}
+
+.description {
+    display: flex;
+    height: 150px;
+}
+
+.description p {
+    height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product img {
+    width: 90px;
+    border-radius: 50px;
+}
+
+.carting {
+    margin-left: auto;
+    padding-right: 10px;
+}
