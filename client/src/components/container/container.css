@@ -47,3 +47,26 @@
     margin-left: auto;
     padding-right: 10px;
 }
+
+.carting :nth-child(2){
+    background-color: rgb(32, 174, 84);
+    border-radius: 50px;
+    width: 23px;
+    height: 23px;
+    margin-left: 5px;
+    color: white;
+}
+
+.carting :nth-child(3) {
+    background-color: rgb(184, 38, 38);
+    border-radius: 50px;
+    width: 23px;
+    height: 23px;
+    margin-left: 5px;
+    color: white;
+}
+
+.carting :nth-child(2):hover,
+.carting :nth-child(3):hover {
+    cursor: pointer;
+}

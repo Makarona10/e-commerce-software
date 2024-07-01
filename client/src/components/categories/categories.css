@@ -67,14 +67,15 @@
 }
 
 .categ-toggle {
-    border: none;
-    color: #f4f4f9;
-    background-color: #7e3486;
-    border-radius: 13px;
+    border: 2px solid;
+    border-color: #a3269a;
+    color: #a3269a;
+    background-color: #ae50b900;
+    border-radius: 4px;
     max-height: 45px;
     display: flex;
     margin-left: 20px;
-    font-size: 25px;
+    font-size: 23px;
     font-weight: 500;
     position: relative;
     z-index: 100;
