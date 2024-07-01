@@ -7,7 +7,7 @@ export const BrowseProd = () => {
     return (
         <div>
             <BrandBar />
-            <Nav_bar />
+            <Nav_bar search={true}/>
             <Categoside />
             <ListProd />
         </div>

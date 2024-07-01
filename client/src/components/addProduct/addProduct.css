@@ -1,0 +1,169 @@
+.add-prod-page {
+    height: 100vh;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+    background-size: cover;
+}
+
+.formContainer {
+    position: relative;
+    width: 50%;
+    margin: auto;
+    margin-top: 100px;
+    border: none;
+    box-shadow: 1px 1px 40px rgba(174, 174, 174, 0.268);
+    background-color: rgb(224, 226, 228);
+}
+
+.addForm input {
+    border: 0;
+    outline: 0;
+    margin-left: 10px;
+    height: 30px;
+    background-color: rgba(240, 248, 255, 0);
+    border-bottom: 1px solid rgba(223, 57, 223, 0.609);
+    font-size: 14px;
+    font-weight: 100;
+    width: 150px;
+}
+
+.addForm input:focus {
+    border-bottom: 2px solid rgba(223, 57, 223, 0.609) !important;
+}
+
+.addForm {
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.upper {
+    display: flex;
+}
+
+.upper div {
+    margin-left: 10%;
+}
+
+.upper div label {
+    font-size: 16px;
+    font-weight: 500;
+    margin: auto;
+}
+
+.upper div input {
+    background-color: rgba(240, 248, 255, 0);
+    border-bottom: 1px solid rgba(223, 57, 223, 0.609);
+    font-size: 14px;
+    font-weight: 100;
+    width: 150px;
+}
+
+.middle {
+    margin-top: 50px;
+}
+
+.middle div {
+    display: flex;
+    flex-direction: column;
+}
+
+.middle div label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.middle div textarea {
+    margin: auto;
+    margin-top: 10px;
+    resize: none;
+    height: 120px;
+    width: 80%;
+    outline: 0;
+    padding-bottom: auto;
+    background-color: rgba(240, 248, 255, 0.412);
+    border-top: none;
+    border-left: 1px solid rgba(223, 57, 223, 0.285);
+    border-bottom: 1px solid rgba(223, 57, 223, 0.285);
+    border-right: 1px solid rgba(223, 57, 223, 0.285);
+    
+}
+
+.middle div textarea::-webkit-scrollbar {
+    width: 6px;
+}
+.middle div textarea::-webkit-scrollbar-track {
+    background: #f4f4f9; 
+}
+.middle div textarea::-webkit-scrollbar-thumb {
+    background-color: rgba(163, 106, 216, 0.816);
+}
+.middle div textarea::-webkit-scrollbar-thumb:hover {
+    cursor: initial;
+}
+
+.lower {
+    position: relative;
+    padding-top: 30px;
+    display: flex;
+}
+
+.lower div {
+    display: flex;
+    margin-left: 10%;
+}
+
+.lower div:nth-child(2) label {
+    margin: auto;
+    color:rgba(240, 248, 255, 0);
+}
+.lower div:nth-child(2) input {
+    color:rgba(240, 248, 255, 0);
+}
+
+.file-input-wrapper {
+    position: inherit;
+    left: 30px;
+    display: flex;
+}
+
+.file-input-wrapper p {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.file-input-button {
+    border: none;
+    display: inline-block;
+    background-color: #6a0dad;
+    color: white;
+    width: 160px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 50px;
+}
+
+.file-input-button:hover {
+    background-color: #4e0884;
+}
+
+.addForm :nth-child(4) {
+    padding-top: 60px;
+}
+
+.addForm :nth-child(4) button {
+    background-color: rgba(75, 172, 75, 0);
+    border: none ;
+    /* border: 1px groove rgba(75, 172, 75, 0.797) ; */
+    font-size: 18px;
+    border-radius: 3px;
+    color: #6a0dadd0;
+    font-weight: 500;
+    padding: 10px;
+    transition: 200ms ease-in-out;
+}
+
+.addForm :nth-child(4) button:hover {
+    background-color: #6a0dadd0;
+    color:rgb(224, 226, 228);
+}

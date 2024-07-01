@@ -43,18 +43,23 @@ body {
 }
 
 .search-input {
+    background-color: #ffffffe9;
     height: 70%;
     width: 400px;
     padding: 6px;
-    border: 1px solid #ccc;
+    border: none;
     border-radius: 5px;
     font-size: 13px;
     font-family: 'Poppins', sans-serif;
 }
 
+.search-input.hide {
+    display: none;
+}
+
 .search-input:focus {
     border: none;
-    background-color: rgb(243, 238, 231);
+    background-color: rgb(255, 255, 255);
     outline: none;
 }
 
@@ -166,3 +171,4 @@ body {
         right: 10px;
     }
 }
+

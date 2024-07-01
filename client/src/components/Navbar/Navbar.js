@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css';
 import cart from '../../imgs/cart.png';
 
-export const Nav_bar = () => {
+export const Nav_bar = (props) => {
     const [cartList, setCartList] = useState([]);
     const [isCartVisible, setIsCartVisible] = useState(false);
     const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -36,7 +36,7 @@ export const Nav_bar = () => {
                     </a>
                 ))}
             </div>
-            <input type="text" placeholder="Search for a product..." className="search-input" />
+            <input type="text" placeholder="Search for a product..." className={`search-input ${props.search ? '' : 'hide'}`} />
             <div className="cart-logo">
                 <img src={cart} alt="cart" width="40px" onClick={toggleCart} />
                 <div className={isCartVisible ? 'cart-list' : 'hidden'}>
