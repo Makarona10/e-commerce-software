@@ -16,9 +16,9 @@ function App() {
       {/* <AddProduct /> */}
       {/* <ListMerchant /> */}
       {/* <ClientOrders /> */}
-      {/* <ModifyProduct /> */}
+      <ModifyProduct price={15} quantity={5} description="It's a fucking playstation"/>
       {/* <ListPending /> */}
-      <DeliveryOrders />
+      {/* <DeliveryOrders /> */}
     </div>
   );
 }

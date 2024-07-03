@@ -13,7 +13,7 @@ export const AddProduct = () => {
         quantity: '',
         description: ''
     });
-    const [theImage, setTheImage] = useState(null); // Ensure this is state
+    const [theImage, setTheImage] = useState(null);
 
     const handleFileButtonClick = () => {
         fileInputRef.current.click();

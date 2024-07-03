@@ -7,12 +7,12 @@
 .not-assigned {
     border-radius: 5px;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 900;
     background-color: rgba(232, 238, 243, 0.99);
-    color: rgba(0, 0, 0, 0.856);
+    color: rgb(166, 51, 174);
     width: 400px;
     padding: 50px;
     margin: auto;
     margin-top: 80px;
-    box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 0.576);
+    box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 0.496);
 }

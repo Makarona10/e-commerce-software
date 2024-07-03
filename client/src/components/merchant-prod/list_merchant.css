@@ -1,3 +1,9 @@
+.lm-page {
+    height: 100vh;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+    background-size: cover;
+}
+
 .merchant-container {
     width: 1000px;
     margin: auto;
@@ -9,8 +15,9 @@
     flex-wrap: nowrap;
     width: 1000px;
     min-height: 250px;
-    box-shadow: 10px 10px 30px -10px rgba(0, 0, 0, 0.171);
+    box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.171);
     margin-top: 50px;
+    background-color: rgba(240, 248, 255, 0.908);
 }
 
 .merchant-photo {
@@ -49,6 +56,7 @@
 .desc-div {
     padding-top: 50px;
     font-size: 14px;
+    color: rgb(0, 0, 0);
 }
 
 .merchant-btns div {
