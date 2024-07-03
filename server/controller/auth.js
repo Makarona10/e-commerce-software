@@ -23,7 +23,7 @@ export const registerController = async (req, res, next) => {
       `SELECT email FROM users WHERE email = $1;`,
       [email],
     );
-    if (user.rowCount) return res.json(failureMsg(409, 'Email already exists.'));
+    if (user.rowCount) return res.status(409).json(failureMsg(409, 'Email already exists.'));
 
     const hashedPassword = await argon2.hash(password);
     const newUser = await connection.query(
@@ -81,7 +81,7 @@ export const loginController = async (req, res, next) => {
     !user.rows.length ||
     !(await argon2.verify(user.rows[0].password, password))
   )
-    return res.json(failureMsg(400, 'invalid email or password'));
+    return res.status(400).json(failureMsg(400, 'invalid email or password'));
 
   const payload = { user_id: user.rows[0].id, role: user.rows[0].role };
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
