@@ -23,11 +23,11 @@ const get_store_products = async (req, res) => {
 };
 
 const publish_product = async (req, res) => {
-  const merchant_id = req.user_id;
+  // const merchant_id = req.user_id;
   const { product_name, quantity, description, price } = req.body;
 
   console.log(product_name)
-  if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
+  // if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
 
   upload(req, res, async (err) => {
     // if (err) {
@@ -41,12 +41,12 @@ const publish_product = async (req, res) => {
     console.log("filename: ", filePath)
     const directoryPath = path.dirname(path.dirname(filePath));
     console.log("direc: ", directoryPath)
-    const image_url = path.join(directoryPath, 'uploads', req.file.filename);
+    const image_url = req.file.filename;
     try {
       await connection.query(
         `INSERT INTO products (product_name, description, price, quantity, image, merchant_id)
                 VALUES ($1, $2, $3, $4, $5, $6)`,
-        [product_name, description, price, quantity, image_url, merchant_id],
+        [product_name, description, price, quantity, image_url, 12],
       );
 
       return res.status(200).json({ msg: 'Product uploaded successfully!' });

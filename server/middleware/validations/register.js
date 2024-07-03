@@ -5,7 +5,7 @@ import { validationResult } from 'express-validator';
 export const validateRegister = async (req, res, next) => {
   const result1 = await checkUserType.run(req);
   if (!result1.isEmpty())
-    return res.status(400).json(failureMsg(400, 'wrong user type!'));
+    return res.status(400).json(failureMsg(400, result1));
 
   const userType = req.body.user_type;
   let validationChain = [];

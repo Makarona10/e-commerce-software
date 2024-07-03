@@ -17,6 +17,8 @@ export const registerController = async (req, res, next) => {
     national_id,
   } = req.body;
 
+  console.log('-------------');
+
   try {
     connection.query('BEGIN');
     const user = await connection.query(

@@ -13,12 +13,12 @@ function App() {
   return (
     <div className="App">
       {/* <BrowseProd /> */}
-      <AddProduct />
+      {/* <AddProduct /> */}
       {/* <ListMerchant /> */}
       {/* <ClientOrders /> */}
       {/* <ModifyProduct /> */}
       {/* <ListPending /> */}
-      {/* <DeliveryOrders /> */}
+      <DeliveryOrders />
     </div>
   );
 }

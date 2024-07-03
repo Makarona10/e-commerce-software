@@ -1,15 +1,20 @@
 import React, { useRef, useState } from "react";
 import './addProduct.css';
 import { Nav_bar } from '../Navbar/Navbar.js'
-import { BrandBar } from "../brandBar/brandBar.js";
+import { BrandBar } from "../brandBar/brandBar.js"
 import axios from "axios";
-
 
 export const AddProduct = () => {
     const [isFileUploaded, setIsFileUploaded] = useState(false);
     const fileInputRef = useRef(null);
-    const [productDetails, setProductDetails] = useState({});
-    const theImage = null;
+    const [productDetails, setProductDetails] = useState({
+        product_name: '',
+        price: '',
+        quantity: '',
+        description: ''
+    });
+    const [theImage, setTheImage] = useState(null); // Ensure this is state
+
     const handleFileButtonClick = () => {
         fileInputRef.current.click();
     };
@@ -18,7 +23,7 @@ export const AddProduct = () => {
         const file = event.target.files[0];
         if (file) {
             setIsFileUploaded(true);
-            theImage = file;
+            setTheImage(file); // Update the state
         } else {
             setIsFileUploaded(false);
         }
@@ -51,12 +56,29 @@ export const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(productDetails);
+
+        if (!theImage) {
+            console.log("Please upload an image.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('photo', theImage);
+        formData.append('product_name', productDetails.product_name);
+        formData.append('price', productDetails.price);
+        formData.append('quantity', productDetails.quantity);
+        formData.append('description', productDetails.description);
         try {
-            const response = await axios.post('http://localhost:3001/api/merchant', productDetails);
+            console.log(formData);
+            console.log(formData.get('quantity'));
+            const response = await axios.post('http://localhost:3001/api/merchant', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             console.log(`Product added successfully: ${response.data.product_name}`);
-        } catch {
-            console.log(`Error adding product`);
+        } catch (error) {
+            console.log(`Error adding product: ${error}`);
         }
     }
 
@@ -79,7 +101,7 @@ export const AddProduct = () => {
                     <div className="middle">
                         <div>
                             <label htmlFor="description">Describe your product:</label>
-                            <textarea name="description" id="description" onChange={setDescription}></textarea>
+                            <textarea name="description" id="description" placeholder="Type the description here" onChange={setDescription}></textarea>
                         </div>
                     </div>
                     <div className="lower">
