@@ -1,11 +1,14 @@
-import { body } from 'express-validator';
-import { failureMsg } from '../../trait/api-traits.js';
-import { validationResult } from 'express-validator';
+import { body, validationResult } from 'express-validator';
+import { failureMsg, failureObj } from '../../trait/api-traits.js';
 
 export const validateRegister = async (req, res, next) => {
   const result1 = await checkUserType.run(req);
   if (!result1.isEmpty())
+<<<<<<< HEAD
     return res.status(400).json(failureMsg(400, result1));
+=======
+    return res.status(422).json(failureMsg(422, 'wrong user type!'));
+>>>>>>> 7f3de5262d72a7df67209e9139270018269659ec
 
   const userType = req.body.user_type;
   let validationChain = [];
@@ -17,18 +20,13 @@ export const validateRegister = async (req, res, next) => {
   } else if (userType === 'delivery_boy') {
     validationChain = validateDeliveryBoy;
   }
-
   for (let validation of validationChain) {
-    await validation.run(req);
+    const result = await validation.run(req);
+    if (result.errors.length)
+      return res.status(422).json({
+        errors: result.errors,
+      });
   }
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json({
-      errors: errors.array(),
-    });
-  }
-
   next();
 };
 

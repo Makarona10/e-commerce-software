@@ -1,6 +1,5 @@
 import { body } from 'express-validator';
 import { failureObj } from '../../trait/api-traits.js';
-import { checkUserType } from './register.js';
 
 export const validateLogin = async (req, res, next) => {
   for (let validation of loginSchema) {
@@ -15,7 +14,6 @@ export const validateLogin = async (req, res, next) => {
 };
 
 const loginSchema = [
-  checkUserType,
   body('email').isEmail().normalizeEmail(),
   body('password').notEmpty().isString().isStrongPassword({
     minLength: 8,
