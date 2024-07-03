@@ -19,11 +19,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 console.log(path.join(__dirname, 'uploads'))
 
-app.use('/api/customer', cust);
-app.use('/api/merchant', merchant);
-app.use('/api/delivery', delivery);
-app.use('/api/auth', auth)
-app.use('/api/products', products)
+app.use('/api/v1/customer', cust);
+app.use('/api/v1/merchant', merchant);
+app.use('/api/v1/delivery', delivery);
+app.use('/api/v1/auth', auth)
+app.use('/api/v1/products', products)
 
 app.listen(3001, () => {
   console.log('listening on 3001');
