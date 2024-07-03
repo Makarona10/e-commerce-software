@@ -1,7 +1,6 @@
 import './App.css';
 import { BrowseProd } from './components/browseProd/browseProd';
 import { AddProduct } from './components/addProduct/addProduct';
-import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/auth/login/Login';
 import Register from './components/auth/register/Register';
