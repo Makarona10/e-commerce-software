@@ -5,10 +5,11 @@ import contactIcon from '../../imgs/contact.png';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../../utils/isAuthenticated';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export const BrandBar = () => {
   const navigate = useNavigate();
-  const [isVisible, setVisible] = React.useState('hidden');
+  const [isVisible, setVisible] = useState('hidden');
   const handleLogout = () => {
     if (isAuthenticated()) {
       localStorage.removeItem('access_token');
