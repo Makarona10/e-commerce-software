@@ -4,12 +4,12 @@ import { ListProd } from '../container/container.js';
 import { Categoside } from '../categories/categories.js';
 
 export const BrowseProd = () => {
-    return (
-        <div>
-            <BrandBar />
-            <Nav_bar search={true}/>
-            <Categoside />
-            <ListProd />
-        </div>
-    )
-}
+  return (
+    <div>
+      <BrandBar />
+      <Nav_bar search={true} />
+      <Categoside />
+      <ListProd />
+    </div>
+  );
+};
