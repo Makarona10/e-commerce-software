@@ -1,0 +1,73 @@
+.mod-form {
+    padding-top: 50px;
+    margin: auto;
+    width: 80%;
+}
+
+.mod-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.mod-form form :first-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.mod-form label,
+.mod-form input {
+    margin: auto;
+    width: 50%;
+}
+
+.mod-form label {
+    font-weight: 500;
+    margin-top: 15px;
+}
+
+.mod-form input {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.728);
+    border: 0;
+    outline: 0;
+    background-color: rgba(240, 248, 255, 0);
+    border-bottom: 1px solid rgba(223, 57, 223, 0.609);
+    font-size: 14px;
+    font-weight: 100;
+}
+
+.mod-form input:focus {
+    border-bottom: 2px solid rgba(223, 57, 223, 0.609) !important;
+}
+
+.mod-form button {
+    margin: auto;
+    background-color: rgba(75, 172, 75, 0);
+    border: none;
+    font-size: 18px;
+    border-radius: 3px;
+    color: #6a0dadd0;
+    font-weight: 500;
+    padding: 10px;
+    transition: 200ms ease-in-out;
+}
+
+#descript {
+    margin: auto;
+    margin-top: 10px;
+    resize: none;
+    height: 120px;
+    width: 70%;
+    outline: 0;
+    padding-bottom: auto;
+    background-color: rgba(240, 248, 255, 0.724);
+    border-top: none;
+    border-left: 1px solid rgba(223, 57, 223, 0.285);
+    border-bottom: 1px solid rgba(223, 57, 223, 0.285);
+    border-right: 1px solid rgba(223, 57, 223, 0.285);
+}
+
+.mod-form button:hover {
+    background-color: #6a0dadd0;
+    color: rgb(224, 226, 228);
+}

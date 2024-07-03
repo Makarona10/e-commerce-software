@@ -1,0 +1,62 @@
+.listPendPage {
+    height: 100vh;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+    background-size: cover;
+    background-repeat: repeat-y;
+}
+
+.pending-container {
+    width: 80%;
+    margin: auto;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pending-card1 {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+    box-shadow: 0px 0px 20px -8px black;
+    padding: 30px;
+    background-color: rgba(232, 238, 243, 0.99);
+    /* padding-right: 20px;
+    padding-right: 20px; */
+}
+
+.detail-div {                       /*the first div of the card */
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    text-align: start;
+}
+.detail-div div {                       /*the first div of the card */
+    padding-top: 20px;
+    font-size: 16px;
+}
+
+.pend-stat {
+    display: flex;
+    padding-top: 40px;
+}
+
+.pend-stat div {
+    margin-left: 10%;
+}
+
+.pend-stat button {
+    font-size: 15px;
+    padding: 8px;
+    border: none;
+}
+
+.pend-stat :first-child button {
+    background-color: green;
+    color: aliceblue;
+}
+.pend-stat :nth-child(2) button {
+    background-color: rgb(141, 31, 135);
+    color: aliceblue;
+}

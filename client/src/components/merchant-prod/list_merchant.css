@@ -1,0 +1,88 @@
+.merchant-container {
+    width: 1000px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.merchant-card {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 1000px;
+    min-height: 250px;
+    box-shadow: 10px 10px 30px -10px rgba(0, 0, 0, 0.171);
+    margin-top: 50px;
+}
+
+.merchant-photo {
+    min-height: 250px;
+    background-color: rgba(240, 248, 255, 0);
+    box-shadow: 4px 0 5px -5px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    align-items: center;
+    float: left;
+}
+
+.det-div {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    box-shadow: 4px 0 5px -5px rgba(0, 0, 0, 0.3);
+    border: none;
+}
+
+.merchant-photo img{
+    width: 120px;
+    border-radius: 50px;
+}
+
+.det-merchant {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    margin-top: 30px;
+}
+
+.det-merchant p {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.desc-div {
+    padding-top: 50px;
+    font-size: 14px;
+}
+
+.merchant-btns div {
+    display: flex;
+    flex-direction: column;
+}
+
+.rem-mod {
+    margin: auto;
+    width: 90px;
+    margin-left: 15px;
+    margin-top: 35px;
+    border: 0;
+    padding: 6px;
+}
+.rem-mod:first-of-type {
+    color: rgb(250, 245, 250);
+    background-color: rgba(225, 71, 71, 0.816);
+}
+.rem-mod:nth-of-type(2) {
+    color: rgb(250, 245, 250);
+    background-color: rgba(183, 41, 188, 0.816);
+}
+.rem-mod:nth-of-type(3) {
+    color: rgb(250, 245, 250);
+    background-color: rgba(41, 30, 158, 0.777);
+}
+.rem-mod:first-of-type:hover {
+    background-color: rgba(225, 71, 71, 0.943);
+}
+.rem-mod:nth-of-type(2):hover {
+    background-color: rgba(183, 41, 188, 0.943)
+}
+.rem-mod:nth-of-type(3):hover {
+    background-color: rgb(19, 62, 179)
+}
+

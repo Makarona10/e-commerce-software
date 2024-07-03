@@ -1,0 +1,236 @@
+.orders-history {
+    height: 100vh;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+    background-size: cover;
+}
+
+.history-container {
+    border-radius: 15px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin: auto;
+    margin-top: 39px;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(240, 248, 255, 0.919);
+    box-shadow: 0px 0px 30px -15px black;
+}
+
+.order-card {
+    border-radius: 9px;
+    display: grid;
+    grid-template-columns: 79% 21%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    box-shadow: 0px 0px 11px -5px black;
+    background-color: rgba(219, 229, 228, 0.565);
+    margin: auto;
+    margin-top: 21px;
+    width: 80%;
+}
+
+.x-button {
+    position: absolute;
+    right: 40px;
+    top: 30px;
+}
+.x-button:hover {
+    cursor: pointer;
+}
+.x-button::after,
+.x-button::before {
+    content: '';
+    position: absolute;
+    background-color: rgb(255, 0, 0);
+    height: 20px;
+    width: 3px;
+    top: 0;
+    left: 50%;
+}
+
+.x-button::after {
+    transform: rotate(45deg)
+}
+
+.x-button::before {
+    transform: rotate(-45deg)
+}   
+
+.order-det {
+    display: grid;
+    grid-template-rows: 20% 40% 20% 20%;
+    box-shadow: 10px 0px 8px -14px rgb(0, 0, 0);
+}
+
+.order-det div {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: start;
+    max-width: 100%;
+}
+
+.order-det :nth-child(2) {
+    width: 83%;
+    display: block;
+    font-size: 17px;
+    margin-left: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.order-det p {
+    display: flex;
+    font-size: 17px;
+    margin-left: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 4.5em;
+}
+
+.r-card {
+    display: grid;
+    grid-template-rows: 33% 33% 33%;
+}
+
+.ord-stat,
+.cancel-btn button,
+.preview-btn button {
+    font-size: 16px;
+    width: 85px;
+    height: 30px;
+    margin-top: 10px;
+    border: none;
+}
+
+.ord-stat {
+    margin: auto;
+    width: 100%;
+}
+
+.order-status {
+    color: aliceblue;
+    animation-name: animate-color;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate-reverse;
+    margin-top: 10px;
+    /* border-top: 2px solid rgb(132, 23, 154);
+    border-bottom: 2px solid rgb(132, 23, 154); */
+    width: 100%;
+    height: 40px;
+    padding-top: 7px;
+    padding-bottom: 9px;
+    position: relative;
+
+}
+
+.order-status::after {
+    content: '';
+    position: absolute;
+    background-color: rgb(120, 15, 123);
+    height: 10%;
+    right: 0;
+    top: 0;
+    width: 14px;
+    animation-name: travel;
+    animation-duration: 700ms;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: linear;
+}
+
+.order-status::before {
+    content: '';
+    position: absolute;
+    background-color: rgb(120, 15, 123);
+    height: 10%;
+    left: 0;
+    bottom: 0;
+    width: 14px;
+    animation-name: travel;
+    animation-duration: 700ms;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    animation-timing-function: linear;
+}
+
+.done {
+    color: aliceblue;
+    ;
+    margin-top: 10px;
+    width: 100%;
+    height: 40px;
+    padding-top: 7px;
+    padding-bottom: 9px;
+    position: relative;
+    background-color: gray;
+}
+
+.cancel-btn button {
+    background-color: rgba(62, 36, 231, 0.761);
+    color: aliceblue;
+    border-radius: 7px;
+}
+
+.cancel-btn button:hover {
+    background-color: rgba(190, 23, 56, 0.818);
+}
+
+.preview-btn button {
+    color: aliceblue;
+    background-color: rgba(62, 36, 231, 0.761);
+    border-radius: 7px;
+}
+
+.preview-btn button:hover {
+    color: aliceblue;
+    background-color: rgba(17, 123, 159, 0.811);
+}
+
+@keyframes animate-color {
+    0% {
+        background-color: rgba(94, 184, 25, 0.938);
+    }
+
+    100% {
+        background-color: rgb(16, 133, 47);
+    }
+}
+
+@keyframes travel {
+    0% {
+        left: 0;
+    }
+
+    100% {
+        left: 86%;
+    }
+}
+
+.prev-window {
+    position: fixed;
+    border-radius: 20px;
+    width: 600px;
+    height: 800px;
+    /* box-shadow: 0px 0px 10px 8800px rgba(0, 0, 0, 0.45); */
+    background-color: rgb(226, 222, 221);
+    top: -50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    transition: all 900ms;
+}
+.prev-window.show {
+    position: calc(45, 100);
+    border-radius: 20px;
+    width: 600px;
+    height: 800px;
+    box-shadow: 0px 0px 10px 8800px rgba(0, 0, 0, 0.45);
+    background-color: rgb(238, 238, 238);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
