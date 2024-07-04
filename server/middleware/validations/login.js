@@ -17,9 +17,9 @@ const loginSchema = [
   body('email').isEmail().normalizeEmail(),
   body('password').notEmpty().isString().isStrongPassword({
     minLength: 8,
-    minNumbers: 3,
-    minSymbols: 2,
-    minUppercase: 2,
-    minLowercase: 1,
+    minNumbers: 2,
+    minSymbols: 0,
+    minUppercase: 1,
+    minLowercase: 4,
   }),
 ];

@@ -2,13 +2,13 @@ import React, { useRef, useState } from 'react';
 import './addProduct.css';
 import { Nav_bar } from '../Navbar/Navbar.js';
 import { BrandBar } from '../brandBar/brandBar.js';
-import axios from 'axios';
+import { api } from '../../api/axios.js';
 
 export const AddProduct = () => {
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const fileInputRef = useRef(null);
   const [productDetails, setProductDetails] = useState({});
-  const theImage = null;
+  let theImage = null;
   const handleFileButtonClick = () => {
     fileInputRef.current.click();
   };
@@ -50,15 +50,28 @@ export const AddProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('product_name', productDetails.product_name);
+    formData.append('price', productDetails.price);
+    formData.append('quantity', productDetails.quantity);
+    formData.append('description', productDetails.description);
+    
+    if (theImage) {
+      formData.append('photo', theImage);
+    }
     console.log(productDetails);
+
     try {
-      const response = await axios.post(
-        'http://localhost:3001/api/merchant',
-        productDetails,
+      const response = await api.post(
+        'merchant',
+        formData, {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }
       );
-      console.log(`Product added successfully: ${response.data.product_name}`);
-    } catch {
-      console.log(`Error adding product`);
+      console.log(`Product added successfully: ${response}`);
+    } catch (err) {
+      console.log(`Error adding product`, err);
     }
   };
 

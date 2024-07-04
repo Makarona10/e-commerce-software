@@ -8,7 +8,7 @@
     border-radius: 5px;
     font-size: 24px;
     font-weight: 900;
-    background-color: rgba(232, 238, 243, 0.99);
+    background-color: rgba(235, 239, 242, 0.99);
     color: rgb(166, 51, 174);
     width: 400px;
     padding: 50px;
@@ -16,3 +16,46 @@
     margin-top: 80px;
     box-shadow: 0px 0px 30px -5px rgba(0, 0, 0, 0.496);
 }
+
+.pending-container {
+    margin: auto;
+    margin-top: 50px;
+    width: 80%;
+}
+
+.pending-card1 {
+    text-align: left;
+    padding-top: 30px;
+    width: 80%;
+    margin: auto;
+    box-shadow: 0px 0px 30px -15px rgba(0, 0, 0, 0.691);
+    background-color: rgba(255, 255, 255, 0.907);
+}
+
+.detail-div {
+    padding-left: 40px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.pend-stat {
+    padding: 8px 10px 30px 40px;
+}
+.pend-stat div {
+    margin-top: 10px;
+}
+.pend-stat div button {
+    padding: 5px;
+    margin-top: 20px;
+    border: 0;
+    font-size: 18px;
+}
+.pend-stat :first-child button {
+    color: rgb(243, 242, 242);
+    background-color: green;
+}
+.pend-stat :nth-child(2) button {
+    color: rgb(243, 242, 242);
+    background-color: rgb(171, 37, 167);
+}
+

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Nav_bar } from "../Navbar/Navbar";
 import { BrandBar } from "../brandBar/brandBar";
 import './deliveryOrders.css';
-import axios from "axios";
+import { api } from '../../api/axios';
 
 
 export const DeliveryOrders = () => {
@@ -10,7 +10,7 @@ export const DeliveryOrders = () => {
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/delivery/accepted')
+        api.get('http://localhost:3001/api/delivery/accepted')
             .then(res => {
                 setOrders(res.data);
             }).catch(err => {

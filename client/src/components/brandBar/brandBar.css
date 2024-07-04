@@ -79,11 +79,17 @@ body {
     margin: 0;
 }
 
-#logIco .drop ul li {
+.drop ul li {
     padding: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    color: #141516;
+}
+
+.log-opt {
+    color: #141516;
+    text-decoration: none;
 }
 
 #logIco .drop ul li:hover {

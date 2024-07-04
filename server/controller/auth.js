@@ -87,7 +87,7 @@ export const loginController = async (req, res, next) => {
 
   const payload = { user_id: user.rows[0].id, role: user.rows[0].role };
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
-
+  console.log('===========', process.env.JWT_ACC_EXPIRATION, '=================')
   const access_token = await new Promise((resolve, reject) => {
     jwt.sign(payload, process.env.JWT_ACC_SECRET, options, (err, token) => {
       if (err) {

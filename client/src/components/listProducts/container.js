@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import './container.css';
 import photo from '../../imgs/1719547154542-377507952_2261275914061761_1401848363136747267_n.jpg'
-import axios from 'axios';
+import { api } from '../../api/axios';
 
 
 export const ListProd = () => {
 
     const [productsData, setProductsData] = useState([]);
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/api/products/')
-            .then(res => {
-                setProductsData(res.data)
-            })
 
+    useEffect(() => {
+        api.get('products')
+            .then(res => {
+                setProductsData(res.data);
+                console.log(productsData)
+            });
     }, [])
-    console.log(productsData)
+
     const dir = 'D:\/shipping system\/server\/uploads\/'
     return (
         <div className="container">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css';
 import cart from '../../imgs/cart.png';
+import { NavLink } from 'react-router-dom';
 
 export const Nav_bar = (props) => {
   const [cartList, setCartList] = useState([]);
@@ -26,15 +27,14 @@ export const Nav_bar = (props) => {
   return (
     <nav className="navbar">
       <div className={`navbar-links ${isMenuVisible ? 'show' : 'hide'}`}>
-        {['Home', 'Orders history', 'Best sellers', 'Stores'].map(
+        {[{'Home':'/'}, {'Orders history':'/new-product'}, {'Best sellers':'/v'}, {'Store products':'/list-merchant-products'}].map(
           (link, index) => (
-            <a
+            <NavLink exact to={Object.values(link)[0]}
               key={index}
-              href={`#${link.toLowerCase()}`}
               className="navbar-link"
             >
-              {link}
-            </a>
+              {Object.keys(link)[0]}
+            </NavLink>
           ),
         )}
       </div>

@@ -37,10 +37,10 @@ export const phoneValidation = body('mobile').isMobilePhone(['ar-EG']);
 export const passwordValidation = [
   body('password').notEmpty().isString().isStrongPassword({
     minLength: 8,
-    minNumbers: 3,
-    minSymbols: 2,
-    minUppercase: 2,
-    minLowercase: 1,
+    minNumbers: 2,
+    minSymbols: 0,
+    minUppercase: 1,
+    minLowercase: 4,
   }),
   body('password_confirmation').custom((value, { req }) => {
     return value === req.body.password;

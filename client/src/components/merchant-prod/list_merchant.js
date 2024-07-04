@@ -4,13 +4,14 @@ import { Nav_bar } from "../Navbar/Navbar.js";
 import './list_merchant.css';
 import photo from '../../imgs/1719547154542-377507952_2261275914061761_1401848363136747267_n.jpg'
 import axios from "axios";
+import { api } from "../../api/axios.js";
 
 
 export const ListMerchant = () => {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/merchant')
+        api.get('http://localhost:3001/api/merchant')
             .then(res => {
                 setProducts(res.data);
             }).catch(err => {

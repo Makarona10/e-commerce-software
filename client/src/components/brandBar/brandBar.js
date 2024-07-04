@@ -40,20 +40,18 @@ export const BrandBar = () => {
           <ul>
             {!isAuthenticated() && (
               <>
-                <Link to="/login">
+                <Link to="/login" className='log-opt'>
                   <li>Login</li>
                 </Link>
-                <Link to="/register">
+                <Link to="/register" className='log-opt'>
                   <li>Register</li>
                 </Link>
               </>
             )}
             <li>Settings</li>
             {isAuthenticated() && (
-              <li>
-                <button type="button" onClick={handleLogout}>
+              <li onClick={handleLogout}> 
                   Logout
-                </button>
               </li>
             )}
           </ul>

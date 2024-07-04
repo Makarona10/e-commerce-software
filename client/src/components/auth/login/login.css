@@ -1,0 +1,108 @@
+.login-form {
+    height: 100vh;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+    background-size: cover;
+}
+
+
+.form-div form {
+    width: 500px;
+    padding-top: 60px;
+    box-shadow: 0px 0px 30px -8px rgba(246, 246, 246, 0.382);
+    background-color: rgba(244, 244, 244, 0.864);
+    width: 500px;
+    margin: auto;
+    margin-top: 80px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.fields {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.icon {
+    width: 20px;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 45px;
+}
+
+.pass-ico {
+    background: url('../../../imgs/image.png') no-repeat center center;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 40px;
+}
+.eye-ico {
+    background: url('../../../imgs/eye.png') no-repeat center center;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: contain;
+    position: absolute;
+    margin-right: 88px;
+    margin-top: 40px;
+}
+.eye-ico:hover {
+    cursor: pointer;
+}
+
+.fields input {
+    position: static;
+    width: 270px;
+    height: 100%;
+    margin: auto;
+    margin-top: 30px;
+    border: none;
+    /* border-left: 2px solid rgb(134, 76, 134); */
+    border-bottom: 2px solid rgb(134, 76, 134);
+    background-color: rgba(240, 248, 255, 0);
+    outline: none;
+    padding: 10px;
+    text-indent: 30px;
+    transition: all 300ms;
+}
+
+
+.opts {
+    display: flex;
+    flex-direction: column;
+    width: 270px;
+    margin: auto;
+    text-align: start;
+    padding-bottom: 30px;
+}
+
+.link {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.btn-div {
+    padding-bottom: 30px;
+}
+
+.sub-button {
+    padding: 10px;
+    width: 120px;
+    border: 0px;
+    background-color: blueviolet;
+    color: aliceblue;
+    font-size: 18px;
+    border-radius: 5px;
+    font-weight: 500;
+    /* transition: all 200ms; */
+}
+
+.sub-button:hover {
+    background-color: rgb(115, 7, 154);
+}

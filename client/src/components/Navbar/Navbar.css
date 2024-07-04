@@ -27,6 +27,10 @@ body {
     margin-left: 160px;
 }
 
+.navbar-link.active {
+    color: rgb(211, 149, 208);
+}
+
 .navbar-link {
     color: #ffffff;
     text-decoration: none;

@@ -23,11 +23,13 @@ const get_store_products = async (req, res) => {
 };
 
 const publish_product = async (req, res) => {
-  // const merchant_id = req.user_id;
+  const merchant_id = req.user_id;
   const { product_name, quantity, description, price } = req.body;
 
-  console.log(product_name)
-  // if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
+  console.log('-------------', req.headers.authorization, '-------------')
+  console.log(process.env.JWT_REF_EXPIRATION)
+  
+  if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
 
   upload(req, res, async (err) => {
     // if (err) {
