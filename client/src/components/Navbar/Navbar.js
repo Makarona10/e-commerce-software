@@ -3,11 +3,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css';
 import cart from '../../imgs/cart.png';
 import { NavLink } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+
 
 export const Nav_bar = (props) => {
   const [cartList, setCartList] = useState([]);
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [role, setRole] = useState(null);
+  const [links, setLinks] = useState({
+    'Home': '/',
+    'Stores': '&',
+    'Best sellers': '@'
+  })
+  const theToken = localStorage.getItem('access_token');
+  useEffect(() => {
+    if (theToken) {
+      setRole(jwtDecode(theToken).role);
+    }
+  }, [])
+  
+  if (role === 'merchant') {
+    
+  }
 
   const toggleCart = () => {
     setIsCartVisible(!isCartVisible);
@@ -27,13 +45,14 @@ export const Nav_bar = (props) => {
   return (
     <nav className="navbar">
       <div className={`navbar-links ${isMenuVisible ? 'show' : 'hide'}`}>
-        {[{'Home':'/'}, {'Orders history':'/new-product'}, {'Best sellers':'/v'}, {'Store products':'/list-merchant-products'}].map(
-          (link, index) => (
-            <NavLink exact to={Object.values(link)[0]}
-              key={index}
+        {Object.keys(links).map(
+          (link, idx) => (
+            <NavLink exact to={Object.values(links)[idx]}
+              key={idx}
               className="navbar-link"
             >
-              {Object.keys(link)[0]}
+              {link}
+              {console.log(link)}
             </NavLink>
           ),
         )}

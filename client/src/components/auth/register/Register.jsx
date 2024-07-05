@@ -9,6 +9,7 @@ import { Nav_bar } from '../../Navbar/Navbar.js'
 const Register = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState('');
+  const [error, setError] = useState(null)
   const [formData, setFormData] = useState({
     user_type: userType,
     email: '',
@@ -36,8 +37,9 @@ const Register = () => {
       const response = await api.post('/auth/register', formData);
       navigate('/login');
       console.log('regiter', response);
-    } catch (error) {
-      console.error('Registration failed:', error);
+    } catch (err) {
+      setError(err.response.data.message ? err.response.data.message : err.response.data.errors[0].msg);
+      console.error('Registration failed:', err);
     }
   };
 
@@ -46,11 +48,12 @@ const Register = () => {
       <BrandBar />
       <Nav_bar />
       <div className='reg-div'>
+        <div className='reg-hd'>Create a new account</div>
         <form onSubmit={handleRegister}>
           <div className='label-div1'>
-            <label>User Type:</label>
             <select
               name="user_type"
+              id='sel-type'
               onChange={(e) => {
                 handleChange(e);
                 setUserType(e.target.value);
@@ -63,92 +66,91 @@ const Register = () => {
             </select>
           </div>
           {(userType === 'client' || userType === 'delivery_boy') && (
-            <>
-              <div>
+            <div>
+              <div className='reg-inpts'>
                 <input
-                  placeholder='First Name:'
+                  placeholder='First Name'
                   type="text"
                   name="first_name"
                   value={formData.first_name}
                   onChange={handleChange}
-                  required
+                  
                 />
               </div>
-              <div>
+              <div className='reg-inpts'>
                 <input
                   type="text"
                   name="last_name"
-                  placeholder='Last Name:'
+                  placeholder='Last Name'
                   value={formData.last_name}
                   onChange={handleChange}
-                  required
+                  
                 />
               </div>
-            </>
+            </div>
           )}
-          <div>
+          <div className='reg-inpts'>
             <input
-              placeholder='phone:'
+              placeholder='Phone'
               type="tel"
               name="mobile"
               value={formData.mobile}
               onChange={handleChange}
-              required
+              
             />
           </div>
 
-          <div>
+          <div className='reg-inpts'>
             <input
               type="email"
               name="email"
               placeholder='Email'
               value={formData.email}
               onChange={handleChange}
-              required
+              
             />
           </div>
 
-          <div>
+          <div className='reg-inpts'>
             <input
               placeholder='Password'
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              required
+              
             />
           </div>
 
-          <div>
+          <div className='reg-inpts'>
             <input
               type="password"
               name="password_confirmation"
-              placeholder='Password Confirmation'
+              placeholder='Password confirmation'
               value={formData.password_confirmation}
               onChange={handleChange}
-              required
+              
             />
           </div>
           {userType === 'merchant' && (
             <>
-              <div>
+              <div className='reg-inpts'>
                 <input
                   type="text"
                   name="store_name"
                   placeholder='Store Name'
                   value={formData.store_name}
                   onChange={handleChange}
-                  required
+                  
                 />
               </div>
-              <div>
+              <div className='reg-inpts'>
                 <input
                   type="text"
                   name="location"
                   placeholder='Location'
                   value={formData.location}
                   onChange={handleChange}
-                  required
                 />
               </div>
             </>
@@ -156,20 +158,25 @@ const Register = () => {
 
           {userType === 'delivery_boy' && (
             <>
-              <div>
+              <div className='reg-inpts'>
                 <input
                   type="text"
                   name="national_id"
                   placeholder='National ID'
                   value={formData.national_id}
                   onChange={handleChange}
-                  required
+                  
                 />
               </div>
             </>
           )}
-
-          <button type="submit">Register</button>
+          {error ? (
+            <div className='reg-err-div'>{error}</div>
+           ) : ''
+            }
+          <div className='sb-reg'>
+            <button type="submit">Create</button>
+          </div>
         </form>
       </div>
     </div>

@@ -6,7 +6,6 @@ import './login.css'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import photo from '../../../imgs/image.png'
 import { Link } from 'react-router-dom';
 
 const Login = () => {
@@ -14,11 +13,13 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(true);
-  
+  const [error, setError] = useState(null);
+
+
   const toggleVisibility = (e) => {
     setIsPassword(!isPassword);
   }
-  
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -29,12 +30,12 @@ const Login = () => {
       const { access_token, refresh_token } = response.data.data[0];
       console.log('login res data ', access_token, refresh_token);
 
-      // Store tokens
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
       navigate('/');
-    } catch (error) {
-      console.error('Login failed:', error);
+    } catch (err) {
+      setError(err.response.data.message[0].msg ? err.response.data.message[0].msg : err.response.data.message);
+      console.error('Login failed:', err);
     }
   };
 
@@ -44,6 +45,7 @@ const Login = () => {
       <Nav_bar />
       <div className='form-div'>
         <form onSubmit={handleLogin}>
+          <div className='s-in-head'>Sign in</div>
           <div className='fields'>
             <div>
               <FontAwesomeIcon icon={faEnvelope} className="icon" />
@@ -65,9 +67,12 @@ const Login = () => {
               <i className='eye-ico' onClick={toggleVisibility}></i>
             </div>
           </div>
+          {error ? (
+            <div className='lgin-err-div'>{error}</div>
+          ) : null}
           <div className='opts'>
-            <Link to = '/register' className='link'>create an account</Link>
-            <Link to = '' className='link'>forgot password ?</Link>
+            <Link to='/register' className='link'>create an account</Link>
+            <Link to='' className='link'>forgot password ?</Link>
           </div>
           <div className='btn-div'>
             <button type="submit" className='sub-button'> Login </button>

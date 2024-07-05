@@ -83,7 +83,7 @@ export const loginController = async (req, res, next) => {
     !user.rows.length ||
     !(await argon2.verify(user.rows[0].password, password))
   )
-    return res.status(400).json(failureMsg(400, 'invalid email or password'));
+    return res.status(400).json(failureMsg(400, 'invalid email or password !'));
 
   const payload = { user_id: user.rows[0].id, role: user.rows[0].role };
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };

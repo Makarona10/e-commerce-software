@@ -7,7 +7,7 @@
 
 .form-div form {
     width: 500px;
-    padding-top: 60px;
+    padding-top: 50px;
     box-shadow: 0px 0px 30px -8px rgba(246, 246, 246, 0.382);
     background-color: rgba(244, 244, 244, 0.864);
     width: 500px;
@@ -16,6 +16,13 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+}
+
+.s-in-head {
+    font-size: 20px;
+    color: rgb(101, 3, 101);
+    font-weight: 500;
+    margin: auto;
 }
 
 .fields {
@@ -89,6 +96,14 @@
 
 .btn-div {
     padding-bottom: 30px;
+}
+
+.lgin-err-div {
+    padding: 20px;
+    text-align: center;
+    color: red;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 .sub-button {

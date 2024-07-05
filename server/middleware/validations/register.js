@@ -32,7 +32,7 @@ export const checkUserType = body('user_type').isIn([
   'delivery_boy',
 ]);
 
-export const phoneValidation = body('mobile').isMobilePhone(['ar-EG']);
+export const phoneValidation = body('mobile').isMobilePhone(['ar-EG']).withMessage('Please enter a valid phone number!');
 
 export const passwordValidation = [
   body('password').notEmpty().isString().isStrongPassword({
@@ -41,23 +41,23 @@ export const passwordValidation = [
     minSymbols: 0,
     minUppercase: 1,
     minLowercase: 4,
-  }),
+  }).withMessage('Please enter a strong password!'),
   body('password_confirmation').custom((value, { req }) => {
     return value === req.body.password;
   }),
 ];
 
 export const validateClient = [
-  body('first_name').notEmpty().isString().isLength({
+  body('first_name').notEmpty().withMessage('Enter the first name please!').isString().isLength({
     max: 25,
     min: 2,
-  }),
-  body('last_name').notEmpty().isString().isLength({
+  }).withMessage('First name must be at least 2 letters!'),
+  body('last_name').notEmpty().withMessage('Enter the last name please!').isString().isLength({
     max: 25,
     min: 2,
-  }),
+  }).withMessage('Last name must be at least 2 letters!'),
   phoneValidation,
-  body('email').isEmail().normalizeEmail(),
+  body('email').isEmail().normalizeEmail().withMessage('Please enter a valid email!'),
   ...passwordValidation,
 ];
 
@@ -65,25 +65,25 @@ export const validateMerchant = [
   body('store_name').isString().isLength({
     max: 30,
     min: 2,
-  }),
-  body('location').notEmpty().isString().isLength({
+  }).withMessage('Please enter a valid store name!'),
+  body('location').notEmpty().withMessage('Enter your store name please!').isString().isLength({
     max: 255,
-  }),
+  }).withMessage('Location must be 255 characters at most!'),
   phoneValidation,
-  body('email').isEmail().normalizeEmail(),
+  body('email').isEmail().normalizeEmail().withMessage('Please enter a valid email!'),
   ...passwordValidation,
 ];
 
 export const validateDeliveryBoy = [
-  body('first_name').notEmpty().isString().isLength({
+  body('first_name').notEmpty().withMessage('Enter the first name please!').isString().withMessage('Enter the first name please!').isLength({
     max: 25,
     min: 2,
-  }),
-  body('last_name').notEmpty().isString().isLength({
+  }).withMessage('First name must be at least 2 letters!'),
+  body('last_name').notEmpty().withMessage('Enter the first name please!').isString().isLength({
     max: 25,
     min: 2,
-  }),
+  }).withMessage('Last name must be at least 2 letters!!'),
   phoneValidation,
-  body('email').isEmail().normalizeEmail(),
+  body('email').isEmail().normalizeEmail().withMessage('Please enter a valid email!'),
   ...passwordValidation,
 ];

@@ -4,12 +4,19 @@
     background-size: cover;
 }
 
+.reg-hd {
+    color: rgb(77, 25, 103);
+    font-size: 19px;
+    padding: 30px;
+    font-weight: 500;
+}
+
 .reg-div {
     width: 400px;
     background-color: rgba(240, 248, 255, 0.879);
     margin: auto;
     box-shadow: 0px 0px 30px -15px rgba(0, 0, 0, 0.616);
-    padding-top: 30px;
+    /* padding-top: 30px; */
     margin-top: 70px;
     border-radius: 10px;
 }
@@ -44,10 +51,38 @@
     outline: none;
     font-size: 14px;
     width: 250px;
-    border-left: 3px solid blueviolet;
+    background-color: rgba(240, 248, 255, 0);
+    border-bottom: 2px solid rgb(90, 27, 149);
 }
 
-.reg-div div {
-    /* margin-top: 10px; */
+.reg-inpts {
+    padding-top: 20px;
+}
+
+.reg-err-div {
+    color: rgb(232, 14, 14);
+    background-color: rgba(205, 21, 21, 0);
+    font-weight: 500;
+    width: 250px;
+    margin: auto;
+    /* border-radius: 5px; */
+    margin-top: 20px;
     padding: 10px;
+    font-size: 14px;
+}
+
+.sb-reg {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.sb-reg button{
+    border-radius: 3px;
+    padding: 5px;
+    padding-right: 11px;
+    padding-left: 11px;
+    font-size: 21px;
+    border: none;
+    background-color: rgb(167, 50, 167);
+    color: aliceblue;
 }
