@@ -2,7 +2,6 @@ import { connection } from '../DB/index.js';
 import { upload } from '../middleware/photos_handler.js';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 
 const get_store_products = async (req, res) => {
@@ -10,9 +9,10 @@ const get_store_products = async (req, res) => {
 
   try {
     const prods = await connection.query(
-      `SELECT product_name, description, price, quantity, image
+      `SELECT *
             FROM products
-            WHERE merchant_id = $1`,
+            WHERE merchant_id = $1
+            ORDER BY product_id DESC`,
       [merchant_id],
     );
     return res.status(200).json(prods.rows);

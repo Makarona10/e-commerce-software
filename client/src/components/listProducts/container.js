@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import './container.css';
-import photo from '../../imgs/1719547154542-377507952_2261275914061761_1401848363136747267_n.jpg'
 import { api } from '../../api/axios';
 
 
@@ -13,19 +12,41 @@ export const ListProd = () => {
         api.get('products')
             .then(res => {
                 setProductsData(res.data);
-                console.log(productsData)
             });
     }, [])
 
-    const dir = 'D:\/shipping system\/server\/uploads\/'
+    useEffect(() => {
+        localStorage.setItem('cartList', []);
+    }, [])
+
+    const addToCart = (obj) => {
+        let cart = localStorage.getItem('cartList');
+        cart = cart ? JSON.parse(cart) : [];
+
+        let flag = false;
+
+        cart.forEach(item => {
+            if (item.product_id === obj.product_id) {
+                item.quantity += 1;
+                flag = true;
+                return;
+            }
+        })
+        if (flag) {
+            localStorage.setItem('cartList', JSON.stringify(cart));
+        }
+        obj.quantity = 1;
+        cart.push(obj);
+        localStorage.setItem('cartList', JSON.stringify(cart));
+    }
+
     return (
         <div className="container">
-            {productsData.map((item, idx) => {
+            {productsData.map((item) => {
                 return (
-                    <div className="product" key={idx}>
+                    <div className="product" key={item.product_id}>
                         <div>
-                            <img src={`${dir}${item.image}`} alt="photo" />
-                            {console.log(`${dir}${item.image}`)}
+                            <img src={`http://localhost:3001/uploads/${item.image}`} alt="photo" />
                         </div>
                         <div className="det">
                             <div>
@@ -40,7 +61,7 @@ export const ListProd = () => {
                         </div>
                         <div className='carting'>
                             <p>{item.price}$</p>
-                            <p>+</p>
+                            <p onClick={() => addToCart({ product_id: item.product_id, price: item.price, product_name: item.product_name })}>+</p>
                             <p>-</p>
                         </div>
                     </div>

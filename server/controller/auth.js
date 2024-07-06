@@ -76,19 +76,23 @@ export const registerController = async (req, res, next) => {
 
 export const loginController = async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await connection.query(`SELECT * FROM users JOIN merchants ON users.id = merchants.merchant_id WHERE email = $1;`, [
+  const user = await connection.query(`SELECT * FROM users WHERE email = $1;`, [
     email,
   ]);
+  console.log(user.rowCount);
   if (
     !user.rows.length ||
     !(await argon2.verify(user.rows[0].password, password))
-  )
-    return res.status(400).json(failureMsg(400, 'invalid email or password !'));
+  ) {
+    return res.status(400).json(failureMsg(400, 'invalid email or password!'));
+  }
 
-  const payload = { user_id: user.rows[0].id, role: user.rows[0].role,
-    name: user.rows[0].role === 'merchant' ? user.rows[0].store_name : (user.rows[0].first_name + user.rows[0].last_name) };
+  const payload = {
+    user_id: user.rows[0].id, role: user.rows[0].role,
+    name: user.rows[0].role === 'merchant' ? user.rows[0].store_name : (user.rows[0].first_name + user.rows[0].last_name)
+  };
 
-    console.log(payload);
+  console.log(payload);
 
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
   console.log('===========', process.env.JWT_ACC_EXPIRATION, '=================')

@@ -6,10 +6,16 @@ import { NavLink, redirect } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { api } from '../../api/axios';
 import { loadStripe } from '@stripe/stripe-js';
+import { useNavigate } from 'react-router-dom';
 
 
 export const Nav_bar = (props) => {
-  const [cartList, setCartList] = useState([]);
+  const [cartList, setCartList] = useState([
+    {
+      address: '',
+      products: []
+    }
+  ]);
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [role, setRole] = useState(null);
@@ -20,6 +26,7 @@ export const Nav_bar = (props) => {
   })
   const stripePromise = loadStripe('pk_test_51PWn2V2LcWJtaPbbBrpvPUeP2GHUvybeLln5FxrzbDIibAWW6q6SSjTQRLxpic9rrkuqnpQLPZzwerl5AMSa5j0I00EU1W1vj3');
   let theToken = localStorage.getItem('access_token');
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (theToken) {
@@ -67,17 +74,20 @@ export const Nav_bar = (props) => {
     setCartList({
       address: 'Meet-okba',
       products:
-        [
-          { product_id: 31, name: 'GTX 3060', quantity: 4 },
-          { product_id: 32, name: 'i5-12400', quantity: 2 }
-        ]
+        (localStorage.getItem('cartList')) ? JSON.parse(localStorage.getItem('cartList')) : []
     });
-  }, []);
+  }, [localStorage.getItem('cartList'), ]);
 
   const handleCheckout = async () => {
-    // localStorage.setItem('cartList', JSON.stringify(cartList))
     const response = await api.post('customer', cartList);
-    const session = await response.json();
+    if (response.status === 200) {
+      window.location.href = response.data.sessionUrl;
+      console.log(response.data.sessionUrl);
+      navigate(response.data.sessionUrl);
+    } else {
+      window.location.href = 'www.google.com';
+    }
+    const session = response;
     const stripe = await stripePromise;
     const { error } = await stripe.redirectToCheckout({
       sessionId: session.id,
@@ -100,7 +110,6 @@ export const Nav_bar = (props) => {
               className="navbar-link"
             >
               {link}
-              {console.log(link)}
             </NavLink>
           ),
         )}
@@ -113,14 +122,14 @@ export const Nav_bar = (props) => {
       <div className="cart-logo">
         <img src={cart} alt="cart" width="40px" onClick={toggleCart} />
         <div className={isCartVisible ? 'cart-list' : 'hidden'}>
-          {cartList.length === 0 ? (
+          {!cartList.products ? (
             <p>Cart is empty!</p>
           ) : (
             <div>
               <ul className="cart-items">
-                {cartList.products.map((item, index) => (
-                  <li key={index} className="cart-item">
-                    {item.name} - {item.quantity} items
+                {cartList.products.map((item) => (
+                  <li key={item.id} className="cart-item">
+                    {item.product_name} - {item.quantity} items (${item.quantity*item.price})
                   </li>
                 ))}
               </ul>

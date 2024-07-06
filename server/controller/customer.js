@@ -159,7 +159,7 @@ const place_order = async (req, res) => {
     console.log('Checkout Session:', session);
 
     await connection.query('COMMIT');
-    return res.status(200).json({ msg: 'Order placed successfully!', sessionId: session.id });
+    return res.status(200).json({ msg: 'Order placed successfully!', sessionUrl: session.url });
   } catch (err) {
     await connection.query('ROLLBACK');
     console.error(err);
