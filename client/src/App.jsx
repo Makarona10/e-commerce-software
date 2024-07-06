@@ -5,6 +5,8 @@ import { DeliveryOrders } from './components/deliveryOrders/deliveryOrders';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ModifyProduct } from './components/modifyProduct/modifyProduct';
 import { ListMerchant } from './components/merchant-prod/list_merchant';
+import { ClientOrders } from './components/order_history/clientOrders';
+import { ListPending } from './components/listPending/listPending';
 import Login from './components/auth/login/Login';
 import Register from './components/auth/register/Register';
 import ProtectedRoute from './components/auth/protected/Protected';
@@ -29,15 +31,23 @@ function App() {
           />
           <Route
             path="/delivery-orders"
-            element={<NotProtectedRoute component={DeliveryOrders} />}
+            element={<ProtectedRoute component={DeliveryOrders} />}
           />
           <Route
             path="/modify-product"
-            element={<NotProtectedRoute component={ModifyProduct} />}
+            element={<ProtectedRoute component={ModifyProduct} />}
           />
           <Route
             path="/list-merchant-products"
-            element={<NotProtectedRoute component={ListMerchant} />}
+            element={<ProtectedRoute component={ListMerchant} />}
+          />
+          <Route
+            path="/orders-history"
+            element={<ProtectedRoute component={ClientOrders} />}
+          />
+          <Route
+            path="/pending"
+            element={<ProtectedRoute component={ClientOrders} />}
           />
           <Route path="/" element={<BrowseProd />} />
         </Routes>

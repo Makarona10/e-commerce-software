@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css';
 import cart from '../../imgs/cart.png';
-import { NavLink } from 'react-router-dom';
+import { NavLink, redirect } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { api } from '../../api/axios';
+import { loadStripe } from '@stripe/stripe-js';
 
 
 export const Nav_bar = (props) => {
@@ -16,16 +18,42 @@ export const Nav_bar = (props) => {
     'Stores': '&',
     'Best sellers': '@'
   })
-  const theToken = localStorage.getItem('access_token');
+  const stripePromise = loadStripe('pk_test_51PWn2V2LcWJtaPbbBrpvPUeP2GHUvybeLln5FxrzbDIibAWW6q6SSjTQRLxpic9rrkuqnpQLPZzwerl5AMSa5j0I00EU1W1vj3');
+  let theToken = localStorage.getItem('access_token');
+
   useEffect(() => {
     if (theToken) {
-      setRole(jwtDecode(theToken).role);
+      const decodedToken = jwtDecode(theToken);
+      setRole(decodedToken.role);
     }
-  }, [])
-  
-  if (role === 'merchant') {
-    
-  }
+  }, [theToken]);
+
+  useEffect(() => {
+    if (role === 'merchant') {
+      setLinks({
+        'Store products': '/list-merchant-products',
+        'Most sold': '/mostSold',
+        'Best Clients': '/best',
+        'Store info': '/facebook.com'
+      })
+    }
+    else if (role === 'client') {
+      setLinks({
+        'Home': '/',
+        'Trending': '/trend',
+        'Offers': '/offers',
+        'Orders': '/orders-history'
+      })
+    }
+    else if (role === 'client') {
+      setLinks({
+        'Assigned orders': '/delivery-orders',
+        'Pending': '/pending',
+      })
+    }
+  }, [role])
+
+
 
   const toggleCart = () => {
     setIsCartVisible(!isCartVisible);
@@ -36,11 +64,31 @@ export const Nav_bar = (props) => {
   };
 
   useEffect(() => {
-    setCartList([
-      { name: 'GTX 3060', quantity: 4 },
-      { name: 'i5-12400', quantity: 2 },
-    ]);
+    setCartList({
+      address: 'Meet-okba',
+      products:
+        [
+          { product_id: 31, name: 'GTX 3060', quantity: 4 },
+          { product_id: 32, name: 'i5-12400', quantity: 2 }
+        ]
+    });
   }, []);
+
+  const handleCheckout = async () => {
+    // localStorage.setItem('cartList', JSON.stringify(cartList))
+    const response = await api.post('customer', cartList);
+    const session = await response.json();
+    const stripe = await stripePromise;
+    const { error } = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (error) {
+      console.log('Checkout failed !', error);
+    }
+  }
+
+
 
   return (
     <nav className="navbar">
@@ -70,14 +118,14 @@ export const Nav_bar = (props) => {
           ) : (
             <div>
               <ul className="cart-items">
-                {cartList.map((item, index) => (
+                {cartList.products.map((item, index) => (
                   <li key={index} className="cart-item">
                     {item.name} - {item.quantity} items
                   </li>
                 ))}
               </ul>
               <div className="btn-container">
-                <button className="checkout">checkout</button>
+                <button className="checkout" onClick={handleCheckout}>checkout</button>
               </div>
             </div>
           )}

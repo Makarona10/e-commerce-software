@@ -22,6 +22,10 @@ body {
     text-transform: uppercase;
 }
 
+.brand:hover {
+    cursor: pointer;
+}
+
 .nav-link:hover,
 .nav-link.hovered {
     color: wheat;

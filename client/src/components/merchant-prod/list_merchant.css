@@ -10,6 +10,40 @@
     margin-top: 100px;
 }
 
+.up-merr {
+    display: flex;
+    position: relative;
+}
+
+.sprod-list {
+    position: absolute;
+    color: whitesmoke;
+    left: 0;
+    bottom: 0;
+    font-size: 24px;
+    top: -20px;
+}
+
+.addProdBtn {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: -20px;
+}
+
+.addProdBtn button {
+    padding: 15px;
+    border: none;
+    background-color: green;
+    border-radius: 20px;
+}
+
+.addProdBtn button a {
+    text-decoration: none;
+    font-size: 14px;
+    color: beige;
+}
+
 .merchant-card {
     display: flex;
     flex-wrap: nowrap;
@@ -23,7 +57,7 @@
 .merchant-photo {
     min-height: 250px;
     background-color: rgba(240, 248, 255, 0);
-    box-shadow: 4px 0 5px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 0 5px -6px rgba(0, 0, 0, 0.3);
     padding: 30px;
     align-items: center;
     float: left;
@@ -33,7 +67,7 @@
     display: flex;
     flex-direction: column;
     width: 700px;
-    box-shadow: 4px 0 5px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 4px 0 5px -6px rgba(0, 0, 0, 0.3);
     border: none;
 }
 

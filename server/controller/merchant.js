@@ -26,29 +26,34 @@ const publish_product = async (req, res) => {
   const merchant_id = req.user_id;
   const { product_name, quantity, description, price } = req.body;
 
-  console.log('-------------', req.headers.authorization, '-------------')
-  console.log(process.env.JWT_REF_EXPIRATION)
+  
+
+  console.log('The image url:' ,req.body)
+
   
   if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
+  console.log('merchant_id: ' ,merchant_id)
 
   upload(req, res, async (err) => {
+    
+    if (!req.file) return res.status(400).json({ msg: 'No image uploaded!' });
+
+    console.log(req.file);
+
     // if (err) {
     //   console.error('File upload error:', err);
     //   return res.status(500).json({ error: "File upload failed!" });
     // }
-    if (!req.file) return res.status(400).json({ msg: 'No image uploaded!' });
 
     // const image_url = `http://${DOMAIN_NAME}/uploads/${req.file.filename}`;
-    const filePath = fileURLToPath(import.meta.url);
-    console.log("filename: ", filePath)
-    const directoryPath = path.dirname(path.dirname(filePath));
-    console.log("direc: ", directoryPath)
+
     const image_url = req.file.filename;
+    
     try {
       await connection.query(
         `INSERT INTO products (product_name, description, price, quantity, image, merchant_id)
-                VALUES ($1, $2, $3, $4, $5, $6)`,
-        [product_name, description, price, quantity, image_url, 12],
+        VALUES ($1, $2, $3, $4, $5, $6)`,
+        [product_name, description, price, quantity, image_url, parseInt(merchant_id)],
       );
 
       return res.status(200).json({ msg: 'Product uploaded successfully!' });

@@ -147,11 +147,17 @@
     background-color: #4e0884;
 }
 
-.addForm :nth-child(4) {
-    padding-top: 60px;
+.add-err-div {
+    color: red;
+    padding-top: 20px;
+    font-size: 16px;
 }
 
-.addForm :nth-child(4) button {
+.addForm :nth-child(5) {
+    padding-top: 40px;
+}
+
+.addForm :nth-child(5) button {
     background-color: rgba(75, 172, 75, 0);
     border: none ;
     /* border: 1px groove rgba(75, 172, 75, 0.797) ; */
@@ -163,7 +169,7 @@
     transition: 200ms ease-in-out;
 }
 
-.addForm :nth-child(4) button:hover {
+.addForm :nth-child(5) button:hover {
     background-color: #6a0dadd0;
     color:rgb(224, 226, 228);
 }

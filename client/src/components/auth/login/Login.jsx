@@ -56,7 +56,7 @@ const Login = () => {
                 placeholder="Email"
               />
             </div>
-            <div>
+            <div className='ico-par'>
               <i className='pass-ico'></i>
               <input
                 type={isPassword ? 'password' : 'text'}

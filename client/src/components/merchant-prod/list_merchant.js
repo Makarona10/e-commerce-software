@@ -3,20 +3,30 @@ import { BrandBar } from "../brandBar/brandBar.js";
 import { Nav_bar } from "../Navbar/Navbar.js";
 import './list_merchant.css';
 import photo from '../../imgs/1719547154542-377507952_2261275914061761_1401848363136747267_n.jpg'
-import axios from "axios";
 import { api } from "../../api/axios.js";
+import { jwtDecode } from "jwt-decode";
+import { Link } from "react-router-dom";
 
 
 export const ListMerchant = () => {
     const [products, setProducts] = useState([]);
+    const [store, setStore] = useState('');
+    const [imgUrl, setImgUrl] = useState('')
 
     useEffect(() => {
-        api.get('http://localhost:3001/api/merchant')
+        api.get('merchant')
             .then(res => {
                 setProducts(res.data);
-            }).catch(err => {
+            }).then(data => {
+                console.log('--------------------------------------' ,data.image);
+                setImgUrl(data.image)
+            }
+            )
+            .catch(err => {
                 console.log(err);
-            })
+            });
+        setStore(jwtDecode(localStorage.getItem('access_token')));
+        console.log(store.name)
     }, [])
 
     return (
@@ -24,12 +34,19 @@ export const ListMerchant = () => {
             <BrandBar />
             <Nav_bar />
             <div className="merchant-container">
+                <div className="up-merr">
+                    <div className="sprod-list">{store.name} store Products</div>
+                    <div className="addProdBtn">
+                        <button><Link to='/new-product' target="blank">Publish product</Link></button>
+                    </div>
+                </div>
                 <div>
                     {products.map((item, idx) => {
                         return (
                             <div className="merchant-card" key={idx}>
                                 <div className="merchant-photo">
-                                    <img src={item.image} alt="photo" />
+                                    <img src={`http://localhost:3000/uploads/${item.image}`} alt="photo" />
+                                    {console.log(item.image)}
                                 </div>
                                 <div className="det-div">
                                     <div className="det-merchant">
