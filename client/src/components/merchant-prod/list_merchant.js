@@ -4,12 +4,13 @@ import { Nav_bar } from "../Navbar/Navbar.js";
 import './list_merchant.css';
 import { api } from "../../api/axios.js";
 import { jwtDecode } from "jwt-decode";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export const ListMerchant = () => {
     const [products, setProducts] = useState([]);
     const [store, setStore] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         api.get('merchant')
@@ -22,6 +23,16 @@ export const ListMerchant = () => {
         setStore(jwtDecode(localStorage.getItem('access_token')));
         console.log(store.name)
     }, [])
+
+    const handleClick = (e) => {
+        navigate('/modify-product', { state: { id: e.id, quantity: e.quantity, description: e.description, price: e.price } });
+    }
+
+    const handleRemove = (id) => {
+        api.delete(`merchant/${id}`)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
 
     return (
         <div className="lm-page">
@@ -60,8 +71,10 @@ export const ListMerchant = () => {
                                 </div>
                                 <div className="merchant-btns">
                                     <div>
-                                        <button className="rem-mod">REMOVE</button>
-                                        <button className="rem-mod">MODIFY</button>
+                                        <button className="rem-mod" onClick={() => handleRemove(item.product_id)}>REMOVE</button>
+                                        <button className="rem-mod" onClick={() => handleClick({id: item.product_id,
+                                            price: item.price, quantity: item.quantity, description: item.description
+                                        })}>MODIFY</button>
                                         <button className="rem-mod">PREVIEW</button>
                                     </div>
                                 </div>

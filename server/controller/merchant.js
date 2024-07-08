@@ -107,12 +107,13 @@ const delete_product = async (req, res) => {
             RETURNING *`,
       [product_id, merchant_id],
     );
+    console.log(del_row.rows[0]);
     if (del_row.rowCount === 0) return res.status(400).json({msg: 'product doesn\'t exist'});
-    console.log(product_id, merchant_id);
-    fs.unlink(del_row.rows[0].image, (err) => {
+
+    fs.unlink(`uploads/${del_row.rows[0].image}`, (err) => {
       if (err) {
         connection.query('ROLLBACK');
-        console.error(`Failed to delete file: ${err.message}`);
+        return console.error(`Failed to delete file: ${err.message}`);
       }
     connection.query('COMMIT');
     res.status(200).json({msg: 'product deleted successfully!'})

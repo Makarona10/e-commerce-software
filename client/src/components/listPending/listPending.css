@@ -46,9 +46,10 @@
     margin-left: 10%;
 }
 
-.pend-stat button {
-    font-size: 15px;
-    padding: 8px;
+.pend-stat div button {
+    font-size: 17px;
+    padding: 10px;
+    border-radius: 5px;
     border: none;
 }
 
@@ -59,4 +60,47 @@
 .pend-stat :nth-child(2) button {
     background-color: rgb(141, 31, 135);
     color: aliceblue;
+}
+
+.content-ord {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    background-color: aliceblue;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 0px 1000px rgba(0, 0, 0, 0.379);
+}
+
+.pendix-btn {
+    width: 100%;
+    position: relative;
+}
+
+.pendix-btn img {
+    width: 25px;
+    position: absolute;
+    right: -10px;
+    top: -15px;
+}
+
+.pendix-btn img:hover {
+    cursor: pointer;
+    background-color: rgba(16, 16, 16, 0.335);
+}
+
+.del-ord-cont {
+    transition: all 200ms, all 200ms ;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.314);
+    text-align: start;
+}
+
+.del-ord-cont div {
+    padding: 10px;
 }

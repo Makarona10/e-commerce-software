@@ -21,6 +21,7 @@
     margin: auto;
     margin-top: 50px;
     width: 80%;
+    padding-bottom: 50px;
 }
 
 .pending-card1 {
@@ -30,6 +31,7 @@
     margin: auto;
     box-shadow: 0px 0px 30px -15px rgba(0, 0, 0, 0.691);
     background-color: rgba(255, 255, 255, 0.907);
+    margin-top: 30px;
 }
 
 .detail-div {
@@ -39,23 +41,92 @@
 }
 
 .pend-stat {
-    padding: 8px 10px 30px 40px;
+    padding: 8px 0px 30px 5%;
 }
-.pend-stat div {
-    margin-top: 10px;
-}
+
 .pend-stat div button {
     padding: 5px;
     margin-top: 20px;
     border: 0;
     font-size: 18px;
 }
+.pend-stat :first-child {
+    position: relative;
+}
+.pend-stat :first-child div {
+    color: rgb(79, 79, 79);
+    position: absolute;
+    width: 300px;
+    left: -111px;
+    top: 80px;
+    text-align: center;
+}
 .pend-stat :first-child button {
     color: rgb(243, 242, 242);
     background-color: green;
+    display: flex;
+    flex-direction: row;
+    height: 46px;
+}
+.pend-stat :first-child button:hover {
+    background-color: rgb(5, 102, 5);
+}
+
+.pend-stat :first-child p {
+    text-indent: 11px;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -5px;
 }
 .pend-stat :nth-child(2) button {
     color: rgb(243, 242, 242);
     background-color: rgb(171, 37, 167);
+    left: 60px;
+    height: 46px;
 }
+
+.content-ord {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    background-color: aliceblue;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 0px 1000px rgba(0, 0, 0, 0.379);
+    z-index: 1000;
+}
+
+.pendix-btn {
+    width: 100%;
+    position: relative;
+}
+
+.pendix-btn img {
+    width: 25px;
+    position: absolute;
+    right: -10px;
+    top: -15px;
+}
+
+.pendix-btn img:hover {
+    cursor: pointer;
+    background-color: rgba(16, 16, 16, 0.335);
+}
+
+.del-ord-cont {
+    transition: all 200ms, all 200ms ;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.314);
+    text-align: start;
+}
+
+.del-ord-cont div {
+    padding: 10px;
+}
+
 

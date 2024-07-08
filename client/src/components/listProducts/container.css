@@ -1,24 +1,30 @@
 .container {
     display: flex;
-    grid-column: 500px 500px;
     flex-wrap: wrap;
     position: relative;
     width: 1000px;
     box-shadow: 1px 1px 50px rgba(103, 103, 103, 0.097);
     margin-top: 50px;
     padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 .product {
-    margin-top: 20px;
+    padding-top: 20px;
+    margin-top: 10px;
     min-width: 450px;
     flex: 1;
     display: flex;
-    height: 200px;
+    height: 230px;
     padding-left: 10px;
-    box-shadow: 10px 10px 29px -19px rgba(0, 0, 0, 0.225);
+    box-shadow: 0px 0px 20px -19px rgba(0, 0, 0, 0.225);
+    transition: all 200ms, all 200ms;
+    border-radius: 5px;
 }
 
+.product:hover {
+    background-color: rgba(120, 27, 123, 0.188);
+}
 .det {
     display: flex;
     flex-direction: column;

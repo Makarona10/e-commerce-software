@@ -33,7 +33,7 @@ export const ListProd = () => {
             }
         })
         if (flag) {
-            localStorage.setItem('cartList', JSON.stringify(cart));
+            return localStorage.setItem('cartList', JSON.stringify(cart));
         }
         obj.quantity = 1;
         cart.push(obj);

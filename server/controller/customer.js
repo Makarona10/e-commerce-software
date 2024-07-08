@@ -130,13 +130,13 @@ const place_order = async (req, res) => {
     );
 
     const result = await connection.query(
-      `INSERT INTO orders (client_id, content, address, amount)
-            VALUES ($1, $2, $3, $4)
+      `INSERT INTO orders (client_id, content, address, amount, active)
+            VALUES ($1, $2, $3, $4, 0)
             RETURNING *`,
       [user_id, JSON.stringify(products), address, total_amount]
     );
-    const order_id = result.rows[0].order_id;
-
+    const order_id = parseInt(result.rows[0].order_id);
+    console.log(order_id);
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: products.map((item) => {
@@ -152,7 +152,7 @@ const place_order = async (req, res) => {
         };
       }),
       mode: 'payment',
-      success_url: `https://example.com/success/${order_id}`, // => A page to be created (Takes the id of the order to activate the order in database)
+      success_url: `http://localhost:3000/success?id=${order_id}`, // => A page to be created (Takes the id of the order to activate the order in database)
       cancel_url: `https://example.com/cancel/${order_id}`, // => A page to be created (Takes the id of the order to delete the order from database)
     });
 
@@ -166,6 +166,23 @@ const place_order = async (req, res) => {
     return res.status(500).json({ err: 'Internal server error' });
   }
 };
+
+const confirm_payment = async (req, res) => {
+  const order_id = req.params.order_id;
+
+  try {
+    const result = await connection.query(`
+      UPDATE orders
+      SET active = 1
+      WHERE order_id = $1
+      `, [order_id]);
+    console.log('RRRREEEEEEEESSSSSSSSUUUUUUULLLLLLLLLTTTTTTTTTT' ,result);
+    return res.status(200).json({msg: 'Product activated successfully'})
+  } catch (err) {
+    console.log('EEEEERRRRRRRRRROOOOOOOOOOORRRRRRRRRRRRRRRRRR' ,err);
+    return res.status(500).json({msg: 'Payment failed!'})
+  }
+}
 
 // Posts a review to a product in a specific order
 const post_review = async (req, res) => {
@@ -209,4 +226,4 @@ const post_review = async (req, res) => {
   }
 };
 
-export default { list_products, list_orders, cancel_order, place_order, post_review };
+export default { list_products, list_orders, cancel_order, place_order, post_review, confirm_payment };

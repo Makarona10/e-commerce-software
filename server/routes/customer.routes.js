@@ -14,7 +14,12 @@ router
   .delete(auth, controller.cancel_order)
 
 router
+  .route('/payment/:order_id')
+  .post(auth, controller.confirm_payment)
+
+router
   .route('/:order_id/:product_id')
   .post(auth, controller.post_review);
+
 
 export default router;

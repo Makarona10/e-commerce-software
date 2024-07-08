@@ -7,6 +7,7 @@ import { ModifyProduct } from './components/modifyProduct/modifyProduct';
 import { ListMerchant } from './components/merchant-prod/list_merchant';
 import { ClientOrders } from './components/order_history/clientOrders';
 import { ListPending } from './components/listPending/listPending';
+import { PaymentHandle } from './components/paymentCheck/paymentSuccess';
 import Login from './components/auth/login/Login';
 import Register from './components/auth/register/Register';
 import ProtectedRoute from './components/auth/protected/Protected';
@@ -47,7 +48,11 @@ function App() {
           />
           <Route
             path="/pending"
-            element={<ProtectedRoute component={ClientOrders} />}
+            element={<ProtectedRoute component={ListPending} />}
+          />
+          <Route
+            path="/success"
+            element={<ProtectedRoute component={PaymentHandle} />}
           />
           <Route path="/" element={<BrowseProd />} />
         </Routes>

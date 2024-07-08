@@ -52,7 +52,7 @@ export const Nav_bar = (props) => {
         'Orders': '/orders-history'
       })
     }
-    else if (role === 'client') {
+    else if (role === 'delivery_boy') {
       setLinks({
         'Assigned orders': '/delivery-orders',
         'Pending': '/pending',
