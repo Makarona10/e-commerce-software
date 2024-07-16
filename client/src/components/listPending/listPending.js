@@ -3,8 +3,10 @@ import './listPending.css';
 import { Nav_bar } from "../Navbar/Navbar";
 import { BrandBar } from "../brandBar/brandBar";
 import { api } from "../../api/axios";
-import x from "../../imgs/x_icon.png"
+import x from "../../imgs/x_icon.png";
 
+
+// A component to display the current pending orders of clients
 export const ListPending = () => {
     const [orders, setOrders] = useState([]);
     const [content, setContent] = useState([]);
@@ -14,6 +16,7 @@ export const ListPending = () => {
             .then(res => setOrders(res.data))
             .catch(err => console.log(err));
     }, [])
+
 
     const acceptOrder = (id) => {
         api.post(`delivery/${id}`)

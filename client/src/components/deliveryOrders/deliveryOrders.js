@@ -6,6 +6,7 @@ import { api } from '../../api/axios';
 import x from "../../imgs/x_icon.png"
 
 
+// A component to display the current assigned order to a delivery boy
 export const DeliveryOrders = () => {
     const [orders, setOrders] = useState([]);
     const [content, setContent] = useState([]);

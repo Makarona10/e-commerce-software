@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import './categories.css';
 
+
+// A component to display categories
 export const Categoside = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  // a function to toggle the categories menu
   const toggleMenu = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -13,7 +17,6 @@ export const Categoside = () => {
         Categories
       </button>
       <div className={`sideBar ${isCollapsed ? 'collapsed' : ''}`}>
-        {/* <h3>Categories</h3> */}
         <div className={`categs`}>
           <div className="categ">
             <p>Electronics</p>
