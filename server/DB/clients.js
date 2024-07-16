@@ -3,3 +3,4 @@ export const clients_table = `CREATE TABLE IF NOT EXISTS clients (
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL
     )`;
+
