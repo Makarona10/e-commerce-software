@@ -13,6 +13,44 @@ const list_products = async (req, res) => {
   }
 };
 
+const list_trending = async (req, res) => {
+
+  try {
+    let stat = {};
+    let result = await connection.query('SELECT TOP 100 content FROM orders').rows;
+
+    result.forEach(order => {
+      order.forEach(item => {
+        item = JSON.parse(item);
+        if (Object.keys(stat).includes(item.product_id.toString()))
+          stat.item.product_id.toString() = stat.item.product_id + item.quantity;
+        else
+          stat.item.product_id.toString() = item.quantity;
+      })
+    })
+    stat = Object.entries(stat).map(([k, val]) => {
+      return { [k]: val };
+    });
+
+    stat.sort((a, b) => {
+      const valueA = Object.values(a)[0];
+      const valueB = Object.values(b)[0];
+
+      if (valueA > valueB) {
+        return -1;
+      }
+      if (valueA < valueB) {
+        return 1;
+      }
+      return 0;
+    });
+
+    // Now we have a sorted array with stringified products IDs and their values (sales_times) based on their values
+  } catch (err) {
+
+  }
+}
+
 const list_orders = async (req, res) => {
   const user_id = req.user_id;
 
@@ -176,11 +214,11 @@ const confirm_payment = async (req, res) => {
       SET active = 1
       WHERE order_id = $1
       `, [order_id]);
-    console.log('RRRREEEEEEEESSSSSSSSUUUUUUULLLLLLLLLTTTTTTTTTT' ,result);
-    return res.status(200).json({msg: 'Product activated successfully'})
+    console.log('RRRREEEEEEEESSSSSSSSUUUUUUULLLLLLLLLTTTTTTTTTT', result);
+    return res.status(200).json({ msg: 'Product activated successfully' })
   } catch (err) {
-    console.log('EEEEERRRRRRRRRROOOOOOOOOOORRRRRRRRRRRRRRRRRR' ,err);
-    return res.status(500).json({msg: 'Payment failed!'})
+    console.log('EEEEERRRRRRRRRROOOOOOOOOOORRRRRRRRRRRRRRRRRR', err);
+    return res.status(500).json({ msg: 'Payment failed!' })
   }
 }
 
@@ -219,7 +257,7 @@ const post_review = async (req, res) => {
       }
     });
     exists === 0 ? res.status(400).json({ msg: 'This product is not included into this order!' }) : null;
-    
+
   } catch (err) {
     console.log(err);
     return res.status(500).json({ err: 'Internal server error' });
