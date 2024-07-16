@@ -21,7 +21,7 @@ app.use('/uploads', express.static(uploadsDir));
 
 console.log(uploadsDir);
 
-console.log(path.join(__dirname, 'uploads'))
+// console.log(path.join(__dirname, 'uploads'))
 
 app.use('/api/v1/customer', cust);
 app.use('/api/v1/merchant', merchant);
