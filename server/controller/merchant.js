@@ -22,6 +22,7 @@ const get_store_products = async (req, res) => {
   }
 };
 
+
 const get_best_sellers = async (req, res) => {
   const merchant_id = req.user_id;
 
@@ -39,6 +40,7 @@ const get_best_sellers = async (req, res) => {
     return res.status(500).json({err: 'internal server error!'});
   }
 };
+
 
 const publish_product = async (req, res) => {
   const merchant_id = req.user_id;
