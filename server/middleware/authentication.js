@@ -13,6 +13,7 @@ const auth = (req, res, next) => {
       return;
     }
     req.user_id = decoded.user_id;
+    req.user_role = decoded.role;
   });
   next();
 };
