@@ -22,19 +22,38 @@ const get_store_products = async (req, res) => {
   }
 };
 
+const get_best_sellers = async (req, res) => {
+  const merchant_id = req.user_id;
+
+  if (!merchant_id || req.role !== 'merchant') return res.status(401).json({ msg: 'Unauhorized !' });
+
+  try {
+    const result = await connection.query(`SELECT TOP 40
+      FROM products
+      WHERE merchant_id = $1
+      ORDER BY sell_times DESC`
+      , [merchant_id]);
+    return res.status(200).json(result.rows);
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({err: 'internal server error!'});
+  }
+}
+
 const publish_product = async (req, res) => {
   const merchant_id = req.user_id;
   const { product_name, quantity, description, price } = req.body;
 
-  
 
-  console.log('The image url:' ,req.body)
-  
+
+  console.log('The image url:', req.body)
+
   if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
-  console.log('merchant_id: ' ,merchant_id)
+  console.log('merchant_id: ', merchant_id)
 
   upload(req, res, async (err) => {
-    
+
     if (!req.file) return res.status(400).json({ msg: 'No image uploaded!' });
 
     console.log(req.file);
@@ -47,7 +66,7 @@ const publish_product = async (req, res) => {
     // const image_url = `http://${DOMAIN_NAME}/uploads/${req.file.filename}`;
 
     const image_url = req.file.filename;
-    
+
     try {
       await connection.query(
         `INSERT INTO products (product_name, description, price, quantity, image, merchant_id)
@@ -84,8 +103,8 @@ const update_product = async (req, res) => {
             WHERE product_id = $4 AND merchant_id = $5`,
       [new_quantity, new_price, new_description, product_id, merchant_id],
     );
-    if (result.rowCount === 0) return res.status(200).json({msg: 'This product doesn\'t exist'})
-    res.status(200).json({msg: "Product updated successfully"})
+    if (result.rowCount === 0) return res.status(200).json({ msg: 'This product doesn\'t exist' })
+    res.status(200).json({ msg: "Product updated successfully" })
   } catch (err) {
     console.log(err);
     return res.status(500).json({ err: 'Error executing the query!' });
@@ -107,15 +126,15 @@ const delete_product = async (req, res) => {
       [product_id, merchant_id],
     );
     console.log(del_row.rows[0]);
-    if (del_row.rowCount === 0) return res.status(400).json({msg: 'product doesn\'t exist'});
+    if (del_row.rowCount === 0) return res.status(400).json({ msg: 'product doesn\'t exist' });
 
     fs.unlink(`uploads/${del_row.rows[0].image}`, (err) => {
       if (err) {
         connection.query('ROLLBACK');
         return console.error(`Failed to delete file: ${err.message}`);
       }
-    connection.query('COMMIT');
-    res.status(200).json({msg: 'product deleted successfully!'})
+      connection.query('COMMIT');
+      res.status(200).json({ msg: 'product deleted successfully!' })
     });
   } catch (err) {
     connection.query('ROLLBACK');
@@ -129,4 +148,5 @@ export default {
   update_product,
   delete_product,
   get_store_products,
+  get_best_sellers
 };
