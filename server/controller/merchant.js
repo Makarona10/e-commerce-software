@@ -29,7 +29,6 @@ const publish_product = async (req, res) => {
   
 
   console.log('The image url:' ,req.body)
-
   
   if (!merchant_id) return res.status(401).json({ msg: 'unauthorized!' });
   console.log('merchant_id: ' ,merchant_id)
