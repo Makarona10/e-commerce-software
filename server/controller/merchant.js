@@ -39,7 +39,7 @@ const get_best_sellers = async (req, res) => {
     console.error(err);
     return res.status(500).json({err: 'internal server error!'});
   }
-}
+};
 
 const publish_product = async (req, res) => {
   const merchant_id = req.user_id;
