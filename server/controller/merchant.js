@@ -41,7 +41,6 @@ const get_best_sellers = async (req, res) => {
   }
 };
 
-
 const publish_product = async (req, res) => {
   const merchant_id = req.user_id;
   const { product_name, quantity, description, price } = req.body;
