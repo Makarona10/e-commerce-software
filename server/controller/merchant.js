@@ -26,7 +26,6 @@ const get_best_sellers = async (req, res) => {
   const merchant_id = req.user_id;
 
   if (!merchant_id || req.role !== 'merchant') return res.status(401).json({ msg: 'Unauhorized !' });
-
   try {
     const result = await connection.query(`SELECT TOP 40
       FROM products
