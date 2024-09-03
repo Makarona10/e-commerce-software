@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS subcategories (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(64) NOT NULL
+);

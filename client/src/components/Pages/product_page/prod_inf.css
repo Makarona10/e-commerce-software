@@ -1,0 +1,32 @@
+@import "~react-image-gallery/styles/css/image-gallery.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* styles.css */
+:root {
+    --gold: #fde047;
+}
+
+/* Additional CSS rules for styling your React components */
+
+@layer base {
+    button {
+        @apply border border-black rounded-xl px-5 py-1;
+    }
+}
+
+.react-rater-star.is-active-half:before {
+    color: var(--gold) !important;
+}
+
+.react-rater-star.is-active {
+    color: var(--gold) !important;
+}
+
+.sec-inf {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    background-color: aliceblue !important;
+}

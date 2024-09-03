@@ -2,31 +2,37 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Navbar.css';
 import cart from '../../imgs/cart.png';
-import { NavLink, redirect } from 'react-router-dom';
+import acc from '../../imgs/login.png';
+import { NavLink, Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { api } from '../../api/axios';
 import { loadStripe } from '@stripe/stripe-js';
 import { useNavigate } from 'react-router-dom';
-
+import { isAuthenticated } from '../../utils/isAuthenticated';
 
 export const Nav_bar = (props) => {
-  const [cartList, setCartList] = useState([
-    {
-      address: '',
-      products: []
-    }
-  ]);
+  const [cartList, setCartList] = useState({ address: '', products: [] });
   const [isCartVisible, setIsCartVisible] = useState(false);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(false); // State for the dropdown menu
   const [role, setRole] = useState(null);
   const [links, setLinks] = useState({
     'Home': '/',
     'Stores': '&',
-    'Best sellers': '@'
-  })
+    'Best sellers': '@',
+  });
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (isAuthenticated()) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      navigate('/');
+    }
+  };
+
   const stripePromise = loadStripe('pk_test_51PWn2V2LcWJtaPbbBrpvPUeP2GHUvybeLln5FxrzbDIibAWW6q6SSjTQRLxpic9rrkuqnpQLPZzwerl5AMSa5j0I00EU1W1vj3');
   let theToken = localStorage.getItem('access_token');
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (theToken) {
@@ -38,51 +44,47 @@ export const Nav_bar = (props) => {
   useEffect(() => {
     if (role === 'merchant') {
       setLinks({
-        'Store products': '/list-merchant-products',
-        'Most sold': '/mostSold',
-        'Best Clients': '/best',
-        'Store info': '/facebook.com'
-      })
-    }
-    else if (role === 'client') {
+        'STORE PRODUCTS': '/list-merchant-products',
+        'MOST SOLD': '/merchant-best-sellers',
+        'STORE INFO': '/store-info',
+      });
+    } else if (role === 'client') {
       setLinks({
-        'Home': '/',
-        'Trending': '/trend',
-        'Offers': '/offers',
-        'Orders': '/orders-history'
-      })
-    }
-    else if (role === 'delivery_boy') {
+        'HOME': '/',
+        'TRENDING': '/trend',
+        'LATEST': '/trend',
+        'OFFERS': '/offers',
+        'ORDERS': '/orders-history',
+      });
+    } else if (role === 'delivery_boy') {
       setLinks({
-        'Assigned orders': '/delivery-orders',
-        'Pending': '/pending',
-      })
+        'ASSIGNED ORDERS': '/delivery-orders',
+        'PENDING': '/pending',
+      });
     }
-  }, [role])
-
-
+  }, [role]);
 
   const toggleCart = () => {
     setIsCartVisible(!isCartVisible);
   };
 
   const toggleMenu = () => {
-    setIsMenuVisible(!isMenuVisible);
+    setIsMenuVisible(!isMenuVisible); // Toggle the dropdown menu
   };
 
   useEffect(() => {
     setCartList({
       address: 'Meet-okba',
-      products:
-        (localStorage.getItem('cartList')) ? JSON.parse(localStorage.getItem('cartList')) : []
+      products: localStorage.getItem('cartList')
+        ? JSON.parse(localStorage.getItem('cartList'))
+        : [],
     });
-  }, [localStorage.getItem('cartList'), ]);
+  }, [localStorage.getItem('cartList')]);
 
   const handleCheckout = async () => {
     const response = await api.post('customer', cartList);
     if (response.status === 200) {
       window.location.href = response.data.sessionUrl;
-      console.log(response.data.sessionUrl);
       navigate(response.data.sessionUrl);
     } else {
       window.location.href = 'www.google.com';
@@ -94,52 +96,88 @@ export const Nav_bar = (props) => {
     });
 
     if (error) {
-      console.log('Checkout failed !', error);
+      console.log('Checkout failed!', error);
     }
-  }
-
-
+  };
 
   return (
     <nav className="navbar">
-      <div className={`navbar-links ${isMenuVisible ? 'show' : 'hide'}`}>
-        {Object.keys(links).map(
-          (link, idx) => (
-            <NavLink exact to={Object.values(links)[idx]}
-              key={idx}
-              className="navbar-link"
-            >
-              {link}
-            </NavLink>
-          ),
-        )}
+      <div className="brand">MyBrand</div>
+      <div className="navbar-links">
+        {Object.keys(links).map((link, idx) => (
+          <NavLink exact to={Object.values(links)[idx]} key={idx} className="navbar-link">
+            {link}
+          </NavLink>
+        ))}
       </div>
-      <input
-        type="text"
-        placeholder="Search for a product..."
-        className={`search-input ${props.search ? '' : 'hide'}`}
-      />
+
       <div className="cart-logo">
-        <img src={cart} alt="cart" width="40px" onClick={toggleCart} />
+        <img src={cart} alt="cart" width="32px" onClick={toggleCart} />
         <div className={isCartVisible ? 'cart-list' : 'hidden'}>
-          {!cartList.products ? (
+          {!cartList.products || cartList.products.length === 0 ? (
             <p>Cart is empty!</p>
           ) : (
-            <div>
-              <ul className="cart-items">
+            <div className="cart-items">
+              <ul>
                 {cartList.products.map((item) => (
                   <li key={item.id} className="cart-item">
-                    {item.product_name} - {item.quantity} items (${item.quantity*item.price})
+                    <div className='crt-img'>
+                      <img src={`http://localhost:3001/uploads/${item.image}`} />
+                    </div>
+                    <div className='crt-det'>
+                      <div>{(item.product_name)}</div>
+                      <div>
+                        <button className='crt-btn inc'>+</button>
+                        {item.quantity}
+                        <button className='crt-btn dec'>-</button>
+                      </div >
+                      <div>${item.quantity * item.price}</div>
+                    </div>
+
                   </li>
                 ))}
               </ul>
               <div className="btn-container">
-                <button className="checkout" onClick={handleCheckout}>checkout</button>
+                <button className="checkout" onClick={handleCheckout}>
+                  checkout
+                </button>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      <div className="acc_logo">
+        <img
+          src={acc}
+          alt="sign in"
+          className="login-icon"
+          width="46px"
+          onClick={toggleMenu} // Toggle the dropdown menu
+        />
+      </div>
+
+      <div className={`drop ${isMenuVisible ? 'show' : ''}`}>
+        <ul>
+          {!isAuthenticated() && (
+            <>
+              <Link to="/login" className="log-opt">
+                <li>Login</li>
+              </Link>
+              <Link to="/register" className="log-opt">
+                <li>Register</li>
+              </Link>
+            </>
+          )}
+          <li>Settings</li>
+          {isAuthenticated() && (
+            <li onClick={handleLogout}>
+              Logout
+            </li>
+          )}
+        </ul>
+      </div>
+
       <div className="menu-toggle" onClick={toggleMenu}>
         ☰
       </div>

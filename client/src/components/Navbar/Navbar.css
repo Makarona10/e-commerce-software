@@ -1,61 +1,73 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
-
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background-color: #f4f4f9;
-}
-
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 6px;
-    font-family: 'Poppins', sans-serif;
-    background-color: #24292e;
-    color: #fff;
-    box-shadow: 5px 1px 1px rgba(107, 106, 106, 0.74);
+    background-color: #2c2b2bda;
+    color: #d2d2d2;
     height: 66px;
+    width: 1300px;
+    margin: auto;
+    justify-content: space-between;
+    /* box-shadow: 0px 20px 20px -27px rgba(107, 106, 106, 0.74); */
+}
+
+.brand {
+    position: relative;
+    left: 20px;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #d8d8d8;
+    text-transform: uppercase;
+}
+
+.brand:hover {
+    cursor: pointer;
+}
+
+.acc_logo {
+    height: 44px;
+    width: 44px;
+    position: relative;
+    right: 50px;
+}
+
+.acc_logo>img {
+    width: 46px;
+    height: 46px;
+}
+
+.acc_logo>img:hover {
+    cursor: pointer;
 }
 
 .navbar-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2.5rem;
-    margin-bottom: 10px;
-    margin-left: 160px;
+    white-space: 30px;
+    background-color: #92929200;
+    position: relative;
+    transition: all 200ms ease;
+    margin: auto;
 }
 
+
 .navbar-link.active {
-    color: rgb(211, 149, 208);
+    color: rgb(205, 60, 198);
 }
 
 .navbar-link {
-    color: #ffffff;
+    color: #e6e1e1;
     text-decoration: none;
-    font-size: 18px;
-    font-family: 'Poppins', sans-serif;
-    transition: color 0.3s ease, transform 0.3s ease;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 40px;
+    margin-left: 30px;
 }
 
 .navbar-link:hover,
 .navbar-link.hovered {
-    color: rgb(211, 149, 208);
+    color: rgb(171, 45, 165);
     transform: scale(1.1);
 }
 
-.search-input {
-    background-color: #ffffffe9;
-    height: 70%;
-    width: 400px;
-    padding: 6px;
-    border: none;
-    border-radius: 5px;
-    font-size: 13px;
-    font-family: 'Poppins', sans-serif;
-}
 
 .search-input.hide {
     display: none;
@@ -69,7 +81,7 @@ body {
 
 .cart-logo {
     position: relative;
-    right: 100px;
+    margin-right: 70px;
 }
 
 .cart-logo:hover {
@@ -77,6 +89,7 @@ body {
 }
 
 .cart-list {
+    display: block;
     position: absolute;
     top: 140%;
     right: -100%;
@@ -84,8 +97,17 @@ body {
     background-color: white;
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.218);
     border-radius: 10px;
-    width: 300px;
+    width: 400px;
     z-index: 3000;
+    opacity: 100;
+    transition: all 200ms ease, all 200ms ease;
+}
+
+.hidden {
+    top: 0;
+    transition: all 200ms ease, all 200ms ease;
+    display: none;
+    opacity: 0;
 }
 
 .cart-list:hover {
@@ -100,80 +122,177 @@ body {
     padding-top: 30px;
 }
 
-.cart-items {
+.cart-items ul {
     list-style-type: none;
-    padding: 0;
-    margin: 0;
 }
 
 .cart-item {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+    display: flex;
+    padding: 5px;
+    border-bottom: 1px solid #a9a9a983;
 }
 
 .cart-item:last-child {
     border-bottom: none;
 }
 
+.crt-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    height: 80px;
+}
+
+.crt-img img {
+    position: relative;
+    margin: auto;
+    min-width: 80px;
+    height: 80px;
+}
+
+.crt-det {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+}
+
+.crt-det>div {
+    padding: 6px;
+    font-size: 15px;
+    overflow: hidden;
+}
+
+.crt-det :nth-child(2) {
+    display: flex;
+    align-items: center;
+}
+
+.crt-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    width: 28px;
+    height: 24px;
+    color: white;
+    border: none;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.crt-btn.inc {
+    margin-right: 6px;
+    background-color: #51b43f;
+}
+
+.crt-btn.dec {
+    margin-left: 6px;
+    background-color: #c71a1a;
+}
+
+.crt-det {
+    /* background-color: rgb(10, 148, 37); */
+    font-size: 20px;
+}
+
 .cart-items {
     color: black;
-    font-family: 'Poppins', sans-serif;
     text-align: start;
     margin: 10px;
 }
 
-.hidden {
-    display: none;
-}
-
 .btn-container {
-    padding-bottom: 10px;
+    display: flex;
 }
 
 .checkout {
-    border-radius: 5px;
+    position: relative;
+    border-radius: 14px;
     border: none;
     color: rgb(255, 255, 255);
-    background-color: rgb(226, 129, 226);
-    font-size: 17px;
+    background-color: rgb(177, 66, 218);
+    font-size: 19px;
+    padding: 5px 30px 5px 30px;
+    margin: auto;
 }
+
 
 .menu-toggle {
     display: none;
     font-size: 1.5rem;
     cursor: pointer;
+    position: absolute;
+    left: 20px;
 }
 
-@media (max-width: 1170px) {
-    .navbar-links {
-        display: none;
-        flex-direction: column;
-        gap: 1rem;
-        background-color: #24292e;
-        position: absolute;
-        top: 100%;
-        right: 0;
-        left: 0;
-        padding: 1rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-left: 0;
-        z-index: 1000;
-    }
 
-    .navbar-links.show {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .search-input {
-        width: 60%;
-    }
-
-    .cart-logo {
-        right: 10px;
-    }
+.search-input {
+    width: 60%;
 }
 
+.cart-logo {
+    right: 10px;
+}
+
+/* Login Dropdown Menu */
+.drop {
+    position: absolute;
+    top: 100%;
+    right: 25px;
+    background-color: #d9d9d9;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+}
+
+.drop.show {
+    transform: scaleY(1);
+    opacity: 1;
+}
+
+.drop ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.drop ul li {
+    padding: 12px 16px;
+    cursor: pointer;
+    color: #242424;
+    font-size: 14px;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+
+.drop ul li:hover {
+    background-color: #9c48b3;
+    color: rgb(238, 232, 219);
+}
+
+.log-opt {
+    text-decoration: none;
+}
+
+/* Cart List */
+.cart-list {
+    position: absolute;
+    top: 140%;
+    right: -100%;
+    min-height: 100px;
+    background-color: white;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.218);
+    border-radius: 10px;
+    width: 300px;
+    z-index: 3000;
+}
+
+/* Other styles omitted for brevity */

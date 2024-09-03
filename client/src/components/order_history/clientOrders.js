@@ -13,7 +13,7 @@ export const ClientOrders = () => {
     return (
         <div className="orders-history">
             <BrandBar />
-            <Nav_bar />
+            <Nav_bar search={true}/>
             <div className={`prev-window ${prevVisible ? 'show' : ''}`}>
                 <div>
                     <div className="x-button" onClick={showPrev}></div>

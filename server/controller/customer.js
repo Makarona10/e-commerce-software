@@ -3,16 +3,6 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
-const list_products = async (req, res) => {
-  try {
-    const products = await connection.query(`SELECT * FROM products`)
-    res.status(200).json(products.rows);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ msg: 'Internal server error' });
-  }
-};
-
 const list_trending = async (req, res) => {
 
   try {
@@ -264,4 +254,10 @@ const post_review = async (req, res) => {
   }
 };
 
-export default { list_products, list_orders, cancel_order, place_order, post_review, confirm_payment };
+export default {
+  list_orders,
+  cancel_order,
+  place_order,
+  post_review,
+  confirm_payment
+};

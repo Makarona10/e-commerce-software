@@ -11,6 +11,10 @@ router
   .post(auth, upload,controller.publish_product);
 
 router
+  .route('/best')
+  .get(auth, controller.get_best_sellers);
+
+router
   .route('/:product_id')
   .patch(auth,controller.update_product)
   .delete(auth, controller.delete_product);

@@ -1,20 +1,29 @@
-.login-form {
-    height: 100vh;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
-    background-size: cover;
+body {
+    /* background-image: none; */
 }
 
+.login-form {
+    display: flex;
+    height: 100vh;
+    background-color: rgb(52, 16, 61);
+}
+
+.form-div {
+    display: flex;
+    position: relative;
+    margin: auto;
+}
 
 .form-div form {
+    display: flex;
+    position: relative;
     width: 500px;
     padding-top: 50px;
     box-shadow: 0px 0px 30px -8px rgba(246, 246, 246, 0.382);
     background-color: rgba(244, 244, 244, 0.864);
     width: 500px;
     margin: auto;
-    margin-top: 80px;
     border-radius: 10px;
-    display: flex;
     flex-direction: column;
 }
 
@@ -64,6 +73,7 @@
     margin-right: 88px;
     margin-top: 40px;
 }
+
 .eye-ico:hover {
     cursor: pointer;
 }

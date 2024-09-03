@@ -1,0 +1,73 @@
+.store-inf-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 50px;
+    width: 80%;
+    padding:30px;
+}
+
+.upr-inf {
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.468);
+    padding-bottom: 30px;
+    width: 100%;
+}
+
+.upr-inf div {
+    margin: auto;
+    width: 400px;
+    padding: 15px;
+    font-size: 40px;
+    position: relative;
+}
+
+.upr-inf div img {
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+
+}
+
+.inf-desc-div {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding-top: 40px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.468);
+    padding-bottom: 30px;
+    width: 100%;
+}
+
+.inf-desc-div p {
+    margin-top: 19px;
+}
+
+.location-inf {
+    text-align: left;
+    margin-top: 50px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.468);
+    padding-bottom: 30px;
+    width: 100%;
+}
+
+.location-inf p {
+    margin-top: 19px;
+}
+
+.ownrs-sec {
+    text-align: left;
+    margin-top: 50px;
+}
+
+.ownrs-sec ul {
+    margin-top: 19px;
+}
+
+.ownrs-sec li {
+    margin-top: 10px;
+}

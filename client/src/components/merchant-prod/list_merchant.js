@@ -30,8 +30,8 @@ export const ListMerchant = () => {
 
     const handleRemove = (id) => {
         api.delete(`merchant/${id}`)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     }
 
     return (
@@ -40,7 +40,7 @@ export const ListMerchant = () => {
             <Nav_bar />
             <div className="merchant-container">
                 <div className="up-merr">
-                    <div className="sprod-list">{store.name} store Products</div>
+                    <div className="sprod-list">{store.name}STORE PRODUCTS</div>
                     <div className="addProdBtn">
                         <button><Link to='/new-product' target="blank">Publish product</Link></button>
                     </div>
@@ -50,7 +50,7 @@ export const ListMerchant = () => {
                         return (
                             <div className="merchant-card" key={item.product_id}>
                                 <div className="merchant-photo">
-                                    <img src={`http://localhost:3001/uploads/${item.image}`} alt="photo" />
+                                    <img src={`http://localhost:3001/uploads/${item.image}`} alt={item.name} />
                                     {console.log(item.image)}
                                 </div>
                                 <div className="det-div">
@@ -72,7 +72,8 @@ export const ListMerchant = () => {
                                 <div className="merchant-btns">
                                     <div>
                                         <button className="rem-mod" onClick={() => handleRemove(item.product_id)}>REMOVE</button>
-                                        <button className="rem-mod" onClick={() => handleClick({id: item.product_id,
+                                        <button className="rem-mod" onClick={() => handleClick({
+                                            id: item.product_id,
                                             price: item.price, quantity: item.quantity, description: item.description
                                         })}>MODIFY</button>
                                         <button className="rem-mod">PREVIEW</button>

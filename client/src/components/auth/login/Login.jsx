@@ -41,8 +41,8 @@ const Login = () => {
 
   return (
     <div className='login-form'>
-      <BrandBar />
-      <Nav_bar />
+      {/* <BrandBar /> */}
+      {/* <Nav_bar /> */}
       <div className='form-div'>
         <form onSubmit={handleLogin}>
           <div className='s-in-head'>Sign in</div>

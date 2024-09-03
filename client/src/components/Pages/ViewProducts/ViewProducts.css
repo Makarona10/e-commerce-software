@@ -1,0 +1,61 @@
+.filter-prod {
+    display: flex;
+    margin: auto;
+    border: 1px solid rgba(27, 9, 109, 0.656);
+    width: 900px;
+    background-color: rgb(235, 235, 235);
+    font-size: 16px;
+    padding: 6px;
+}
+
+.p-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 40px;
+    border-right: 2px solid rgba(82, 82, 82, 0.584);
+}
+
+.MuiSlider-root {
+    margin-left: 20px;
+}
+
+.MuiSlider-thumb {
+    width: 15px !important;
+    height: 15px !important;
+    top: 10px;
+}
+
+.ctg-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-right: 2px solid rgba(82, 82, 82, 0.584);
+}
+
+.in-stk-radio {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    /* padding-right: 20px; */
+}
+
+.chk-stk {
+    position: relative;
+    outline: none !important;
+    border: none !important;
+    bottom: 2px;
+    margin-left: 10px;
+}
+
+.in-stk-radio .fltr-btn {
+    position: relative;
+    margin-left: 80px;
+    background-color: rgb(23, 157, 23);
+    color: aliceblue;
+    border: none;
+    font-size: 17px;
+}

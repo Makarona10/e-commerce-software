@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "mdb-react-ui-kit": "^8.0.0",
+    "react-rating-stars-component": "^2.2.0"
+  }
+}
