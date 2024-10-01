@@ -4,9 +4,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export function MyFooter() {
     return (
-        <MDBFooter bgColor='light' className='text-center text-lg-start text-muted mx-auto'
-            style={{ 'max-width': '1300px' }}>
-            <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom'>
+        <MDBFooter bgColor='zinc-800' className='text-center text-lg-start text-muted mx-auto text-white'
+            style={{ 'max-width': '1300px', 'marginTop': '200px' }}>
+            <section className='d-flex justify-content-center justify-content-lg-between p-4 border-bottom bg-gray-700 text-white'>
                 <div className='me-5 d-none d-lg-block'>
                     <span>Get connected with us on social networks:</span>
                 </div>
@@ -33,7 +33,7 @@ export function MyFooter() {
                 </div>
             </section>
 
-            <section className=''>
+            <section className='text-white bg-zinc-800'>
                 <MDBContainer className='text-center text-md-start mt-5'>
                     <MDBRow className='mt-3'>
                         <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>

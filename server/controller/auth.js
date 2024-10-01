@@ -17,8 +17,6 @@ export const registerController = async (req, res, next) => {
     national_id,
   } = req.body;
 
-  console.log('-------------');
-
   try {
     connection.query('BEGIN');
     const user = await connection.query(
@@ -69,7 +67,7 @@ export const registerController = async (req, res, next) => {
     );
   } catch (err) {
     await connection.query('ROLLBACK');
-    console.log(err);
+    console.error(err);
     return res.json(failureMsg(500, 'Internal server error!'));
   }
 };
@@ -79,7 +77,6 @@ export const loginController = async (req, res, next) => {
   const user = await connection.query(`SELECT * FROM users WHERE email = $1;`, [
     email,
   ]);
-  console.log(user.rowCount);
   if (
     !user.rows.length ||
     !(await argon2.verify(user.rows[0].password, password))
@@ -89,13 +86,12 @@ export const loginController = async (req, res, next) => {
 
   const payload = {
     user_id: user.rows[0].id, role: user.rows[0].role,
-    name: user.rows[0].role === 'merchant' ? user.rows[0].store_name : (user.rows[0].first_name + user.rows[0].last_name)
+    name: user.rows[0].role === 'merchant' ?
+    user.rows[0].store_name :
+    (user.rows[0].first_name + user.rows[0].last_name)
   };
 
-  console.log(payload);
-
   const options = { expiresIn: process.env.JWT_ACC_EXPIRATION };
-  console.log('===========', process.env.JWT_ACC_EXPIRATION, '=================')
   const access_token = await new Promise((resolve, reject) => {
     jwt.sign(payload, process.env.JWT_ACC_SECRET, options, (err, token) => {
       if (err) {

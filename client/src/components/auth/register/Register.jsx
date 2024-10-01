@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { api } from '../../../api/axios.js';
 import { useAsyncError, useNavigate } from 'react-router-dom';
 import './register.css';
-import { BrandBar } from '../../brandBar/brandBar.js'
-import { Nav_bar } from '../../Navbar/Navbar.js'
+import ban from '../../../imgs/Gam_bg.png'
 
 
 const Register = () => {
@@ -45,11 +44,11 @@ const Register = () => {
 
   return (
     <div className='reg-body'>
-      <BrandBar />
-      <Nav_bar />
-      <div className='reg-div'>
-        <div className='reg-hd'>Create a new account</div>
-        <form onSubmit={handleRegister}>
+       <div className='reg-div'>
+        <div className='relative font-bold text-xl mb-20 top-10 items-center justify-center text-slate-700'>Welcome to
+          <p className='text-6xl ml-2 text-violet-600 flex items-center justify-center'>Gamma</p>
+        </div>
+        <form onSubmit={handleRegister} className='relative top-28'>
           <div className='label-div1'>
             <select
               name="user_type"
@@ -74,7 +73,7 @@ const Register = () => {
                   name="first_name"
                   value={formData.first_name}
                   onChange={handleChange}
-                  
+
                 />
               </div>
               <div className='reg-inpts'>
@@ -84,7 +83,7 @@ const Register = () => {
                   placeholder='Last Name'
                   value={formData.last_name}
                   onChange={handleChange}
-                  
+
                 />
               </div>
             </div>
@@ -96,7 +95,7 @@ const Register = () => {
               name="mobile"
               value={formData.mobile}
               onChange={handleChange}
-              
+
             />
           </div>
 
@@ -107,7 +106,7 @@ const Register = () => {
               placeholder='Email'
               value={formData.email}
               onChange={handleChange}
-              
+
             />
           </div>
 
@@ -118,7 +117,7 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              
+
             />
           </div>
 
@@ -129,7 +128,7 @@ const Register = () => {
               placeholder='Password confirmation'
               value={formData.password_confirmation}
               onChange={handleChange}
-              
+
             />
           </div>
           {userType === 'merchant' && (
@@ -141,7 +140,7 @@ const Register = () => {
                   placeholder='Store Name'
                   value={formData.store_name}
                   onChange={handleChange}
-                  
+
                 />
               </div>
               <div className='reg-inpts'>
@@ -165,15 +164,15 @@ const Register = () => {
                   placeholder='National ID'
                   value={formData.national_id}
                   onChange={handleChange}
-                  
+
                 />
               </div>
             </>
           )}
           {error ? (
             <div className='reg-err-div'>{error}</div>
-           ) : ''
-            }
+          ) : ''
+          }
           <div className='sb-reg'>
             <button type="submit">Create</button>
           </div>

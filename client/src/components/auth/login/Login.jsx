@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { api } from '../../../api/axios';
-import { BrandBar } from '../../brandBar/brandBar';
-import { Nav_bar } from '../../Navbar/Navbar';
 import './login.css'
-import { NavLink, useNavigate } from 'react-router-dom';
+import ban from '../../../imgs/lgin.png'
+import logo from '../../../imgs/g3.png'
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -40,12 +40,15 @@ const Login = () => {
   };
 
   return (
-    <div className='login-form'>
-      {/* <BrandBar /> */}
-      {/* <Nav_bar /> */}
+    <div className='login-form flex'>
+      {/* <div className='relative overflow-hidden w-full'> */}
+      <img src={ban} alt='Company pic' className='w-11/12 h-full ml-40' />
+      {/* </div> */}
       <div className='form-div'>
         <form onSubmit={handleLogin}>
-          <div className='s-in-head'>Sign in</div>
+          <div className='s-in-head mb-20 items-center'>Welcome to
+            <p className='text-6xl ml-2 text-violet-600 flex items-center'>Gamma</p>
+          </div>
           <div className='fields'>
             <div>
               <FontAwesomeIcon icon={faEnvelope} className="icon" />
@@ -53,7 +56,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+                placeholder="email@provider.com"
               />
             </div>
             <div className='ico-par'>
@@ -62,7 +65,8 @@ const Login = () => {
                 type={isPassword ? 'password' : 'text'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                placeholder="password"
+                className="lgn-inp"
               />
               <i className='eye-ico' onClick={toggleVisibility}></i>
             </div>

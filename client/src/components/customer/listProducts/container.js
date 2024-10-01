@@ -5,6 +5,7 @@ import { api } from '../../../api/axios';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'react-slideshow-image/dist/styles.css';
+import sc from '../../../imgs/shop_cases.jpg'
 
 export const LandingPage = () => {
 
@@ -15,28 +16,14 @@ export const LandingPage = () => {
     useEffect(() => {
         api.get('products/list-latest', { params: { page: 1 } })
             .then(res => {
-                setProductsData((res.data).slice(0, 8));
+                setProductsData((res.data.data).slice(0, 8));
             });
-        api.get('products/list-popular', {params: { page: 1}})
+        api.get('products/list-popular', { params: { page: 1 } })
             .then(res => {
-                setPopularProducts((res.data).slice(0, 8))
+                setPopularProducts((res.data.data).slice(0, 8))
             })
     }, [])
 
-    useEffect(() => {
-        localStorage.setItem('cartList', []);
-    }, []);
-
-    const categories = ["Gaming", "Music", "Sports", "Movies", "Furniture", "Mobiles", "Wearings", "Books"];
-    const imgs = ["https://cdn.pixabay.com/photo/2024/01/25/06/56/gaming-logo-8531082_640.png",
-        "https://cdn.dribbble.com/users/3547568/screenshots/14395014/music_jpeg_4x.jpg",
-        "https://media.npr.org/assets/img/2020/06/10/gettyimages-200199027-001-77516efa4fe5d700d23be705ce64c89a3471910c.jpg",
-        "https://media.istockphoto.com/id/1642381175/vector/cinema.jpg?s=612x612&w=0&k=20&c=owIct55daWlWRwPbTYLI9Y1IsrgYiqJcpvvgycvxBhE=",
-        "https://img.freepik.com/free-photo/mid-century-modern-living-room-interior-design-with-monstera-tree_53876-129805.jpg",
-        "https://www.hughesandco.com/wp-content/uploads/2014/12/blog_logo-design.jpg",
-        "https://img.freepik.com/premium-vector/white-man-logo-design-man-with-suit-hat_498048-816.jpg",
-        "https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png",
-    ]
 
     const handleCategHover = (index) => {
         setHoveredCategoryIndex(index);
@@ -44,35 +31,36 @@ export const LandingPage = () => {
 
 
     return (
-        <div className="browse-body">
+        <div>
             <div className="banner">
-                <div className="lft-banner">YOU CLICK</div>
-                <img src={'https://cdn.shopify.com/s/files/1/0070/7032/files/ecommerce_20checkout.png?v=1691774808'} />
-                <div className="right-banner">WE DELIVER</div>
+                {/* <div className="lft-banner">YOU CLICK</div> */}
+                <div>
+                    <img src={'https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/ampere/30-series/back-in-stock/geforce-back-in-stock-refresh-og-1200x630-cppy@2x.jpg'}
+                        alt='ads' />
+                </div>
+                <div>
+                    <img className="sq-ads" src={sc} alt="amd"/>
+                    <img src="https://storage-asset.msi.com/global/picture/news/2020/nb/alpha15-20200907-1.jpg"
+                        className="w-28 h-58" alt='banner'/>
+                    {/* <img /> */}
+                </div>
+                {/* <img src={banner} alt="banner"/> */}
+                {/* <div className="right-banner">WE DELIVER</div> */}
             </div>
 
-            <ProdCard head="Recently released" data={productsData} />
+            <ProdCard head="Recently released" data={productsData} viewAll={true} />
 
-            <div className="ctg-lst-circles" style={{ marginTop: '0px' }}>
-                {categories.map((category, index) => (
-                    <div
-                        key={index}
-                        onMouseEnter={() => handleCategHover(index)}
-                        onMouseLeave={() => handleCategHover(null)}
-                    >
-                        <div className="ctg-circle">
-                            <img src={imgs[index]} alt={`${category} category`} />
-                        </div>
-                        <div className={hoveredCategoryIndex === index ? 'purpleTag' : 'non-hovered'}>
-                            {category}
-                        </div>
-                    </div>
-                ))}
+            {/* <div className="offer-pic">
+                <img
+                    src={'https://marketplace.canva.com/EAE6uxzge6c/1/0/1600w/canva-yellow-and-white-minimalist-big-sale-banner-BjBIq-T_6j4.jpg'}
+                    alt='offers' />
+            </div> */}
+            <ProdCard head="Best sellers" data={popularProducts} viewAll={true} />
+            <div className="flex justify-center ">
+                <img src='https://storage-asset.msi.com/global/picture/news/2021/monitor/black-friday-20211028-1.jpg'
+                alt='msi' className="rounded-sm h-56"/>
             </div>
-            <div className="offer-pic">
-                <img src={'https://marketplace.canva.com/EAE6uxzge6c/1/0/1600w/canva-yellow-and-white-minimalist-big-sale-banner-BjBIq-T_6j4.jpg'} />
-            </div>
-            <ProdCard head="Best sellers" data={popularProducts} />
+            <ProdCard head="Offers" data={popularProducts} viewAll={true} />
         </div>
     )
 }

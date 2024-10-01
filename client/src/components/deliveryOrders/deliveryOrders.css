@@ -1,16 +1,16 @@
 .delivery-orders1 {
-    height: 100vh;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
+    height: 100%;
+    /* background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>'); */
     background-size: cover;
 }
 
 .not-assigned {
     border-radius: 5px;
-    font-size: 24px;
+    font-size: 38px;
     font-weight: 900;
     background-color: rgba(235, 239, 242, 0.99);
     color: rgb(166, 51, 174);
-    width: 400px;
+    width: 700px;
     padding: 50px;
     margin: auto;
     margin-top: 80px;

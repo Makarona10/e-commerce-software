@@ -1,18 +1,47 @@
 .store-inf-container {
     display: flex;
     flex-direction: column;
+    position: relative;
     margin: auto;
     margin-top: 50px;
-    width: 80%;
+    width: 1300px;
     padding:30px;
+    background-color: rgba(240, 248, 255, 0);
+}
+
+.store-inf-container h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.store-inf-container p {
+    margin-top: 50px;
+}
+
+.feather.feather-edit {
+    position: absolute;
+    right: 70px;
+    top: 50px;
+    transition: all 200ms ease, all 200ms ease;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.feather.feather-edit:hover {
+    background-color: rgba(134, 134, 134, 0.428);
+    transform: scale(1.1);
+    cursor: pointer;
 }
 
 .upr-inf {
+    background-color: rgb(245, 247, 249);
+    border-radius: 15px;
     text-align: center;
     display: flex;
     flex-wrap: wrap;
     width: 90%;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.468);
+    /* border-bottom: 2px solid rgba(0, 0, 0, 0.468); */
+    box-shadow: 0px 0px 20px -15px;
     padding-bottom: 30px;
     width: 100%;
 }
@@ -26,42 +55,50 @@
 }
 
 .upr-inf div img {
-    width: 300px;
-    height: 300px;
+    max-width: 500px;
+    max-height: 300px;
     border-radius: 20px;
-
 }
 
 .inf-desc-div {
+    background-color: rgb(245, 247, 249);
+    box-shadow: 0px 0px 20px -15px;
+    border-radius: 15px;
+    text-indent: 20px;
     text-align: left;
     display: flex;
     flex-direction: column;
     width: 90%;
-    padding-top: 40px;
+    margin-top: 10px;
+    padding-top: 30px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.468);
     padding-bottom: 30px;
     width: 100%;
 }
 
-.inf-desc-div p {
-    margin-top: 19px;
-}
 
 .location-inf {
+    background-color: rgb(245, 247, 249);
+    box-shadow: 0px 0px 20px -15px;
+    border-radius: 15px;
+    text-indent: 20px;
     text-align: left;
-    margin-top: 50px;
+    margin-top: 10px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.468);
+    padding-top: 30px;
     padding-bottom: 30px;
     width: 100%;
-}
-
-.location-inf p {
-    margin-top: 19px;
 }
 
 .ownrs-sec {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background-color: rgb(245, 247, 249);
+    box-shadow: 0px 0px 20px -15px;
+    border-radius: 15px;
+    text-indent: 20px;
     text-align: left;
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 .ownrs-sec ul {

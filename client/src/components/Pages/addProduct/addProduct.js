@@ -1,15 +1,30 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { BrandBar } from '../../brandBar/brandBar';
-import { Nav_bar } from '../../Navbar/Navbar';
+import { NavBar } from '../../Navbar/Navbar';
 import { api } from '../../../api/axios';
-import './addProduct.css'
+import './addProduct.css';
+import { MyFooter } from '../../common/footer/footer';
 
 export const AddProduct = () => {
   const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [toggleCheck, setToggleCheck] = useState(false);
   const fileInputRef = useRef(null);
   const [productDetails, setProductDetails] = useState({});
   const [err, setErr] = useState(null);
   const [theImage, setTheImage] = useState(null);
+  const [subCtgs, setsubCtgs] = useState([]);
+
+  useEffect(() => {
+    api.get('categories/subcategories')
+      .then(res => {
+        setCategories(res.data.data);
+      }).catch();
+  }, []);
+
+  const handleToggleChecklst = () => {
+    setToggleCheck(!toggleCheck);
+  };
 
   const handleFileButtonClick = () => {
     fileInputRef.current.click();
@@ -17,12 +32,19 @@ export const AddProduct = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
       setIsFileUploaded(true);
       setTheImage(file);
     } else {
       setIsFileUploaded(false);
+    }
+  };
+
+  const handleCheckChange = (data) => {
+    if (subCtgs.includes(data)) {
+      setsubCtgs(subCtgs.filter((item) => item !== data));
+    } else {
+      setsubCtgs([...subCtgs, data]);
     }
   };
 
@@ -42,30 +64,45 @@ export const AddProduct = () => {
     formData.append('price', productDetails.price);
     formData.append('quantity', productDetails.quantity);
     formData.append('description', productDetails.description);
-
+    formData.append('subcategory', subCtgs);
     if (theImage) {
       formData.append('photo', theImage);
     }
-    console.log(`\n\n\n\n\n\nFormData: ${formData}\n\n\n\n\n\n\n\n\n`);
 
     try {
+      console.log(formData)
       const response = await api.post('merchant', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      setErr(null);
+      console.log('Log the response', err)
+      if (response?.response?.data?.statusCode === 400) {
+        setErr(response?.response?.data.msg);
+      };
       console.log(`Product added successfully: ${response.data.msg}`);
       window.location.href = 'http://localhost:3000/list-merchant-products';
-    } catch (err) {
-      console.log(theImage)
-      setErr(err.response.data.msg);
-      console.error('Error adding product:', err);
+    } catch (error) {
+      try {
+        setErr(error.response.data.error[0].msg);
+      } catch (error2) {
+        if (error?.response?.data?.statusCode === 400) {
+          setErr(error.response.data.message);
+        }
+        else {
+          setErr("Unknown Error happened!");
+        }
+      }
     }
   };
 
   return (
     <div className="add-prod-page">
       <BrandBar />
-      <Nav_bar search={false} />
+      <NavBar />
+      <div >
+        <div>
+
+        </div>
+      </div>
       <div className="formContainer">
         <form className="addForm" onSubmit={handleSubmit}>
           <div className="upper">
@@ -75,12 +112,33 @@ export const AddProduct = () => {
                 type="text"
                 name="product_name"
                 id="product_name"
+                required={true}
                 onChange={handleChange}
               />
             </div>
             <div>
               <label htmlFor="price">Price:</label>
               <input type="number" name="price" id="price" onChange={handleChange} />
+            </div>
+            <div>
+              <div className="ctg-chk-lst" onClick={handleToggleChecklst}>
+                <label htmlFor="categories">Categories</label>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-360 280-560h400L480-360Z" /></svg>
+              </div>
+              <div name="categories">
+                <ul className={toggleCheck ? 'ctg-chk' : 'ctg-chk hidden'}>
+                  {categories.map((ctg) => (
+                    <li key={ctg.id}>
+                      <input
+                        type="checkbox"
+                        value={ctg.name}
+                        onChange={() => handleCheckChange(ctg.id)}
+                      />
+                      <span>{ctg.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
           <div className="middle">
@@ -133,6 +191,7 @@ export const AddProduct = () => {
           </div>
         </form>
       </div>
+      <MyFooter />
     </div>
   );
 };

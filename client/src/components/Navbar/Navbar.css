@@ -1,24 +1,43 @@
 .navbar {
     display: flex;
+    position: relative;
     align-items: center;
     padding: 6px;
-    background-color: #2c2b2bda;
+    background-image: linear-gradient(to left, rgb(38, 46, 65), rgb(38, 46, 65), rgb(38, 46, 65), rgba(0, 0, 0, 0.548));
     color: #d2d2d2;
-    height: 66px;
+    /* height: 66px; */
     width: 1300px;
     margin: auto;
-    justify-content: space-between;
-    /* box-shadow: 0px 20px 20px -27px rgba(107, 106, 106, 0.74); */
+    transition: all 300ms ease-in-out;
+}
+
+.navbar.stick {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
 .brand {
+    margin: 0;
+    padding: 0;
+    display: flex;
     position: relative;
+    align-items: center;
+    justify-content: center;
     left: 20px;
-    font-size: 1.75rem;
-    font-weight: bold;
     color: #d8d8d8;
-    text-transform: uppercase;
+    height: 60px;
 }
+
+.brand img {
+    margin: 0;
+    position: relative;
+    height: 34px;
+    width: 110px;
+}
+
 
 .brand:hover {
     cursor: pointer;
@@ -28,7 +47,7 @@
     height: 44px;
     width: 44px;
     position: relative;
-    right: 50px;
+    right: 44px;
 }
 
 .acc_logo>img {
@@ -41,16 +60,9 @@
 }
 
 .navbar-links {
-    white-space: 30px;
     background-color: #92929200;
     position: relative;
-    transition: all 200ms ease;
-    margin: auto;
-}
-
-
-.navbar-link.active {
-    color: rgb(205, 60, 198);
+    left: 0;
 }
 
 .navbar-link {
@@ -58,14 +70,14 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 400;
-    margin-top: 40px;
     margin-left: 30px;
+    transition: all 150ms ease-in-out;
 }
 
-.navbar-link:hover,
-.navbar-link.hovered {
+.navbar-link:hover {
+    position: relative;
+    display: inline;
     color: rgb(171, 45, 165);
-    transform: scale(1.1);
 }
 
 
@@ -81,7 +93,8 @@
 
 .cart-logo {
     position: relative;
-    margin-right: 70px;
+    left: 140px;
+    /* margin-right: 70px; */
 }
 
 .cart-logo:hover {
@@ -91,23 +104,20 @@
 .cart-list {
     display: block;
     position: absolute;
-    top: 140%;
-    right: -100%;
+    transform: translate(60px, -25px);
     min-height: 100px;
     background-color: white;
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.218);
     border-radius: 10px;
     width: 400px;
-    z-index: 3000;
-    opacity: 100;
+    opacity: 100%;
     transition: all 200ms ease, all 200ms ease;
 }
 
-.hidden {
-    top: 0;
-    transition: all 200ms ease, all 200ms ease;
-    display: none;
+.cart-list.hide {
+    visibility: collapse;
     opacity: 0;
+    /* display: none; */
 }
 
 .cart-list:hover {
@@ -219,6 +229,18 @@
     margin: auto;
 }
 
+.adrs-inp {
+    border: none;
+    border-bottom: 3px solid #9c48b3;
+    width: 80%;
+    margin-top: 10px;
+}
+
+.adrs-inp:focus {
+    border-bottom: 3px solid #9c48b3;
+    background-color: #dcdcdc4b;
+}
+
 
 .menu-toggle {
     display: none;
@@ -231,10 +253,6 @@
 
 .search-input {
     width: 60%;
-}
-
-.cart-logo {
-    right: 10px;
 }
 
 /* Login Dropdown Menu */
@@ -265,17 +283,24 @@
 }
 
 .drop ul li {
+    display: flex;
+    align-items: center;
     padding: 12px 16px;
     cursor: pointer;
     color: #242424;
     font-size: 14px;
+    font-weight: 500;
     transition: background-color 0.3s ease, padding-left 0.3s ease;
 }
-
 
 .drop ul li:hover {
     background-color: #9c48b3;
     color: rgb(238, 232, 219);
+}
+
+.drop ul li img {
+    width: 20px;
+    margin-right: 10px;
 }
 
 .log-opt {

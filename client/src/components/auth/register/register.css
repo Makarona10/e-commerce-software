@@ -1,6 +1,5 @@
 .reg-body {
     height: 100vh;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
     background-size: cover;
 }
 
@@ -12,37 +11,36 @@
 }
 
 .reg-div {
-    width: 400px;
+    z-index: 40;
+    width: 700px;
+    height: 100vh;
     background-color: rgba(240, 248, 255, 0.879);
-    margin: auto;
     box-shadow: 0px 0px 30px -15px rgba(0, 0, 0, 0.616);
     /* padding-top: 30px; */
-    margin-top: 70px;
-    border-radius: 10px;
+    /* border-radius: 10px; */
 }
 
 .label-div1 {
+    position: relative;
+    bottom: 20px;
     display: flex;
     flex-direction: column;
-    width: 150px;
+    width: 390px;
     margin: auto;
 }
 
 .label-div1 select {
     border: none;
     outline: none;
-    padding: 3px;
-    background-color: rgba(160, 43, 156, 0.902);
+    padding: 9px;
+    background-color: rgba(139, 52, 206, 0.902);
     color: aliceblue;
 }
 
 .label-div1 select option {
-    background-color: rgba(160, 43, 156, 0.902);
+    border-radius: 4px;
+    background-color: rgba(134, 34, 173, 0.902);
     color: aliceblue;
-}
-
-.label-div1 select option:hover {
-    background-color: rgba(108, 28, 105, 0.902);
 }
 
 .reg-div input {
@@ -50,7 +48,7 @@
     border: none;
     outline: none;
     font-size: 14px;
-    width: 250px;
+    width: 390px;
     background-color: rgba(240, 248, 255, 0);
     border-bottom: 2px solid rgb(90, 27, 149);
 }
@@ -78,11 +76,12 @@
 
 .sb-reg button{
     border-radius: 3px;
-    padding: 5px;
+    padding: 8px;
     padding-right: 11px;
     padding-left: 11px;
     font-size: 21px;
     border: none;
     background-color: rgb(167, 50, 167);
     color: aliceblue;
+    width: 390px;
 }

@@ -8,7 +8,7 @@ body {
     display: flex;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: #ececec;
+    background-color: #2626268e;
     color: #000000;
     height: 66px;
     width: 1300px;
@@ -51,7 +51,7 @@ body {
 }
 
 .mail_us:hover {
-    background-color: rgba(0, 0, 0, 0.107);
+    background-color: rgba(187, 187, 187, 0.107);
     cursor: pointer;
     border-radius: 10px;
 }
@@ -78,4 +78,5 @@ body {
     width: 30px;
     height: 30px;
     margin: auto;
+    margin-right: 15px;
 }

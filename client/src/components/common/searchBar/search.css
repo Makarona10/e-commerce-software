@@ -1,13 +1,12 @@
 .search-bar {
-    width: 500px;
+    width: 1000px;
     display: flex;
     margin: auto;
-    margin-top: 90px;
+    margin-top: 50px;
 }
 
 .srch-div {
     display: flex;
-    height: 40px;
     margin: auto;
     justify-content: center;
     align-items: center;
@@ -41,13 +40,21 @@
 }
 
 .srch-bar {
-    height: 40px;
-    margin: auto;
-    width: 500px;
-    border-radius: 30px;
+    /* height: 40px; */
+    background-color: rgba(34, 34, 34, 0.551);
+    color: azure;
     position: relative;
+    text-indent: 10px;
+    padding: 14px;
+    margin: auto;
+    width: 1000px;
+    border-radius: 10px;
     border: none;
     outline: none;
+}
+
+.srch-bar::placeholder {
+    color: rgba(199, 199, 199, 0.678);
 }
 
 .srch-bar:focus {

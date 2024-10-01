@@ -1,0 +1,147 @@
+.mod-store-pop {
+    position: fixed;
+    margin: auto;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.331);
+    transition: all 500ms ease, all 500ms ease;
+}
+
+.mod-store-pop.hide {
+    visibility: collapse;
+    opacity: 0;
+    transition: all 300ms ease, all 300ms ease;
+    /* transform: translate(0, -100%); */
+}
+
+.overlay {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 30px;
+    width: 1000px;
+    height: 600px;
+    background-color: rgb(242, 242, 242);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 5px;
+}
+
+.overlay>h1 {
+    font-size: 19px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.overlay>button {
+    background-color: rgb(232, 18, 18);
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+    font-size: 18px;
+    border: none;
+    border-radius: 4px;
+    padding: 5px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+.overlay>button:hover {
+    background-color: rgb(199, 38, 38);
+}
+
+.overlay form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* justify-items: center; */
+}
+
+.overlay form textarea,
+.overlay form input {
+    text-indent: 10px;
+    border-radius: 5px;
+    border:2px solid rgba(255, 0, 0, 0);
+    padding: 10px;
+    color: black;
+    /* border: 1px solid rgba(175, 138, 210, 0.778); */
+}
+
+.overlay form input:focus,
+.overlay form textarea:focus {
+    border: 2px solid rgb(160, 20, 195);
+}
+
+.up-mod-store {
+    display: flex;
+}
+
+
+.up-mod-store input:first-child {
+    width: 250px;
+}
+
+.up-mod-store input:nth-child(2) {
+    margin-left: 50px;
+    width: 400px;
+}
+
+.mod-about-store {
+    display: flex;
+    justify-content: center;
+}
+
+.mod-about-store textarea {
+    text-align: left;
+    width: 650px;
+    margin-top: 50px;
+    height: 200px;
+    resize: none;
+}
+
+.overlay form input:nth-child(3) {
+    position: relative;
+    margin: 20px auto 0 auto;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    width: 650px;
+    padding: 12px;
+    border-radius: 5px;
+}
+
+.overlay form label:nth-child(3):hover {
+    background-color: rgb(97, 40, 150);
+    cursor: pointer;
+}
+
+.overlay form input:nth-child(4) {
+    display: none;
+    width: 290px;
+}
+
+.overlay>form>button {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 80px;
+    margin: 40px auto 0 auto;
+    background-color: rgb(40, 147, 69);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 7px;
+    font-size: 16px;
+}
+
+.overlay>form>button:hover {
+    background-color: rgb(34, 130, 60);
+}

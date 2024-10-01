@@ -1,6 +1,7 @@
-import { Pagination } from "react-pagination-bar"
-import 'react-pagination-bar/dist/index.css'
-import { useState } from "react";
+import { Pagination } from "react-pagination-bar";
+import 'react-pagination-bar/dist/index.css';
+import { useState, useEffect } from "react";
+import queryString from "query-string";
 
 const posts = [
   { id: 1, title: 'Post 1' },
@@ -17,18 +18,32 @@ const posts = [
   { id: 12, title: 'Post 12' },
 ];
 
-export const PaginationBar = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const pagePostsLimit = 3;
+export const PaginationBar = ({ total }) => {
+  const q_string = queryString.parse(window.location.search);
+  const initialPage = parseInt(q_string.page, 10) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  useEffect(() => {
+    setCurrentPage(initialPage);
+  }, [initialPage]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+
+    q_string.page = pageNumber;
+    const stringified = queryString.stringify(q_string);
+    window.history.pushState(null, '', `?${stringified}`);
+    window.location.reload();
+  };
 
   return (
     <div>
       <Pagination
         currentPage={currentPage}
-        itemsPerPage={pagePostsLimit}
-        onPageChange={(pageNumber) => setCurrentPage(pageNumber)}
-        totalItems={posts.length}
-        pageNeighbours={1}
+        itemsPerPage={24}
+        onPageChange={handlePageChange}
+        totalItems={99}
+        pageNeighbours={3}
       />
     </div>
   );

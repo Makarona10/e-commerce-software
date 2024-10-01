@@ -1,16 +1,17 @@
 import { connection } from '../DB/index.js';
+import { dataObj } from '../trait/api-traits.js';
 
 const change_status = async (req, res) => {
   const status = req.body.status;
 
   if (!(['preparing', 'delivering', 'delivered'].includes(status)))
-    return res.status(400).json({ msg: 'wrong status!' });
+    return res.status(400).json({ error: 'wrong status!' });
 
   try {
     const result = await connection.query(
       `UPDATE orders
-             SET status = $1
-             WHERE order_id = $2`,
+       SET status = $1
+       WHERE id = $2`,
       [status, req.params.order_id],
     );
 
@@ -29,10 +30,11 @@ const change_status = async (req, res) => {
 const accept_order = async (req, res) => {
   try {
     const result = await connection.query(
-      `UPDATE orders
-             SET status = 'accepted',
-             delivery_id = $1
-             WHERE order_id = $2`,
+      `
+      UPDATE orders
+      SET status = 'accepted',
+      delivery_id = $1
+      WHERE id = $2`,
       [req.user_id, req.params.order_id],
     );
     if (result.rowCount === 0) {
@@ -51,15 +53,17 @@ const list_pending_orders = async (req, res) => {
   if (!user_id) return res.status(401).json({ msg: 'unauthorized!' })
   try {
     const result = await connection.query(
-      `SELECT orders.order_id, first_name, last_name, content, address, amount, date_created, status
+      `SELECT orders.id, first_name, last_name, address, amount, date_created, status
             FROM orders LEFT JOIN clients
             ON orders.client_id = clients.client_id
             WHERE status = 'pending' AND orders.active = 1`,
     );
 
-    return res.status(200).json(result.rows);
+    return res.status(200).json(
+      dataObj(200, result.rows, 'Orders retrieved sucessfully')
+    );
   } catch (err) {
-    console.log(err);
+    console.error("Error listing pending orders:", err);
     return res.status(500).json({ msg: 'Error executing the query!' });
   }
 };
@@ -68,17 +72,21 @@ const list_worker_orders = async (req, res) => {
   const user_id = req.user_id;
   try {
     const result = await connection.query(
-      `SELECT order_id, first_name, last_name, address, amount, status, phone_number, deliver_date, content
-      FROM orders
-      LEFT JOIN clients ON clients.client_id = orders.client_id
-            LEFT JOIN users ON clients.client_id = users.id
-            WHERE orders.delivery_id = $1`,
+      `SELECT orders.id, first_name, last_name, address, amount, status, phone_number, deliver_date
+       FROM orders
+       LEFT JOIN clients ON clients.client_id = orders.client_id
+       LEFT JOIN users ON clients.client_id = users.id
+       WHERE orders.delivery_id = $1
+       ORDER BY orders.id DESC`,
       [user_id],
     );
-    return res.status(200).json(result.rows);
+    return res.status(200).json(
+      dataObj(
+        200, result.rows, 'Worker orders retrieved sucessfully'
+      ));
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ msg: 'Error executing the query!' });
+    console.error("Error listing delivery orders:", err);
+    return res.status(500).json({ msg: "Error happened while listing orders!" });
   }
 };
 

@@ -1,7 +1,21 @@
 .mod-form {
-    padding-top: 50px;
+    background-color: rgba(38, 38, 38, 0.302);
+    color: rgba(240, 248, 255, 0.828);
+    padding-top: 30px;
+    padding-bottom: 50px;
     margin: auto;
-    width: 80%;
+    width: 1300px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.mod-form>h1 {
+    color: rgba(254, 254, 254, 0.802);
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-transform: capitalize;
+    text-decoration: underline;
 }
 
 .mod-form form {
@@ -12,12 +26,13 @@
 .mod-form form :first-child {
     display: flex;
     flex-direction: column;
+    /* background-color: #1e1525d0; */
 }
 
 .mod-form label,
 .mod-form input {
     margin: auto;
-    width: 50%;
+    /* width: 50%; */
 }
 
 .mod-form label {
@@ -27,29 +42,17 @@
 
 .mod-form input {
     text-align: center;
-    color: rgba(0, 0, 0, 0.728);
+    color: rgba(240, 248, 255, 0.828);
     border: 0;
     outline: 0;
     background-color: rgba(240, 248, 255, 0);
     border-bottom: 1px solid rgba(223, 57, 223, 0.609);
-    font-size: 14px;
+    font-size: 19px;
     font-weight: 100;
 }
 
 .mod-form input:focus {
     border-bottom: 2px solid rgba(223, 57, 223, 0.609) !important;
-}
-
-.mod-form button {
-    margin: auto;
-    background-color: rgba(75, 172, 75, 0);
-    border: none;
-    font-size: 18px;
-    border-radius: 3px;
-    color: #6a0dadd0;
-    font-weight: 500;
-    padding: 10px;
-    transition: 200ms ease-in-out;
 }
 
 #descript {
@@ -60,14 +63,31 @@
     width: 70%;
     outline: 0;
     padding-bottom: auto;
-    background-color: rgba(240, 248, 255, 0.724);
+    background-color: rgba(0, 0, 0, 0.475);
     border-top: none;
     border-left: 1px solid rgba(223, 57, 223, 0.285);
     border-bottom: 1px solid rgba(223, 57, 223, 0.285);
     border-right: 1px solid rgba(223, 57, 223, 0.285);
 }
 
+.mod-form button {
+    margin: auto;
+    background-color: rgba(151, 45, 193, 0);
+    border: none;
+    font-size: 18px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    color: #8b09e7dc;
+    outline: 2px solid #800ad5d0;
+    font-weight: 500;
+    padding: 10px;
+    transition: 200ms ease-in-out;
+}
+
 .mod-form button:hover {
     background-color: #6a0dadd0;
-    color: rgb(224, 226, 228);
+    color: rgb(255, 255, 255);
 }

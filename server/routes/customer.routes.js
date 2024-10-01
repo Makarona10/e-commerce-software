@@ -11,6 +11,7 @@ router
 
 router
   .route('/:order_id')
+  .get(auth, controller.get_order_items)
   .delete(auth, controller.cancel_order)
 
 router
@@ -18,7 +19,7 @@ router
   .post(auth, controller.confirm_payment)
 
 router
-  .route('/:order_id/:product_id')
+  .route('/:product_id')
   .post(auth, controller.post_review);
 
 

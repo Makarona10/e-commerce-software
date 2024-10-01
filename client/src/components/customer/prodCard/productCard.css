@@ -48,13 +48,14 @@
 
 .product {
     display: flex;
+    color: white;
     flex-direction: column;
     position: relative;
     padding-top: 20px;
     margin-top: 10px;
     width: 290px;
     height: 426px;
-    background-color: white;
+    background-color: rgba(34, 34, 34, 0.072);
     box-shadow: 0px 0px 20px -19px rgba(0, 0, 0, 0.225);
     transition: all 200ms ease, all 200ms ease;
     margin-left: 10px;
@@ -92,13 +93,14 @@
     margin: auto;
     position: relative;
     text-align: center;
+    overflow: hidden;
 }
 
 .det div h6 {
     text-align: center;
     position: relative;
     /* top: 245px; */
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 400;
 }
 
@@ -108,18 +110,27 @@
     visibility: hidden;
     left: 50%;
     transform: translate(-50%);
-    background-color: rgba(255, 255, 255, 0.337);
+    background-color: rgba(0, 0, 0, 0.073);
     width: 280px;
-    height: 280px;
+    height: 100%;
     text-align: center;
     opacity: 0%;
     transition: all 300ms ease, all 300ms ease;
     z-index: 1;
 }
 
+.cartHovered img {
+    transform: scale(0) translate(0, -30px);
+    transition: all 200ms ease-in-out;
+}
+
 .cartHovered.show {
     visibility: visible;
     opacity: 100%;
+}
+
+.cartHovered.show img {
+    transform: scale(1) translate(0, -30px);
 }
 
 
@@ -165,23 +176,27 @@
     display: flex;
     position: relative;
     padding-right: 70px;
-    padding-left: 70px;
-    justify-content: space-evenly;
+    padding-left: 40px;
+    /* justify-content: space-evenly; */
 }
 
+.discount_price {
+    color: red;
+    text-decoration: line-through;
+}
 
 .product button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(175, 58, 182);
+    background-color: rgba(176, 58, 182, 0.074);
     border-radius: 0px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     color: white;
     border: none;
     position: relative;
-    top: 3px;
+    top: 9px;
     left: 50%;
     transform: translate(-50%);
     width: 100%;

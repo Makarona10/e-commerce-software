@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import './ViewProducts.css';
-import { ProdCard } from '../../customer/prodCard/prodCard.jsx'
 import { api } from '../../../api/axios.js';
 import { BrandBar } from '../../brandBar/brandBar.js';
 import { MyFooter } from '../../common/footer/footer.jsx';
-import { Nav_bar } from '../../Navbar/Navbar.js';
+import { NavBar } from '../../Navbar/Navbar.js';
+import { SearchBar } from "../../common/searchBar/searchBar.jsx";
+import queryString from 'query-string';
+import { ProdCard } from "../../customer/prodCard/prodCard.jsx";
+import { PaginationBar } from "../../common/pagination/pagination.jsx";
+import { useSearchParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import Form from 'react-bootstrap/Form';
-import { SearchBar } from "../../common/searchBar/searchBar.jsx";
+
 
 
 function valuetext(value) {
@@ -20,23 +24,88 @@ function valuetext(value) {
 }
 
 export const ViewProducts = () => {
+    const [value, setValue] = useState([1, 1000]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [stockChecked, setStockChecked] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [totalItems, setTotalItems] = useState(0);
+    const [searchName, setSearchName] = useState('');
+    const [searchParams] = useSearchParams();
 
-    const [value, setValue] = React.useState([1000, 10000]);
-    const [age, setAge] = React.useState('');
+    const parsedQuery = queryString.parse(window.location.search);
+    const { sort, page, search } = parsedQuery;
 
-    const handleChangeCtg = (event) => {
-        setAge(event.target.value);
+
+    const sorts = {
+        'trending': 'list-trending',
+        'latest': 'list-latest',
+        'popular': 'list-popular',
+        'offers': 'list-offers'
     };
+
+    useEffect(() => {
+        api.get('categories/subcategories')
+            .then(res => {
+                setCategories(res.data.data)
+            })
+            .catch();
+
+        if (sort) {
+            if (Object.keys(sorts).includes(sort)) {
+                api.get(`products/${sorts[sort]}`, { params: { page } })
+                    .then(res => {
+                        setProducts(res.data.data);
+                        setTotalItems(res.data.pages * 24)
+                    }).catch(err => console.log(err));
+            }
+        }
+        if (search) {
+            api.get(`products/search-prod/${search}`, { params: { page: page } })
+                .then(res => {
+                    setProducts(res.data.data);
+                    setTotalItems(res.data.pages * 24)
+                    console.log(res.data.data)
+                }).catch(err => { console.log(err) })
+        }
+
+    }, [searchParams]);
+
+    const handleFilter = () => {
+        api.get('products/filter', {
+            params: {
+                price: value,
+                subcategory: selectedCategory,
+                inStock: stockChecked,
+                page: page
+            }
+        })
+            .then(res => {
+                setProducts(res.data.data);
+            }).catch(err => { });
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+    const handleCtgChange = (event) => {
+        setSelectedCategory(event.target.value);
+        console.log(event.target.value);
+    };
+
+    const handleCheckChange = (event) => {
+        setStockChecked(event.target.checked);
+        console.log(event.target.checked);
+    };
+
+
     return (
         <div>
             <BrandBar />
-            <Nav_bar />
-            <div className="filter-prod">
+            <NavBar />
+            <SearchBar />
+            <div className="filter-prod mt-4">
                 <div className="p-filter">
                     <span>Price:</span>
                     <Box sx={{ width: 300, position: "relative", top: 4 }}>
@@ -47,38 +116,45 @@ export const ViewProducts = () => {
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
                             min={1}
-                            max={50000}
+                            max={20000}
                         />
                     </Box>
                 </div>
                 <div className="ctg-filter">
-                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                        <InputLabel id="demo-select-small-label">Category</InputLabel>
+                    <FormControl sx={{ m: 1, minWidth: 120 }} size="small" className="text-zinc-300">
+                        <InputLabel id="demo-select-small-label" sx={{ color: 'rgb(199, 199, 199)' }}>Category</InputLabel>
                         <Select
-                            sx={{ height: 35 }}
+                            sx={{ height: 35, color: 'rgb(199, 199, 199)' }}
                             labelId="demo-select-small-label"
                             id="demo-select-small"
-                            // value={age}
-                            label=""
-                            onChange={handleChangeCtg}
+                            value={selectedCategory}
+                            label="category"
+                            onChange={handleCtgChange}
                         >
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value={20}>Twenty</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {categories.map(c => (
+                                <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </div>
                 <div className="in-stk-radio">
                     <span>In Stock</span>
-                    <Form.Check className="chk-stk" />
-                    <button className="fltr-btn">Apply</button>
+                    <Form.Check
+                        className="chk-stk"
+                        checked={stockChecked}
+                        onChange={handleCheckChange}
+                    />
+                    <button
+                        className="fltr-btn"
+                        onClick={() => { handleFilter() }}
+                    >Apply</button>
                 </div>
             </div>
-            <SearchBar style={{ 'margin-top': '60px' }} />
-            {/* <ProdCard /> */}
+            <ProdCard data={products} viewAll={false} />
+            <PaginationBar total={totalItems} />
             <MyFooter />
         </div>
     )

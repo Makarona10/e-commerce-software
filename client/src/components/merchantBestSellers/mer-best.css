@@ -1,25 +1,26 @@
 .mer-bst-body {
-    height: 100vh;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%236a0dad" fill-opacity="1" d="M0,160L80,186.7C160,213,320,267,480,272C640,277,800,235,960,202.7C1120,171,1280,149,1360,138.7L1440,128L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path></svg>');
-    background-size: cover;
+    height: 100%;
+    background-color: rgb(38, 46, 65);
 }
 
 .bst-sell-head {
-    position: initial;
-    padding: 30px;
+    background-color: rgb(38, 46, 65);
+    position: relative;
+    margin: auto;
+    width: 1300px;
+    padding: 20px;
     font-size: 40px;
-    font-weight: 900;
-    color: blueviolet;
-    background-color: aliceblue;
+    font-weight: 400;
+    color: rgba(225, 225, 225, 0.939);
+    background-color: rgba(0, 0, 0, 0.204);
     letter-spacing: 5px;
-    border-right: 5px solid blueviolet;
-    border-left: 5px solid blueviolet;
 }
 
 .mer-bst-cont {
+    background-color: aliceblue;
+    padding: 20px;
     margin: auto;
-    margin-top: 30px;
-    width: 90%;
+    width: 1300px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -27,42 +28,43 @@
 .mer-bst-card {
     display: flex;
     flex-wrap: nowrap;
-    height: 190px;
-    width: 450px;
-    padding: 10px;
-    border-radius: 15px;
-    background-color: rgb(237, 231, 240);
-    border: 9px solid rgba(0, 0, 0, 0.114);
+    width: 550px;
+    padding: 6px;
+    height: 156px;
+    background-color: rgba(237, 231, 240, 0);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.832);
 }
 
 .mer-bst-img {
-    padding: 10px;
-    width: 130px;
+    display: flex;
 }
 
 .mer-bst-img img {
-    border-radius: 50px;
-    height: 100px;
-    width: 100px;
+    border-radius: 5px;
+    width: 140px;
     margin: auto;
 }
 
 .bst-scnd {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     width: 180px;
 }
 
 .bst-scnd div {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 500;
-    margin-top: 27px;
 }
 
 .bst-thrd {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around   ;
     width: 180px;
 }
 
 .bst-thrd div {
-    font-size: 17px;
-    margin-top: 27px;
+    font-size: 15px;
     font-weight: 500;
 }

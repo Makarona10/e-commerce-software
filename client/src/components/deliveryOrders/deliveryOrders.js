@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Nav_bar } from "../Navbar/Navbar";
+import { NavBar } from "../Navbar/Navbar";
 import { BrandBar } from "../brandBar/brandBar";
 import './deliveryOrders.css';
 import { api } from '../../api/axios';
@@ -22,7 +22,7 @@ export const DeliveryOrders = () => {
     useEffect(() => {
         api.get('delivery/accepted')
             .then(res => {
-                setOrders(res.data);
+                setOrders(res.data.data);
             }).catch(err => {
                 console.log(err);
             })
@@ -52,7 +52,7 @@ export const DeliveryOrders = () => {
     return (
         <div className="delivery-orders1">
             <BrandBar />
-            <Nav_bar />
+            <NavBar />
             <div className="pending-container">
                 {
                     content.length === 0 ? '' : (
@@ -83,14 +83,14 @@ export const DeliveryOrders = () => {
                         return (
                             <div className="pending-card1" key={idx}>
                                 <div className="detail-div">
-                                    <div>Order id: {item.order_id}</div>
+                                    <div>Order id: {item.id}</div>
                                     <div>Client: {item.first_name} {item.last_name}</div>
                                     <div>Address: {item.address}</div>
                                     <div>Amount: ${item.amount}</div>
                                 </div>
                                 <div className="pend-stat">
                                     <div>
-                                        <button onClick={() => changeStat(item.order_id, item.status)}>
+                                        <button onClick={() => changeStat(item.id, item.status)}>
                                             {(item.status)} <p>{item.status === 'delivered' ? '' : '>>'}</p>
                                         </button>
                                         <div>{status[item.status]}</div>

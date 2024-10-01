@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrandBar } from "../brandBar/brandBar";
-import { Nav_bar } from "../Navbar/Navbar";
+import { NavBar } from "../Navbar/Navbar";
 import './modifyProduct.css';
 import { useLocation } from "react-router";
 import { api } from "../../api/axios";
+import { MyFooter } from "../common/footer/footer";
+import { useNavigate } from "react-router";
+
 
 export const ModifyProduct = () => {
     const location = useLocation();
-    const { id, quantity, description, price } = location.state || {};
+    const { id, quantity, description, price, offer } = location.state || {};
     const [newQuantity, setNewQuantity] = useState(quantity);
     const [newPrice, setNewPrice] = useState(price);
     const [newDescription, setNewDescription] = useState(description);
+    const [newOffer, setNewOffer] = useState(offer);
+    const navigate = useNavigate();
+
 
     const handleChangeQuantity = (e) => {
         setNewQuantity(e.target.value);
@@ -21,31 +27,41 @@ export const ModifyProduct = () => {
     const handleChangeDescription = (e) => {
         setNewDescription(e.target.value);
     };
+    const handleChangeOffer = (e) => {
+        setNewOffer(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const resp = await api.patch(`merchant/${id}`, { new_price: newPrice, new_quantity: newQuantity, new_description: newDescription });
-            console.log(resp.data);
-        } catch (err) {
-            console.log(err);
-        }
+        await api.patch(`merchant/${id}`, {
+            new_price: newPrice,
+            new_quantity: newQuantity,
+            new_description: newDescription,
+            new_offer: newOffer
+        }).then(res => navigate(-1))
+        .catch(err => console.log(err));
+
     }
 
     return (
         <div>
             <BrandBar />
-            <Nav_bar search={false} />
+            <NavBar />
             <div className="mod-form">
+                <h1>Update product information</h1>
                 <form onSubmit={handleSubmit}>
-                    <div>
+                    <div className="flex-row justify-center space-x-1.5">
                         <div>
                             <label htmlFor="price">New price:</label>
-                            <input type="number" name="price" id="price" defaultValue={price} onChange={handleChangePrice} />
+                            <input type="number" name="price" id="price" className="w-60 mr-2" defaultValue={price} onChange={handleChangePrice} />
                         </div>
                         <div>
                             <label htmlFor="quantity">New quantity:</label>
-                            <input type="number" className="quaninput" name="quantity" id="quantity" defaultValue={quantity} onChange={handleChangeQuantity} />
+                            <input type="number" className="w-60" name="quantity" id="quantity" defaultValue={quantity} onChange={handleChangeQuantity} />
+                        </div>
+                        <div>
+                            <label htmlFor="offer">Offer price:</label>
+                            <input type="number" className="w-60" name="offer" id="offer" defaultValue={offer} onChange={handleChangeOffer} />
                         </div>
                     </div>
                     <div className="middle">
@@ -61,6 +77,7 @@ export const ModifyProduct = () => {
                     </div>
                 </form>
             </div>
+            <MyFooter />
         </div>
     )
 }
