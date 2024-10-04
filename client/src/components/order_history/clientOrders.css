@@ -16,6 +16,10 @@
     /* box-shadow: 0px 0px 30px -15px rgb(36, 36, 36); */
 }
 
+.history-container :first-child {
+    margin-top: 0px;
+}
+
 .order-card {
     /* border-radius: 9px; */
     display: grid;
@@ -71,7 +75,6 @@
     font-size: 16px;
     width: 85px;
     height: 30px;
-    margin-top: 10px;
     border: none;
 }
 
@@ -99,7 +102,6 @@
 
 .done {
     color: aliceblue;
-    ;
     margin-top: 10px;
     width: 100%;
     height: 40px;
@@ -110,7 +112,7 @@
 }
 
 .cancel-btn button {
-    background-color: rgba(62, 36, 231, 0.761);
+    background-color: rgb(82, 82, 82);
     color: aliceblue;
     border-radius: 7px;
 }
@@ -121,7 +123,7 @@
 
 .preview-btn button {
     color: aliceblue;
-    background-color: rgba(62, 36, 231, 0.761);
+    background-color: rgb(82, 82, 82);
     border-radius: 7px;
 }
 
@@ -132,11 +134,11 @@
 
 @keyframes animate-color {
     0% {
-        background-color: rgba(94, 184, 25, 0.938);
+        background-color: rgba(178, 26, 208, 0.938);
     }
 
     100% {
-        background-color: rgb(16, 133, 47);
+        background-color: rgb(133, 19, 156);
     }
 }
 

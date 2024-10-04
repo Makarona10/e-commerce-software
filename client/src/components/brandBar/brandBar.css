@@ -25,6 +25,7 @@ body {
 }
 
 .mail_us {
+    padding: 20px;
     display: flex;
     align-items: center;
     justify-items: center;

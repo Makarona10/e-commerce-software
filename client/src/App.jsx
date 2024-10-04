@@ -37,6 +37,7 @@ function App() {
           <Route
             path="/delivery-orders"
             element={<ProtectedRoute component={DeliveryOrders} />}
+            hasErrorBoundary={false}
           />
           <Route
             path="/modify-product"
@@ -74,7 +75,7 @@ function App() {
             path="/view-prods"
             element={<ProtectedRoute component={ViewProducts} />}
           />
-          <Route path="/" element={<BrowseProd />} />
+          <Route path="/" element={<ProtectedRoute component={BrowseProd} />} />
         </Routes>
       </div>
     </Router>

@@ -11,17 +11,22 @@ export const LandingPage = () => {
 
     const [productsData, setProductsData] = useState([]);
     const [popularProducts, setPopularProducts] = useState([]);
+    const [offerProducts, setOfferProducts] = useState([]);
     const [hoveredCategoryIndex, setHoveredCategoryIndex] = useState(null);
 
     useEffect(() => {
         api.get('products/list-latest', { params: { page: 1 } })
             .then(res => {
                 setProductsData((res.data.data).slice(0, 8));
-            });
+            }).catch();
         api.get('products/list-popular', { params: { page: 1 } })
             .then(res => {
                 setPopularProducts((res.data.data).slice(0, 8))
-            })
+            }).catch()
+        api.get('products/list-offers', { params: { page: 1 } })
+            .then(res => {
+                setOfferProducts((res.data.data).slice(0, 8))
+            }).catch()
     }, [])
 
 
@@ -60,7 +65,7 @@ export const LandingPage = () => {
                 <img src='https://storage-asset.msi.com/global/picture/news/2021/monitor/black-friday-20211028-1.jpg'
                 alt='msi' className="rounded-sm h-56"/>
             </div>
-            <ProdCard head="Offers" data={popularProducts} viewAll={true} />
+            <ProdCard head="Offers" data={offerProducts} viewAll={true} />
         </div>
     )
 }

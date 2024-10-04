@@ -1,12 +1,13 @@
 .filter-prod {
     display: flex;
     margin: auto;
-    border: 1px solid rgba(27, 9, 109, 0.656);
+    /* border: 1px solid rgba(27, 9, 109, 0.656); */
     width: 1000px;
     background-color: rgba(34, 34, 34, 0.551);
     font-size: 16px;
     padding: 6px;
     color: rgb(199, 199, 199);
+    border-radius: 10px;
 }
 
 .p-filter {

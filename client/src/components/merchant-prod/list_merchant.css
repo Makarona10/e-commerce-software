@@ -109,12 +109,13 @@
 
 .merchant-photo {
     display: flex;
+    justify-content: center;
+    align-items: center;
     min-height: 250px;
     width: 180px;
     background-color: rgba(240, 248, 255, 0);
     box-shadow: 4px 0 5px -6px rgba(0, 0, 0, 0.3);
     padding: 10px;
-    align-items: center;
     float: left;
 }
 
@@ -128,8 +129,8 @@
 
 .merchant-photo img {
     margin: auto;
-    width: 180px;
-    height: 180px;
+    max-width: 170px;
+    max-height: 240px;
 }
 
 .det-merchant {

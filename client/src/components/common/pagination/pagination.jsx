@@ -23,6 +23,7 @@ export const PaginationBar = ({ total }) => {
   const initialPage = parseInt(q_string.page, 10) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
+
   useEffect(() => {
     setCurrentPage(initialPage);
   }, [initialPage]);
@@ -42,7 +43,7 @@ export const PaginationBar = ({ total }) => {
         currentPage={currentPage}
         itemsPerPage={24}
         onPageChange={handlePageChange}
-        totalItems={99}
+        totalItems={total}
         pageNeighbours={3}
       />
     </div>

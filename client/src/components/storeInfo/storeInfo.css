@@ -1,5 +1,6 @@
 .store-inf-container {
     display: flex;
+    align-items: center;
     flex-direction: column;
     position: relative;
     margin: auto;
@@ -36,13 +37,12 @@
 .upr-inf {
     background-color: rgb(245, 247, 249);
     border-radius: 15px;
-    text-align: center;
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     width: 90%;
     /* border-bottom: 2px solid rgba(0, 0, 0, 0.468); */
     box-shadow: 0px 0px 20px -15px;
-    padding-bottom: 30px;
     width: 100%;
 }
 

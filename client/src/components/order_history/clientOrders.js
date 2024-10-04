@@ -5,7 +5,6 @@ import { BrandBar } from "../brandBar/brandBar";
 import { MyFooter } from "../common/footer/footer";
 import { api } from "../../api/axios";
 import ReactStars from 'react-rating-stars-component';
-import { useNavigate } from "react-router";
 
 
 export const ClientOrders = () => {
@@ -18,6 +17,7 @@ export const ClientOrders = () => {
     const [review, setReview] = useState({});
     const [ratingValue, setRatingValue] = useState(1);
     const [reviewError, setReviewError] = useState(null);
+    const [isDelivered, setIsDelivered] = useState(false);
 
     const handleStars = (e) => {
         setRatingValue(e);
@@ -110,13 +110,14 @@ export const ClientOrders = () => {
 
 
 
-            <div className={`prev-window h-48 ${toggleCancel ? 'show' : ''} `}>
-                <h1 className="text-2xl mt-10">Are You sure you want to cancel this order ?</h1>
+            <div className={`prev-window h-48 overflow-y-hidden	${toggleCancel ? 'show' : ''} `}>
+                <h1 className="text-2xl mt-4">Are You sure you want to cancel this order ?</h1>
+                <h6 className="text-sm mt-4">*Notice: It can't be activated again</h6>
                 <div className="flex justify-center mt-10">
-                    <button className="border-0 bg-red-600 text-white text-xl mr-4"
+                    <button className="rounded-md border-0 bg-red-700 text-white text-xl mr-4"
                         onClick={() => cancelOrder(id)}>
                         Yes</button>
-                    <button className="border-0 bg-blue-600 text-white text-xl"
+                    <button className="rounded-md border-0 bg-blue-600 text-white text-xl"
                         onClick={() => setToggleCancel(false)}>No</button>
                 </div>
             </div>
@@ -131,23 +132,27 @@ export const ClientOrders = () => {
                     onClick={() => setPrevVisible(false)}
                 >x</button>
                 <div>
-                    <h1 className="text-center text-2xl mt-11 pb-3">Your order items</h1>
+                    <h1 className="text-center text-2xl mt-11 pb-4 underline">Your order items</h1>
                     {items.map(item => {
                         return (
-                            <div className="pt-10 w-10/12 m-auto flex" key={item.id}>
-                                <div className="flex w-32">
-                                    <img className="w-32" src={`http://localhost:3001/uploads/${item.image}`} alt='product pic' />
+                            <div
+                            className="pt-4 w-10/12 m-auto flex items-center border-solid border-black border-b-2"
+                            key={item.id}
+                            >
+                                <div className="flex items-center w-20 h-18">
+                                    <img className="max-w-20 max-h-18" src={`http://localhost:3001/uploads/${item.image}`} alt='product pic' />
                                 </div>
                                 <div className="flex flex-col ml-10 w-100 ">
-                                    <div className="flex text-md font-medium max-w-80 text-wrap">{item.product_name}</div>
-                                    <div className="flex">
+                                    <div className="flex text-md font-medium max-w-80 text-wrap text-left">{item.product_name}</div>
+                                    <div className="flex pb-3">
                                         <h3 className="mt-2">unit price: {item.price}$</h3>
                                         <h3 className="mt-2 ml-10">quantity: {item.quantity}</h3>
                                     </div>
-                                    <div className="m-auto h-0.5 w-full bg-black"></div>
                                 </div>
                                 <button
-                                    className="text-white h-9 relative left-8 bg-sky-900 hover:bg-sky-700 border-none"
+                                    className={`text-white h-9 relative
+                                        left-8 bg-sky-900 hover:bg-sky-700 border-none
+                                        ${isDelivered ? '' : 'hidden'}`}
                                     onClick={() => {
                                         setReview({ name: item.product_name, id: item.id });
                                         setToggleReview(true);
@@ -174,7 +179,7 @@ export const ClientOrders = () => {
                                 <div><p>Order id: {order.id}</p></div>
                                 <div>Address: {order.address}</div>
                                 <div><p>amount: {order.amount}$</p></div>
-                                <div><p>Order date: {(d).toLocaleString()}</p></div>
+                                <div><p>Order date: {d.toLocaleString()}</p></div>
                             </div>
                             <div className="r-card">
                                 <div>
@@ -183,7 +188,7 @@ export const ClientOrders = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="cancel-btn flex justify-center mt-1">
+                                    <div className="cancel-btn flex justify-center mt-2">
                                         <button
                                             className={`flex justify-center ${order.status === 'delivered' ? 'hidden' : ''} `}
                                             onClick={() => {
@@ -194,10 +199,11 @@ export const ClientOrders = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="preview-btn flex m-auto justify-center">
+                                    <div className="preview-btn flex m-auto justify-center mt-2">
                                         <button className="flex justify-center"
                                             onClick={() => {
                                                 getOrderItems(order.id);
+                                                order.status === 'delivered' ? setIsDelivered(true) : setIsDelivered(false)
                                             }}>
                                             PREVIEW</button>
                                     </div>

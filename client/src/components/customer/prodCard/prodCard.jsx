@@ -19,18 +19,24 @@ export const ProdCard = ({ head, data, viewAll }) => {
     }
 
 
-    //Heads to product details page
     const viewDetails = (id) => {
         navigate(`/prod-info?${`id=${id}`}`);
+    }
+
+    const pages_links = {
+        'Recently released': 'latest',
+        'Best sellers': 'popular',
+        'Offers': 'offers',
     }
 
     return (
         <div className="pop-container">
             <div className="pop-head">
                 <h3>{head}</h3>
-                <div className="lst-pop">
+                <a className="lst-pop"
+                href={`http://localhost:3000/view-prods?sort=${pages_links[head]}`}>
                     {viewAll ? 'view all >>' : ''}
-                </div>
+                </a>
             </div>
             <div className="pop-prod">
                 {data.map((item) => {
@@ -48,11 +54,11 @@ export const ProdCard = ({ head, data, viewAll }) => {
                                         title="view product page"
                                         onClick={() => viewDetails(item.id)} />
                                 </div>
-                                <img src={`http://localhost:3001/uploads/${item.image}`} alt="product_photo" />
+                                <img src={`http://localhost:3001/uploads/${item.image}`} className="max-w-52" alt="product_photo" />
                             </div>
                             <div className="det">
                                 <div>
-                                    <h6>{item.product_name}</h6>
+                                    <h6 className="mt-1">{item.product_name}</h6>
                                 </div>
                             </div>
                             <div className='carting'>
@@ -60,7 +66,7 @@ export const ProdCard = ({ head, data, viewAll }) => {
                                     count={5}
                                     size={20}
                                     edit={false}
-                                    value={4}
+                                    value={item.rating}
                                     emptyIcon={<i className="far fa-star"></i>}
                                     halfIcon={<i className="fa fa-star-half-alt"></i>}
                                     fullIcon={<i className="fa fa-star"></i>}

@@ -4,16 +4,17 @@
 }
 
 .bst-sell-head {
+    display: flex;
     background-color: rgb(38, 46, 65);
     position: relative;
     margin: auto;
     width: 1300px;
     padding: 20px;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 400;
-    color: rgba(225, 225, 225, 0.939);
-    background-color: rgba(0, 0, 0, 0.204);
-    letter-spacing: 5px;
+    color: rgb(225, 225, 225);
+    background-color: rgba(0, 0, 0, 0.488);
+    /* letter-spacing: 5px; */
 }
 
 .mer-bst-cont {
@@ -41,7 +42,8 @@
 
 .mer-bst-img img {
     border-radius: 5px;
-    width: 140px;
+    max-width: 140px;
+    max-height: 140px;
     margin: auto;
 }
 

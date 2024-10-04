@@ -21,10 +21,9 @@ export const ListMerchant = () => {
                 setProducts(res.data.data);
             })
             .catch(err => {
-                console.log(err);
+                console.error(err);
             });
         setStore(jwtDecode(localStorage.getItem('access_token')));
-        console.log(store.name)
     }, [])
 
     const handleClick = (e) => {
@@ -32,10 +31,9 @@ export const ListMerchant = () => {
     }
 
     const handleRemove = (id) => {
-        console.log(id)
         api.delete(`merchant/${id}`)
             .then(res => window.location.reload())
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     const handleToggle = (val) => {
@@ -73,7 +71,6 @@ export const ListMerchant = () => {
                             <div className="merchant-card" key={item.product_id}>
                                 <div className="merchant-photo">
                                     <img src={`http://localhost:3001/uploads/${item.image}`} alt={item.name} />
-                                    {console.log(item.image)}
                                 </div>
                                 <div className="det-div">
                                     <div className="det-merchant">

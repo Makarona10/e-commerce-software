@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { api } from '../../../api/axios.js';
 import { useAsyncError, useNavigate } from 'react-router-dom';
 import './register.css';
-import ban from '../../../imgs/Gam_bg.png'
+import ban from '../../../imgs/lgin.png';
 
 
 const Register = () => {
@@ -44,9 +44,10 @@ const Register = () => {
 
   return (
     <div className='reg-body'>
-       <div className='reg-div'>
-        <div className='relative font-bold text-xl mb-20 top-10 items-center justify-center text-slate-700'>Welcome to
-          <p className='text-6xl ml-2 text-violet-600 flex items-center justify-center'>Gamma</p>
+      <img src={ban} alt='Company pic' className='w-11/12 h-full ml-40' />
+      <div className='reg-div'>
+        <div className='relative font-bold text-xl mb-20 top-10 items-center justify-center text-slate-500'>Welcome to
+          <p className='text-6xl ml-2 text-violet-700 flex items-center justify-center'>GAMMA</p>
         </div>
         <form onSubmit={handleRegister} className='relative top-28'>
           <div className='label-div1'>
@@ -176,6 +177,9 @@ const Register = () => {
           <div className='sb-reg'>
             <button type="submit">Create</button>
           </div>
+          <a href='http://localhost:3000/login'
+            className='text-blue-600 underline text-left'
+          >Already have an account</a>
         </form>
       </div>
     </div>

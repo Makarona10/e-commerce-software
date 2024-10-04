@@ -3,7 +3,9 @@
 }
 
 .pending-container {
-    width: 80%;
+    position: relative;
+    max-width: 1300px;
+    min-width: 300px;
     margin: auto;
     padding-top: 50px;
     display: flex;
@@ -13,20 +15,21 @@
 .pending-card1 {
     display: flex;
     flex-direction: column;
-    width: 70%;
+    position: relative;
+    width: 100%;
     margin: auto;
     margin-top: 20px;
     box-shadow: 0px 0px 20px -8px black;
     padding: 30px;
-    background-color: rgba(232, 238, 243, 0.99);
-
+    background-color: rgba(28, 28, 28, 0.856);
 }
 
 .detail-div {
     display: flex;
     flex-direction: column;
-    height: 70%;
+    min-height: 180px;
     text-align: start;
+    color: aliceblue;
 }
 .detail-div div {
     padding-top: 20px;
@@ -35,11 +38,7 @@
 
 .pend-stat {
     display: flex;
-    padding-top: 40px;
-}
-
-.pend-stat div {
-    margin-left: 10%;
+    margin-top: 30px;
 }
 
 .pend-stat div button {
@@ -47,6 +46,8 @@
     padding: 10px;
     border-radius: 5px;
     border: none;
+    position: relative;
+    left: 0;
 }
 
 .pend-stat :first-child button {
@@ -59,6 +60,9 @@
 }
 
 .content-ord {
+    max-width: 1000px;
+    max-height: 800px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     font-size: 18px;

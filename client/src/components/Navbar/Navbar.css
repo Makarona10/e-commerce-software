@@ -212,6 +212,8 @@
     color: black;
     text-align: start;
     margin: 10px;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .btn-container {
@@ -220,25 +222,25 @@
 
 .checkout {
     position: relative;
-    border-radius: 14px;
+    border-radius: 10px;
     border: none;
     color: rgb(255, 255, 255);
-    background-color: rgb(177, 66, 218);
+    background-color: rgb(141, 30, 181);
     font-size: 19px;
-    padding: 5px 30px 5px 30px;
+    padding: 5px 90px 5px 90px;
     margin: auto;
 }
 
 .adrs-inp {
     border: none;
-    border-bottom: 3px solid #9c48b3;
+    border-bottom: 1px solid #dfdfdf !important;
     width: 80%;
     margin-top: 10px;
 }
 
 .adrs-inp:focus {
-    border-bottom: 3px solid #9c48b3;
-    background-color: #dcdcdc4b;
+    border-bottom: 3px solid #9116b3 !important;
+    background-color: #dcdcdc32;
 }
 
 

@@ -4,12 +4,17 @@ import { BrandBar } from "../brandBar/brandBar";
 import './deliveryOrders.css';
 import { api } from '../../api/axios';
 import x from "../../imgs/x_icon.png"
+import { MyFooter } from '../common/footer/footer'
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 // A component to display the current assigned order to a delivery boy
 export const DeliveryOrders = () => {
     const [orders, setOrders] = useState([]);
     const [content, setContent] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [statModal, setStatModal] = useState(false);
 
 
     const status = {
@@ -48,11 +53,42 @@ export const DeliveryOrders = () => {
         setContent([]);
     }
 
+    const get_items = (id) => {
+        api.get(`customer/${id}`)
+            .then(res => setContent(res.data.data))
+            .catch(err => console.log(err));
+    }
 
     return (
         <div className="delivery-orders1">
             <BrandBar />
             <NavBar />
+            <Modal
+                show={statModal}
+                size="md"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header
+                    className='text-center flex justify-center'>
+                    <Modal.Title id="contained-modal-title-vcenter" className=''>
+                        Confirmation
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body
+                    className='flex justify-center items-center w-full p-4'>
+                    <p className="text-xl font-normal">Are you ready to move on to next stage ?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        onClick={() => setStatModal(false)}
+                        className='bg-violet-800 border-none hover:bg-red-800'
+                    >Close</Button>
+                    <Button onClick={() => { changeStat(selectedOrder.id, selectedOrder.status); }}
+                        className='bg-violet-800 border-none'
+                    >Confirm</Button>
+                </Modal.Footer>
+            </Modal>
             <div className="pending-container">
                 {
                     content.length === 0 ? '' : (
@@ -90,16 +126,22 @@ export const DeliveryOrders = () => {
                                 </div>
                                 <div className="pend-stat">
                                     <div>
-                                        <button onClick={() => changeStat(item.id, item.status)}>
+                                        <button onClick={() => {
+                                            if (item.status !== 'delivered') {
+                                                setSelectedOrder({ id: item.id, status: item.status });
+                                                setStatModal(true);
+                                            }
+                                        }}>
                                             {(item.status)} <p>{item.status === 'delivered' ? '' : '>>'}</p>
                                         </button>
-                                        <div>{status[item.status]}</div>
+                                        <div className="text-gray-300 relative top-3">{status[item.status]}</div>
                                     </div>
-                                    <div><button onClick={() => setContent(item.content)}>View content</button></div>
+                                    <div><button onClick={() => { get_items(item.id) }}>View content</button></div>
                                 </div>
                             </div>)
                     })}
             </div>
+            <MyFooter />
         </div>
     )
 }

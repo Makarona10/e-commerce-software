@@ -4,16 +4,19 @@ import { dataObj, failureMsg } from '../trait/api-traits.js';
 
 
 export const list_popular = async (req, res) => {
-  const page_num = (req.query.page);
+  const page_num = (req.query.page) || 1;
   try {
-    const products = await connection.query(`SELECT * FROM products
-                                             WHERE deleted = 0
-                                             ORDER BY sell_times DESC
-                                             OFFSET $1 LIMIT 24`, [(page_num - 1) * 24]);
-    const products_count = await connection.query(`SELECT COUNT(*) FROM products`);
+    const products = await connection.query(`
+      SELECT products.*, AVG(reviews.rating) AS rating FROM products
+      FULL JOIN reviews ON products.id = reviews.product_id
+      WHERE deleted = 0
+      GROUP BY products.id
+      ORDER BY sell_times DESC
+      OFFSET $1 LIMIT 24`, [(page_num - 1) * 24]);
+    const products_count = (await connection.query(`SELECT COUNT(*) FROM products`)).rows[0].count;
     res.status(200).json({
       "data": products.rows,
-      "pages": Math.ceil(parseInt(products_count / 24)),
+      "pages": Math.ceil(parseInt(products_count) / 24),
       "current_page": page_num,
     });
   } catch (err) {
@@ -23,16 +26,19 @@ export const list_popular = async (req, res) => {
 };
 
 export const list_latest = async (req, res) => {
-  const page_num = parseInt(req.query.page);
+  const page_num = parseInt(req.query.page) || 1;
   try {
-    const products = await connection.query(`SELECT * FROM products
-                                              WHERE deleted = 0
-                                              ORDER BY id DESC
-                                              OFFSET $1 LIMIT 24`, [(page_num - 1) * 24]);
-    const products_count = await connection.query(`SELECT COUNT(*) FROM products`);
+    const products = await connection.query(`
+      SELECT products.*, AVG(reviews.rating) AS rating FROM products
+      FULL JOIN reviews ON products.id = reviews.product_id
+      WHERE deleted = 0
+      GROUP BY products.id
+      ORDER BY id DESC
+      OFFSET $1 LIMIT 24`, [(page_num - 1) * 24]);
+    const products_count = (await connection.query(`SELECT COUNT(*) FROM products`)).rows[0].count;
     return res.status(200).json({
       "data": products.rows,
-      "pages": Math.ceil(parseInt(products_count / 24)),
+      "pages": Math.ceil(parseInt(products_count) / 24),
       "current_page": page_num,
     });
   } catch (err) {
@@ -48,6 +54,7 @@ export const list_for_subcategory = async (req, res) => {
     const products = await connection.query(`SELECT * FROM products
       LEFT OUTER JOIN product_subcategory
       ON products.id = product_subcategory.product_id
+      FULL JOIN reviews ON products.id = reviews.product_id
       WHERE product_subcategory.subcategory_id = $1
       AND deleted = 0
       OFFSET $2 LIMIT 24 ORDER BY sell_times DESC`, [sub_ctg, (page_num - 1) * 24]
@@ -137,33 +144,44 @@ export const get_product = async (req, res) => {
 
 export const filterd_products = async (req, res) => {
   const { price, subcategory, inStock, page } = req.query;
-  const offset = (page - 1) * 24 || 0;
+  const offset = (parseInt(page) - 1) * 24 || 0;
 
   try {
-    let query = `SELECT * FROM products 
-    JOIN product_subcategory ON products.id = product_subcategory.product_id
-    WHERE price BETWEEN $1 AND $2`;
-    
+    let query = ` FROM products 
+    LEFT JOIN product_subcategory ON products.id = product_subcategory.product_id
+    LEFT JOIN reviews ON products.id = reviews.product_id
+    WHERE price BETWEEN $1 AND $2 AND deleted = 0`;
+
     const queryParams = [price[0], price[1]];
-    
+
     if (subcategory) {
       query += ` AND product_subcategory.subcategory_id = $3`;
       queryParams.push(subcategory);
     }
-    
+
     if (inStock === 'true') {
       query += ` AND products.quantity > 0`;
     }
-    
-    query += ` AND deleted = 0 ORDER BY sell_times DESC OFFSET $${queryParams.length + 1} LIMIT 24`;
+
+    const countQuery = 'SELECT COUNT(*)' + query;
+    let pages = await connection.query(countQuery, queryParams);
+    console.log(countQuery);
+
+    pages = Math.ceil(parseInt(pages.rows[0].count) / 24);
+
+    query += ` GROUP BY products.id ORDER BY sell_times DESC OFFSET $${queryParams.length + 1} LIMIT 24`;
     queryParams.push(offset);
 
-    const result = await connection.query(query, queryParams);
-    
+    const filterQuery = 'SELECT products.*, AVG(rating) AS rating' + query;
+
+    const result = await connection.query(filterQuery, queryParams);
+
+
     return res.status(200).json({
       statusCode: 200,
+      pages,
       data: result.rows,
-      message: 'Filtered products retrieved successfully'
+      page: page
     });
 
   } catch (err) {
@@ -185,10 +203,10 @@ export const top_rated = async (req, res) => {
       ORDER BY reviews.rating DESC
       OFFSET $1 LIMIT 24`, [((page_num - 1) * 24)]);
     const products = result.rows
-    const products_count = await connection.query(`SELECT COUNT(*) FROM products`);
+    const products_count = (await connection.query(`SELECT COUNT(*) FROM products`)).rows[0].count;
     res.status(200).json({
       "data": products,
-      "pages": Math.ceil(parseInt(products_count / 24)),
+      "pages": Math.ceil(parseInt(products_count) / 24),
       "current_page": page_num,
     });
   } catch (err) {
@@ -232,18 +250,25 @@ export const list_trending = async (req, res) => {
   const page_num = req.query.page;
   try {
     const result = await connection.query(
-      `SELECT products.*, COUNT(products.product_name) AS sales_count
-       FROM products FULL JOIN cart
+      `SELECT products.*, COUNT(products.product_name) AS sold_in_orders,
+       AVG(reviews.rating) AS rating
+       FROM products FULL JOIN
+       (SELECT product_id, SUM(quantity) quantity
+       FROM cart WHERE date_time >= CURRENT_DATE - 30
+       GROUP BY product_id
+       ORDER BY quantity DESC LIMIT 48) AS cart
        ON products.id = cart.product_id
+       LEFT JOIN reviews ON products.id = reviews.product_id
        WHERE deleted = 0
-       GROUP BY products.id ORDER BY sales_count DESC
+       GROUP BY products.id
+       ORDER BY sold_in_orders DESC, sell_times DESC
        OFFSET $1 LIMIT 24
       `, [((page_num - 1) * 24)]);
     const products = result.rows;
-    const products_count = await connection.query(`SELECT COUNT(*) FROM products`);
+    const products_count = (await connection.query(`SELECT COUNT(*) FROM products`)).rows[0].count;
     res.status(200).json({
       "data": products,
-      "pages": Math.ceil(parseInt(products_count / 24)),
+      "pages": Math.ceil(parseInt(products_count) / 24),
       "current_page": page_num,
     });
   } catch (err) {
@@ -253,21 +278,30 @@ export const list_trending = async (req, res) => {
 };
 
 export const list_offers = async (req, res) => {
-  const page_num = parseInt(req.query.page) || 0;
+  const page_num = parseInt(req.query.page) || 1;
   try {
     const result = await connection.query(
-      `SELECT * FROM products WHERE offer IS NOT NULL
-       AND deleted = 0 OFFSET $1 LIMIT 24`,
+      `SELECT products.*, AVG(reviews.rating) AS rating
+       FROM products LEFT JOIN reviews
+       ON products.id = reviews.product_id
+       WHERE offer IS NOT NULL
+       AND deleted = 0 GROUP BY products.id
+       OFFSET $1 LIMIT 24`,
       [((page_num - 1) * 24)]);
     const products = result.rows;
-    const products_count = await connection.query(`SELECT COUNT(*) FROM products`);
-    res.status(200).json({
+    const products_count = (await connection.query(`
+      SELECT COUNT(*) FROM products WHERE offer IS NOT NULL
+      `)).rows[0].count;
+
+    return res.status(200).json({
       "data": products,
-      "pages": Math.ceil(parseInt(products_count / 24)),
+      "pages": Math.ceil(parseInt(products_count) / 24),
       "current_page": page_num,
     });
   } catch (err) {
     console.error("Error loading offers products:", err);
-    res.status(500).failureMsg(500, "Error happened while loading products!");
+    res.status(500).json(failureMsg(
+      500, "Error happened while loading products!"
+    ));
   }
 };

@@ -1,9 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import './mod-inf.css';
 import { api } from "../../api/axios";
 
-export const ModifyStoreModal = ({ toggle, handleToggle, data}) => {
-    const [storeInfo, setStoreInfo] = useState({})
+export const ModifyStoreModal = ({ toggle, handleToggle, data }) => {
+    const [storeInfo, setStoreInfo] = useState({
+        name: data.store_name,
+        location: data.location,
+        about: data.about,
+        description: data.description
+    });
+
+    const [theImage, setTheImage] = useState(null);
+    const [isFileUploaded, setIsFileUploaded] = useState(false);
+    const fileInputRef = useRef(null);
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setIsFileUploaded(true);
+            setTheImage(file);
+        } else {
+            setIsFileUploaded(false);
+        }
+    };
+
+    const handleFileButtonClick = () => {
+        fileInputRef.current.click();
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -14,46 +37,69 @@ export const ModifyStoreModal = ({ toggle, handleToggle, data}) => {
     };
 
     const send_info = (e) => {
-        e.preventDefault()
-        api.put('merchant/info', storeInfo)
-            .then(res => {
-                console.log(res)
-                if (res.status === 200) return window.location.reload();
-            })
-            .catch(err => console.log(err));
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append('name', storeInfo.name || data.store_name);
+        formData.append('location', storeInfo.location || data.location);
+        formData.append('about', storeInfo.about || data.about);
+        formData.append('description', storeInfo.description || data.description);
+        if (theImage) {
+            formData.append('photo', theImage);
+        }
+
+        api.put('merchant/info', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        }).then(res => {
+            console.log(res);
+            if (res.status === 200) return window.location.reload();
+        }).catch(err => console.log(err));
     }
+
     return (
         <div className={`mod-store-pop ${toggle ? '' : 'hide'}`}>
             <div className="overlay">
                 <h1>Update your store info.</h1>
                 <button onClick={handleToggle}>x</button>
-                <form>
+                <form onSubmit={send_info}>
                     <div className="up-mod-store">
                         <input type="text" name="name" placeholder="Store name"
                             onChange={(e) => handleChange(e)}
-                            defaultValue={data.store_name}
+                            defaultValue={storeInfo.name}
                         />
                         <input type="text" name="location"
-                            placeholder="Location ..." onChange={(e) => handleChange(e)}
-                            defaultValue={data.location}
+                            placeholder="Location (City, District, Block, Street, Building) ex." onChange={(e) => handleChange(e)}
+                            defaultValue={storeInfo.location}
                         />
                     </div>
                     <div className="mod-about-store">
                         <textarea name="about" spellCheck={false}
                             placeholder="Tell about your store ...."
                             onChange={(e) => handleChange(e)}
-                            defaultValue={data.about}/>
+                            defaultValue={storeInfo.about} />
                     </div>
-                    {/* <label htmlFor="chose-store-pic">Upload your store photo</label>
-                    <input id='chose-store-pic' type="file" /> */}
-                    <input type="text"
-                        placeholder="Profile image url (https://www.photo.com) ex."
-                        name="img" onChange={(e) => handleChange(e)}
-                        defaultValue={data.img}
-                    />
-                    <button type="submit" onClick={send_info}>
-                        Update
-                    </button>
+                    <div className="file-input-wrapper flex-col justify-center items-center">
+                        {isFileUploaded ? (
+                            <p>Uploaded!</p>
+                        ) : (
+                            <p>Upload your store photo</p>
+                        )}
+                        <button
+                            type="button"
+                            className="file-input-button "
+                            onClick={handleFileButtonClick}
+                        >
+                            Choose photo
+                        </button>
+                        <input
+                            type="file"
+                            name="photo"
+                            id="upload-image"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
+                    </div>
+                    <button type="submit">Update</button>
                 </form>
             </div>
         </div>

@@ -116,7 +116,7 @@ const publish_product = async (req, res) => {                 // Updated
       );
 
       await connection.query('COMMIT');
-      return res.status(200).json(dataObj(200, [], "Product uploaded successfully!"));
+      return res.status(201).json(dataObj(201, [], "Product uploaded successfully!"));
     } catch (err) {
       await connection.query('ROLLBACK');
       fs.unlink(path.join('uploads', req.file.filename), (err) => {
@@ -134,7 +134,7 @@ const publish_product = async (req, res) => {                 // Updated
 const update_product = async (req, res) => {                  // Under updating
   const merchant_id = req.user_id;
   const product_id = req.params.product_id;
-  const { new_quantity, new_price, new_description, offer_price } = req.body;
+  const { new_quantity, new_price, new_description, new_offer } = req.body;
   const errors = validationResult(req);
 
   if (!merchant_id)
@@ -156,9 +156,10 @@ const update_product = async (req, res) => {                  // Under updating
       `UPDATE products
       SET quantity = $1,
       price = $2,
-      description = $3
-      WHERE id = $4 AND merchant_id = $5`,
-      [new_quantity, new_price, new_description, product_id, merchant_id],
+      description = $3,
+      offer = $4
+      WHERE id = $5 AND merchant_id = $6`,
+      [new_quantity, new_price, new_description, new_offer, product_id, merchant_id],
     );
     if (result.rowCount === 0) return res.status(200).json({ msg: 'This product doesn\'t exist' })
     res.status(200).json({ msg: "Product updated successfully" })
@@ -239,44 +240,68 @@ const get_store_info = async (req, res) => {
   }
 }
 
-const update_merchant = async (req, res) => {                 // To Be updated to handle images and owners
+const update_merchant = async (req, res) => {
   const merchant_id = req.user_id;
   const role = req.role;
-  const { name, location, about, img } = req.body
 
   if (!merchant_id || role !== 'merchant') {
     return res.status(401).json(failureMsg(401, "Unauthorized!"));
-  };
+  }
 
-  try {
-    await connection.query(
-      `
-      UPDATE merchants
-      SET store_name = $1,
-      about = $2,
-      location = $3,
-      img = $4
-      WHERE id = $5
-      `, [name, about, location, img, merchant_id]
-    );
-    return res.status(200)
-      .json(
-        dataObj(
-          200, [],
-          "Merchant store information updated successfully"
-        )
+  upload(req, res, async (err) => {
+    if (err) {
+      console.error('File upload error:', err);
+      return res.status(500).json({ error: 'File upload failed!' });
+    }
+
+    const { name, location, about } = req.body;
+
+    if (!name || !location || !about) {
+      return res.status(400).json(failureMsg(400, "Missing required fields!"));
+    }
+
+    let image_url = null;
+    if (req.file) {
+      image_url = req.file.filename;
+    }
+
+    try {
+      await connection.query('BEGIN');
+      await connection.query(
+        `UPDATE merchants SET 
+          store_name = $1,
+          location = $2,
+          about = $3,
+          img = COALESCE($4, img)
+        WHERE id = $5`,
+        [name, location, about, image_url, merchant_id]
       );
-  } catch (err) {
-    console.error(err);
-    return res.status(500)
-      .json(
+
+      await connection.query('COMMIT');
+      return res.status(200).json(dataObj(200, [], "Info Updated successfully!"));
+
+    } catch (err) {
+      await connection.query('ROLLBACK');
+
+      if (req.file) {
+        fs.unlink(path.join('uploads', req.file.filename), (err) => {
+          if (err) {
+            console.error(`Failed to delete file: ${err.message}`);
+          }
+        });
+      }
+
+      console.error(err);
+      return res.status(500).json(
         failureMsg(
           500,
           "Error happened while updating information, please try again later"
         )
-      )
-  }
-}
+      );
+    }
+  });
+};
+
 
 export default {
   publish_product,

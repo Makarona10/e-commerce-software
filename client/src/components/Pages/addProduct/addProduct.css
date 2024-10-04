@@ -1,5 +1,5 @@
 .add-prod-page {
-    height: 100vh;
+    height: 100%;
 }
 
 .formContainer {
@@ -98,6 +98,9 @@
 .ctg-chk {
     position: absolute;
     width: 120px;
+    height: 190px;
+    overflow-x: hidden;
+    overflow-y: auto;
     margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -168,6 +171,22 @@
 .middle div textarea::-webkit-scrollbar-thumb:hover {
     cursor: initial;
 }
+
+
+div::-webkit-scrollbar {
+    width: 6px;
+}
+div::-webkit-scrollbar-track {
+    background: #f4f4f9; 
+}
+div::-webkit-scrollbar-thumb {
+    background-color: rgba(163, 106, 216, 0.816);
+}
+div::-webkit-scrollbar-thumb:hover {
+    cursor: initial;
+}
+
+
 
 .lower {
     position: relative;

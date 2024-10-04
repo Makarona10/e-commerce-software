@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { api } from '../../../api/axios';
-import './login.css'
-import ban from '../../../imgs/lgin.png'
-import logo from '../../../imgs/g3.png'
+import './login.css';
+import ban from '../../../imgs/lgin.png';
+import { jwtDecode } from 'jwt-decode'; 
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
@@ -14,12 +14,19 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(true);
   const [error, setError] = useState(null);
-
+  const [role, setRole] = useState('');
 
   const toggleVisibility = (e) => {
     setIsPassword(!isPassword);
   }
 
+  
+  const roleLinks = {
+    'delivery_boy': '/delivery-orders',
+    'client': '/',
+    'merchant': '/list-merchant-products',
+  }
+  
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -28,11 +35,12 @@ const Login = () => {
         password,
       });
       const { access_token, refresh_token } = response.data.data[0];
-      console.log('login res data ', access_token, refresh_token);
-
+      
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
-      navigate('/');
+      const role = jwtDecode(access_token).role;
+      console.log(role)
+      navigate(roleLinks[role]);
     } catch (err) {
       setError(err.response.data.message[0].msg ? err.response.data.message[0].msg : err.response.data.message);
       console.error('Login failed:', err);
@@ -74,12 +82,12 @@ const Login = () => {
           {error ? (
             <div className='lgin-err-div'>{error}</div>
           ) : null}
+          <div className='btn-div'>
+            <button type="submit" className='sub-button'> Login </button>
+          </div>
           <div className='opts'>
             <Link to='/register' className='link'>create an account</Link>
             <Link to='' className='link'>forgot password ?</Link>
-          </div>
-          <div className='btn-div'>
-            <button type="submit" className='sub-button'> Login </button>
           </div>
         </form>
       </div>

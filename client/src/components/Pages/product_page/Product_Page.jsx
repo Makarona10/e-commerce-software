@@ -92,7 +92,7 @@ const ProductDetail = () => {
                     <div className="mt-7 flex flex-row items-center gap-6">
                         <button
                             className="flex h-12 w-1/3 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800"
-                            onClick={() => { addToCart(product); updateCart() }}>
+                            onClick={() => { addToCart({...product, pieces_left: product.quantity})}}>
                             <BiShoppingBag className="mx-2" />
                             Add to cart
                         </button>

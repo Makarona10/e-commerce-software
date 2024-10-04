@@ -70,7 +70,7 @@ export const AddProduct = () => {
     }
 
     try {
-      console.log(formData)
+      console.log(formData.product_name);
       const response = await api.post('merchant', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });

@@ -67,7 +67,6 @@ export const NavBar = () => {
   }, [])
 
   useEffect(() => {
-    console.log(cartList)
     if (theToken) {
       const decodedToken = jwtDecode(theToken);
       setRole(decodedToken.role);
@@ -122,7 +121,9 @@ export const NavBar = () => {
   }, [localStorage.getItem('cartList')]);
 
   const handleCheckout = async () => {
-    const homeAddress = [city, district, street, building].join(' - ');
+    const homeAddress = [
+      city, district, `st. ${street}`, `Building NO. ${building}`
+    ].join(', ');
     console.log(homeAddress, cartList)
     const response = await api.post('customer', { address: homeAddress, products: cartList });
     if (response.status === 200) {
@@ -209,7 +210,8 @@ export const NavBar = () => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton onClick={() => setAddressModal(false)}
+          className='mr-2'>
           <Modal.Title id="contained-modal-title-vcenter" className='ml-16'>
             Fill the address information
           </Modal.Title>
@@ -221,10 +223,15 @@ export const NavBar = () => {
           <input type='text' placeholder='Building NO.' className='adrs-inp' onChange={(e) => setBuilding(e.target.value)} required={true} />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={() => setAddressModal(false)}>Close</Button>
+          <Button
+            onClick={() => setAddressModal(false)}
+            className='bg-violet-800 border-none'
+            >Close</Button>
           <Button onClick={() => {
             handleCheckout();
-          }}>Checkout</Button>
+          }}
+          className='bg-violet-800 border-none'
+          >Checkout</Button>
         </Modal.Footer>
       </Modal>
 

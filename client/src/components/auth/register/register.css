@@ -11,10 +11,13 @@
 }
 
 .reg-div {
+    position: absolute;
+    top: 0;
+    left: 0;
     z-index: 40;
     width: 700px;
     height: 100vh;
-    background-color: rgba(240, 248, 255, 0.879);
+    background-color: rgb(33, 48, 61);
     box-shadow: 0px 0px 30px -15px rgba(0, 0, 0, 0.616);
     /* padding-top: 30px; */
     /* border-radius: 10px; */
@@ -49,8 +52,14 @@
     outline: none;
     font-size: 14px;
     width: 390px;
+    color: rgb(242, 242, 242);
     background-color: rgba(240, 248, 255, 0);
-    border-bottom: 2px solid rgb(90, 27, 149);
+    border-bottom: 2px solid rgb(134, 76, 134);
+    transition: all 300ms ease, all 300ms ease;
+}
+
+.reg-div input:focus {
+    border-bottom: 2px solid rgb(46, 26, 46);
 }
 
 .reg-inpts {
@@ -81,7 +90,7 @@
     padding-left: 11px;
     font-size: 21px;
     border: none;
-    background-color: rgb(167, 50, 167);
+    background-color: rgb(110, 37, 178);
     color: aliceblue;
     width: 390px;
 }

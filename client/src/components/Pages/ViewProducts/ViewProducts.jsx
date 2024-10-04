@@ -30,18 +30,18 @@ export const ViewProducts = () => {
     const [stockChecked, setStockChecked] = useState(false);
     const [products, setProducts] = useState([]);
     const [totalItems, setTotalItems] = useState(0);
-    const [searchName, setSearchName] = useState('');
     const [searchParams] = useSearchParams();
 
     const parsedQuery = queryString.parse(window.location.search);
-    const { sort, page, search } = parsedQuery;
+    const { sort, page, search, category, from, to, inStock } = parsedQuery;
 
 
     const sorts = {
         'trending': 'list-trending',
         'latest': 'list-latest',
         'popular': 'list-popular',
-        'offers': 'list-offers'
+        'offers': 'list-offers',
+        'filter': 'filter'
     };
 
     useEffect(() => {
@@ -53,10 +53,19 @@ export const ViewProducts = () => {
 
         if (sort) {
             if (Object.keys(sorts).includes(sort)) {
-                api.get(`products/${sorts[sort]}`, { params: { page } })
+                api.get(`products/${sorts[sort]}`,
+                    {
+                        params: {
+                            page,
+                            price: [from, to],
+                            subcategory: category,
+                            inStock: inStock
+                        }
+                    })
                     .then(res => {
                         setProducts(res.data.data);
-                        setTotalItems(res.data.pages * 24)
+                        setTotalItems(res.data.pages * 24);
+                        console.log(res.data.pages)
                     }).catch(err => console.log(err));
             }
         }
@@ -72,6 +81,16 @@ export const ViewProducts = () => {
     }, [searchParams]);
 
     const handleFilter = () => {
+        const q_string = queryString.parse(window.location.search);
+        q_string.sort = 'filter';
+        q_string.page = 1;
+        q_string.from = value[0];
+        q_string.to = value[1];
+        q_string.category = selectedCategory
+        q_string.inStock = stockChecked;
+        const stringified = queryString.stringify(q_string);
+        window.history.replaceState(null, '', `?${stringified}`);
+
         api.get('products/filter', {
             params: {
                 price: value,
@@ -79,13 +98,13 @@ export const ViewProducts = () => {
                 inStock: stockChecked,
                 page: page
             }
-        })
-            .then(res => {
-                setProducts(res.data.data);
-            }).catch(err => { });
+        }).then(res => {
+            setProducts(res.data.data);
+            setTotalItems(res.data.pages * 24)
+        }).catch(err => { });
     }
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (e, newValue) => {
         setValue(newValue);
     };
 
@@ -115,8 +134,8 @@ export const ViewProducts = () => {
                             onChange={handleChange}
                             valueLabelDisplay="auto"
                             getAriaValueText={valuetext}
-                            min={1}
-                            max={20000}
+                            min={0}
+                            max={3000}
                         />
                     </Box>
                 </div>

@@ -16,6 +16,19 @@ body {
   flex-direction: column; 
 }
 
+body::-webkit-scrollbar {
+  width: 9px;
+}
+body::-webkit-scrollbar-track {
+  background: #f4f4f9; 
+}
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(163, 106, 216, 0.816);
+}
+body::-webkit-scrollbar-thumb:hover {
+  cursor: initial;
+}
+
 code {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
