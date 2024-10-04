@@ -83,7 +83,7 @@ export const DeliveryOrders = () => {
                     <Button
                         onClick={() => setStatModal(false)}
                         className='bg-violet-800 border-none hover:bg-red-800'
-                    >Close</Button>
+                    >Cancel</Button>
                     <Button onClick={() => { changeStat(selectedOrder.id, selectedOrder.status); }}
                         className='bg-violet-800 border-none'
                     >Confirm</Button>
