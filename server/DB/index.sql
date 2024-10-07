@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS reviews (
     comment VARCHAR(255),
     rating INTEGER CHECK (rating >= 1 AND rating <= 5) DEFAULT 1,
     date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    deleted INTEGER CHECK (deleted >= 0  AND rating <= 1) DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS orders (
@@ -60,7 +59,8 @@ CREATE TABLE IF NOT EXISTS orders (
     'status' VARCHAR(255) DEFAULT 'pending',
     date_created TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deliver_date TIMESTAMPTZ DEFAULT NULL,
-    active INT
+    active INT,
+    canceled INT
 );
 
 CREATE TABLE IF NOT EXISTS cart (
