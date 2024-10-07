@@ -36,7 +36,7 @@ export const NavBar = () => {
   const [links, setLinks] = useState({
     'HOME': '/',
     'STORES': '&',
-    'BSET SELLERS': '@',
+    'BEST SELLERS': '@',
   });
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ export const NavBar = () => {
     if (isAuthenticated()) {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
-      navigate('/');
+      navigate('/login');
     }
   };
 
@@ -124,29 +124,33 @@ export const NavBar = () => {
     const homeAddress = [
       city, district, `st. ${street}`, `Building NO. ${building}`
     ].join(', ');
-    console.log(homeAddress, cartList)
-    const response = await api.post('customer', { address: homeAddress, products: cartList });
-    if (response.status === 200) {
-      window.location.href = response.data.sessionUrl;
-      navigate(response.data.sessionUrl);
-    } else {
-      window.location.href = 'www.google.com';
-    }
-    const session = response;
-    const stripe = await stripePromise;
-    const { error } = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
+    try {
+      const response = await api.post('customer', { address: homeAddress, products: cartList });
+      if (response.status === 200) {
+        window.location.href = response.data.sessionUrl;
+        navigate(response.data.sessionUrl);
+      } else {
+        window.location.href = 'www.google.com';
+      }
+      const session = response;
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
 
-    if (error) {
-      console.log('Checkout failed!', error);
+      if (error) {
+        console.log('Checkout failed!', error);
+      }
+    } catch (error) {
+      console.log(error);
     }
+    
   };
 
   return (
     <nav id='navbar' className={`navbar ${isSticky ? 'stick' : ''}`}>
       <div className="brand">
-        <img src={logo} alt='Gamma' />
+        <img src={logo} alt='Gamma' onClick={() => window.location.href = '/'} />
       </div>
       <div className="navbar-links">
         {Object.keys(links).map((link, idx) => (
@@ -182,13 +186,13 @@ export const NavBar = () => {
                       <img src={`http://localhost:3001/uploads/${item.image}`} alt='product pic' />
                     </div>
                     <div className='crt-det'>
-                      <div>{(item.product_name)}</div>
+                      <div>{item.product_name}</div>
                       <div>
                         <button className='crt-btn inc' onClick={() => { addToCart(item); setCartList(updateCart()) }}>+</button>
                         {item.quantity}
                         <button className='crt-btn dec' onClick={() => { removeFromCart(item); setCartList(updateCart()) }}>-</button>
                       </div >
-                      <div>${item.quantity * item.price}</div>
+                      <div>${item.quantity * (item.offer ? item.offer : item.price)}</div>
                     </div>
 
                   </li>
@@ -226,11 +230,11 @@ export const NavBar = () => {
           <Button
             onClick={() => setAddressModal(false)}
             className='bg-violet-800 border-none'
-            >Close</Button>
+          >Close</Button>
           <Button onClick={() => {
             handleCheckout();
           }}
-          className='bg-violet-800 border-none'
+            className='bg-violet-800 border-none'
           >Checkout</Button>
         </Modal.Footer>
       </Modal>

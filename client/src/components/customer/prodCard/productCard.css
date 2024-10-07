@@ -69,9 +69,6 @@
     /* text-align: center; */
 }
 
-.prod-img-div >img {
-}
-
 .product img {
     position: relative;
     max-height: 230px;
@@ -203,6 +200,10 @@
     transition: all 200ms ease, all 200ms ease;
     padding: 7px;
     font-weight: 600;
+}
+
+.product button.hidden {
+    display: none;
 }
 
 .product button:hover {

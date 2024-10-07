@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import './productCard.css';
 import viewDetailsImg from '../../../imgs/viewDetails.png';
 import ReactStars from 'react-rating-stars-component';
 import 'react-slideshow-image/dist/styles.css';
 import { useNavigate } from "react-router";
-import { addToCart, updateCart } from "../../common/addToCart/addToCart";
+import { addToCart } from "../../common/addToCart/addToCart";
+import { jwtDecode } from 'jwt-decode';
 
 
 export const ProdCard = ({ head, data, viewAll }) => {
@@ -18,7 +19,6 @@ export const ProdCard = ({ head, data, viewAll }) => {
         }));
     }
 
-
     const viewDetails = (id) => {
         navigate(`/prod-info?${`id=${id}`}`);
     }
@@ -27,6 +27,19 @@ export const ProdCard = ({ head, data, viewAll }) => {
         'Recently released': 'latest',
         'Best sellers': 'popular',
         'Offers': 'offers',
+    };
+
+    const access_token = localStorage.getItem('access_token');
+    let role = '';
+
+    if (access_token) {
+        try {
+            role = jwtDecode(access_token).role;
+        } catch (error) {
+            console.error('Invalid token:', error);
+        }
+    } else {
+        console.warn('No access token found');
     }
 
     return (
@@ -34,7 +47,7 @@ export const ProdCard = ({ head, data, viewAll }) => {
             <div className="pop-head">
                 <h3>{head}</h3>
                 <a className="lst-pop"
-                href={`http://localhost:3000/view-prods?sort=${pages_links[head]}`}>
+                    href={`http://localhost:3000/view-prods?sort=${pages_links[head]}`}>
                     {viewAll ? 'view all >>' : ''}
                 </a>
             </div>
@@ -81,12 +94,14 @@ export const ProdCard = ({ head, data, viewAll }) => {
                                 <p className="discount_price ml-6">{item.offer ? `${item.price}$` : ''}</p>
                             </div>
                             <button
+                                className={`${role === 'client' ? '' : 'hidden'}`}
                                 onClick={() => {
                                     addToCart({
                                         id: item.id,
                                         price: item.price,
                                         product_name: item.product_name,
                                         image: item.image,
+                                        offer: item.offer,
                                         pieces_left: item.quantity
                                     });
                                 }}

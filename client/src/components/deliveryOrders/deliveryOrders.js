@@ -18,10 +18,10 @@ export const DeliveryOrders = () => {
 
 
     const status = {
-        accepted: 'Tap to advance to preparing status',
+        accepted: 'Tap to advance to preparing stage',
         preparing: 'Tap to start delivering the order',
-        delivering: 'Tap if the order delivered',
-        delivered: 'Order is delivered'
+        delivering: 'Tap if you already delivered the order',
+        delivered: ''
     }
 
     useEffect(() => {
@@ -102,8 +102,9 @@ export const DeliveryOrders = () => {
                                                 <div className='del-ord-cont'>
                                                     <div>Product: {item.product_name}</div>
                                                     <div>Quantity: {item.quantity} {item.quantity === 1 ? 'item' : 'items'}</div>
-                                                    <div>Unit price: ${item.price}</div>
-                                                    <div>Total price: ${item.price * item.quantity}</div>
+                                                    <div>Unit price: ${item.offer ? item.offer : item.price}</div>
+                                                    <div>Total price:
+                                                        ${(item.offer ? item.offer : item.price) * item.quantity}</div>
                                                 </div>
                                             )
                                         })
@@ -124,18 +125,21 @@ export const DeliveryOrders = () => {
                                     <div>Address: {item.address}</div>
                                     <div>Amount: ${item.amount}</div>
                                 </div>
-                                <div className="pend-stat">
-                                    <div>
-                                        <button onClick={() => {
-                                            if (item.status !== 'delivered') {
-                                                setSelectedOrder({ id: item.id, status: item.status });
-                                                setStatModal(true);
-                                            }
-                                        }}>
-                                            {(item.status)} <p>{item.status === 'delivered' ? '' : '>>'}</p>
-                                        </button>
-                                        <div className="text-gray-300 relative top-3">{status[item.status]}</div>
-                                    </div>
+                                <div className="pend-stat flex items-center">
+                                    {item.canceled === 0 ?
+                                        <div>
+                                            <button onClick={() => {
+                                                if (item.status !== 'delivered') {
+                                                    setSelectedOrder({ id: item.id, status: item.status });
+                                                    setStatModal(true);
+                                                }
+                                            }}>
+                                                {(item.status)} <p>{item.status === 'delivered' ? '' : '>>'}</p>
+                                            </button>
+                                            <div className="text-gray-300 relative top-3">{status[item.status]}</div>
+                                        </div> :
+                                        <div className="text-slate-100 flex items-center text-center">Order is canceled</div>
+                                    }
                                     <div><button onClick={() => { get_items(item.id) }}>View content</button></div>
                                 </div>
                             </div>)

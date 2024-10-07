@@ -4,43 +4,6 @@ import { dataObj, failureMsg, failureObj } from '../trait/api-traits.js';
 
 const stripe = new Stripe(process.env.STRIPE_KEY);
 
-const list_trending = async (req, res) => {
-
-  try {
-    let stat = {};
-    let result = await connection.query('SELECT TOP 100 content FROM orders').rows;
-
-    result.forEach(order => {
-      order.forEach(item => {
-        item = JSON.parse(item);
-        if (Object.keys(stat).includes(item.product_id.toString()))
-          stat.item.product_id.toString() = stat.item.product_id + item.quantity;
-        else
-          stat.item.product_id.toString() = item.quantity;
-      })
-    })
-    stat = Object.entries(stat).map(([k, val]) => {
-      return { [k]: val };
-    });
-
-    stat.sort((a, b) => {
-      const valueA = Object.values(a)[0];
-      const valueB = Object.values(b)[0];
-
-      if (valueA > valueB) {
-        return -1;
-      }
-      if (valueA < valueB) {
-        return 1;
-      }
-      return 0;
-    });
-
-    // Now we have a sorted array with stringified products IDs and their values (sales_times) based on their values
-  } catch (err) {
-
-  }
-}
 
 const list_orders = async (req, res) => {
   const user_id = req.user_id;
@@ -48,11 +11,10 @@ const list_orders = async (req, res) => {
 
   try {
     const orders = await connection.query(
-      `SELECT orders.id, first_name, last_name, address, amount, status, orders.date_created
+      `SELECT orders.id, first_name, last_name, address, amount, status, orders.date_created, orders.canceled
         FROM orders LEFT JOIN clients
         ON orders.client_id = clients.client_id
         WHERE orders.client_id = $1
-        AND canceled = 0
         AND active = 1
         ORDER BY date_created DESC`,
       [user_id],
@@ -72,7 +34,8 @@ const get_order_items = async (req, res) => {
   try {
     const result = await connection.query(
       `
-        SELECT cart.order_id, products.id, products.product_name, products.image, products.price, cart.quantity
+        SELECT cart.order_id, products.id, products.product_name,
+        products.image, products.price, products.offer, cart.quantity
         FROM products RIGHT JOIN cart ON cart.product_id = products.id
         WHERE cart.order_id = $1
       `, [order_id]);
@@ -168,13 +131,14 @@ const place_order = async (req, res) => {
     await Promise.all(
       products.map(async (item, idx) => {
         const result = await connection.query(
-          `SELECT product_name, price
+          `SELECT product_name, price, offer
                   FROM products
                   WHERE id = $1`,
           [item.id]
         );
         if (result.rows.length > 0) {
-          products[idx].price = result.rows[0].price;
+          products[idx].price = result.rows[0].offer ?
+          result.rows[0].offer : result.rows[0].price;
           products[idx].name = result.rows[0].product_name;
         } else {
           return res

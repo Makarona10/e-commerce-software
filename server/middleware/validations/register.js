@@ -35,16 +35,22 @@ export const checkUserType = body('user_type').isIn([
 export const phoneValidation = body('mobile').isMobilePhone(['ar-EG']).withMessage('Please enter a valid phone number!');
 
 export const passwordValidation = [
-  body('password').notEmpty().isString().isStrongPassword({
+  body('password').notEmpty().withMessage('Please enter a password')
+  .isString().isStrongPassword({
     minLength: 8,
     minNumbers: 2,
     minSymbols: 0,
     minUppercase: 1,
     minLowercase: 4,
-  }).withMessage('Please enter a strong password!'),
-  body('password_confirmation').custom((value, { req }) => {
-    return value === req.body.password;
-  }),
+  }).withMessage('Please enter a strong password with at least 8 characters, 2 numbers, 1 uppercase letter, and 4 lowercase letters.'),
+
+  body('password_confirmation').notEmpty().withMessage('Password confirmation is required.')
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('Passwords do not match!');
+      }
+      return true;
+    }).withMessage('Passwords do not match!'),
 ];
 
 export const validateClient = [
@@ -66,7 +72,7 @@ export const validateMerchant = [
     max: 30,
     min: 2,
   }).withMessage('Please enter a valid store name!'),
-  body('location').notEmpty().withMessage('Enter your store name please!').isString().isLength({
+  body('location').notEmpty().withMessage('Enter your store location please!').isString().isLength({
     max: 255,
   }).withMessage('Location must be 255 characters at most!'),
   phoneValidation,

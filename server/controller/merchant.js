@@ -11,13 +11,16 @@ const get_store_products = async (req, res) => {              // Updated
   const page_num = parseInt(req.query.page) || 1;
   const offset = (page_num - 1) * 24;
   try {
+
     const products = await connection.query(
-      `SELECT * FROM products
+      `SELECT products.*, AVG(reviews.rating) AS rating FROM products
+       FULL JOIN reviews ON products.id = reviews.product_id
        WHERE merchant_id = $1
        AND deleted = 0
-       ORDER BY id DESC
-       OFFSET $2 LIMIT 24`,
-      [merchant_id, offset],
+       GROUP BY products.id
+       ORDER BY products.id DESC
+       `,
+      [merchant_id],
     );
 
     const products_count = await connection.query(`

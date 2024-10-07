@@ -31,7 +31,7 @@ export const MerchantBestSellers = () => {
                             </div>
                             <div className="bst-scnd">
                                 <div>#{idx + 1}</div>
-                                <div>{item.product_name}</div>
+                                <div className="text-ellipsis overflow-y-hidden h-full">{item.product_name}</div>
                             </div>
                             <div className="bst-thrd">
                                 <div>{item.sell_times} pieces sold</div>

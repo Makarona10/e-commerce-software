@@ -5,7 +5,9 @@ import './list_merchant.css';
 import { api } from "../../api/axios.js";
 import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
-import { MyFooter } from "../common/footer/footer.jsx"
+import { MyFooter } from "../common/footer/footer.jsx";
+import Rater from "react-rater";
+import "react-rater/lib/react-rater.css";
 
 
 export const ListMerchant = () => {
@@ -48,10 +50,10 @@ export const ListMerchant = () => {
                     <div>
                         <button onClick={() => handleRemove(deleteProd)}>Delete</button>
                         <button
-                        onClick={() => {
-                            handleToggle(false);
-                            setDeleteProd(null);
-                        }}
+                            onClick={() => {
+                                handleToggle(false);
+                                setDeleteProd(null);
+                            }}
                         >Cancel</button>
                     </div>
                 </div>
@@ -76,6 +78,12 @@ export const ListMerchant = () => {
                                     <div className="det-merchant">
                                         <div className="name-merchant">
                                             <p>{item.product_name}</p>
+                                            <Rater
+                                                style={{ fontSize: "28px" }}
+                                                total={5}
+                                                interactive={false}
+                                                rating={item.rating}
+                                            />
                                         </div>
                                         <div className="price-merchant">
                                             <p>{item.price}$</p>
@@ -91,10 +99,10 @@ export const ListMerchant = () => {
                                 <div className="merchant-btns">
                                     <div>
                                         <button className="rem-mod"
-                                        onClick={() => {
-                                            setDeleteProd(item.id);
-                                            setToggle(true);
-                                        }}
+                                            onClick={() => {
+                                                setDeleteProd(item.id);
+                                                setToggle(true);
+                                            }}
                                         >REMOVE</button>
                                         <button className="rem-mod" onClick={() => handleClick({
                                             id: item.id,

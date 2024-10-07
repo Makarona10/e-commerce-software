@@ -56,7 +56,8 @@ const list_pending_orders = async (req, res) => {
       `SELECT orders.id, first_name, last_name, address, amount, date_created, status
             FROM orders LEFT JOIN clients
             ON orders.client_id = clients.client_id
-            WHERE status = 'pending' AND orders.active = 1`,
+            WHERE status = 'pending' AND orders.active = 1
+            AND canceled = 0`,
     );
 
     return res.status(200).json(
@@ -72,7 +73,8 @@ const list_worker_orders = async (req, res) => {
   const user_id = req.user_id;
   try {
     const result = await connection.query(
-      `SELECT orders.id, first_name, last_name, address, amount, status, phone_number, deliver_date
+      `SELECT orders.id, first_name, last_name, address,
+      amount, status, phone_number, deliver_date, canceled
        FROM orders
        LEFT JOIN clients ON clients.client_id = orders.client_id
        LEFT JOIN users ON clients.client_id = users.id

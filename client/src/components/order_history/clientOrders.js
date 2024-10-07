@@ -136,8 +136,8 @@ export const ClientOrders = () => {
                     {items.map(item => {
                         return (
                             <div
-                            className="pt-4 w-10/12 m-auto flex items-center border-solid border-black border-b-2"
-                            key={item.id}
+                                className="pt-4 w-10/12 m-auto flex items-center border-solid border-black border-b-2"
+                                key={item.id}
                             >
                                 <div className="flex items-center w-20 h-18">
                                     <img className="max-w-20 max-h-18" src={`http://localhost:3001/uploads/${item.image}`} alt='product pic' />
@@ -145,7 +145,7 @@ export const ClientOrders = () => {
                                 <div className="flex flex-col ml-10 w-100 ">
                                     <div className="flex text-md font-medium max-w-80 text-wrap text-left">{item.product_name}</div>
                                     <div className="flex pb-3">
-                                        <h3 className="mt-2">unit price: {item.price}$</h3>
+                                        <h3 className="mt-2">unit price: {item.offer ? item.offer : item.price}$</h3>
                                         <h3 className="mt-2 ml-10">quantity: {item.quantity}</h3>
                                     </div>
                                 </div>
@@ -183,14 +183,19 @@ export const ClientOrders = () => {
                             </div>
                             <div className="r-card">
                                 <div>
-                                    <div className="ord-stat flex justify-center items-center">
-                                        <p className="order-status">{order.status.toUpperCase()}</p>
+                                    <div className={`ord-stat flex justify-center items-center`}>
+                                        <p className={`order-status
+                                            ${order.status === 'delivered' || order.canceled === 1
+                                                ? 'animate-none bg-fuchsia-900' : ''}`}
+                                        >{order.canceled === 0 ? order.status.toUpperCase() :
+                                            'CANCELED'}</p>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="cancel-btn flex justify-center mt-2">
                                         <button
-                                            className={`flex justify-center ${order.status === 'delivered' ? 'hidden' : ''} `}
+                                            className={`flex justify-center ${order.status === 'delivered' || order.canceled === 1 ?
+                                                    'hidden' : ''} `}
                                             onClick={() => {
                                                 setToggleCancel(true);
                                                 setId(order.id);

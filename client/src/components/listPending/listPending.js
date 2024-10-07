@@ -6,6 +6,7 @@ import { api } from "../../api/axios";
 import x from "../../imgs/x_icon.png";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { MyFooter } from "../common/footer/footer";
 
 export const ListPending = () => {
     const [orders, setOrders] = useState([]);
@@ -79,8 +80,9 @@ export const ListPending = () => {
                                                 <div className='del-ord-cont'>
                                                     <div>Product: {item.product_name}</div>
                                                     <div>Quantity: {item.quantity} {item.quantity === 1 ? 'item' : 'items'}</div>
-                                                    <div>Unit price: ${item.price}</div>
-                                                    <div>Total price: ${item.price * item.quantity}</div>
+                                                    <div>Unit price: ${item.offer ?item.offer : item.price}</div>
+                                                    <div>Total price: ${(item.offer ? item.offer : item.price)
+                                                    * item.quantity}</div>
                                                 </div>
                                             )
                                         })
@@ -89,7 +91,11 @@ export const ListPending = () => {
                             }
                         </div>
                     )}
-                {orders.map(item => {
+                {orders.length === 0 ?
+                <div className="text-4xl text-white relative top-20 h-56">
+                    No pending orders, Enjoy the silence ...
+                </div> :
+                orders.map(item => {
                     return (
                         <div className="pending-card1" key={item.order_id}>
 
@@ -111,6 +117,7 @@ export const ListPending = () => {
                 })}
 
             </div>
+            <MyFooter />
         </div>
     )
 } 

@@ -35,7 +35,8 @@ export const list_latest = async (req, res) => {
       GROUP BY products.id
       ORDER BY id DESC
       OFFSET $1 LIMIT 24`, [(page_num - 1) * 24]);
-    const products_count = (await connection.query(`SELECT COUNT(*) FROM products`)).rows[0].count;
+    const products_count = (await connection.query(
+      `SELECT COUNT(*) FROM products WHERE deleted = 0`)).rows[0].count;
     return res.status(200).json({
       "data": products.rows,
       "pages": Math.ceil(parseInt(products_count) / 24),
@@ -165,7 +166,6 @@ export const filterd_products = async (req, res) => {
 
     const countQuery = 'SELECT COUNT(*)' + query;
     let pages = await connection.query(countQuery, queryParams);
-    console.log(countQuery);
 
     pages = Math.ceil(parseInt(pages.rows[0].count) / 24);
 
@@ -174,8 +174,9 @@ export const filterd_products = async (req, res) => {
 
     const filterQuery = 'SELECT products.*, AVG(rating) AS rating' + query;
 
-    const result = await connection.query(filterQuery, queryParams);
 
+
+    const result = await connection.query(filterQuery, queryParams);
 
     return res.status(200).json({
       statusCode: 200,
@@ -265,7 +266,8 @@ export const list_trending = async (req, res) => {
        OFFSET $1 LIMIT 24
       `, [((page_num - 1) * 24)]);
     const products = result.rows;
-    const products_count = (await connection.query(`SELECT COUNT(*) FROM products`)).rows[0].count;
+    const products_count = (await connection.query(
+      `SELECT COUNT(*) FROM products WHERE deleted = 0`)).rows[0].count;
     res.status(200).json({
       "data": products,
       "pages": Math.ceil(parseInt(products_count) / 24),

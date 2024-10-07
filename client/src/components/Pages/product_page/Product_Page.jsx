@@ -6,10 +6,11 @@ import './prod_inf.css'
 import { BrandBar } from "../../brandBar/brandBar";
 import { NavBar } from "../../Navbar/Navbar";
 import { MyFooter } from "../../common/footer/footer";
-import { addToCart, updateCart } from "../../common/addToCart/addToCart";
+import { addToCart } from "../../common/addToCart/addToCart";
 import { useEffect, useState } from "react";
 import { api } from "../../../api/axios";
 import queryString from 'query-string';
+import { jwtDecode } from "jwt-decode";
 
 
 const ProductDetail = () => {
@@ -32,6 +33,10 @@ const ProductDetail = () => {
 
     const plusMinuceButton =
         "flex h-8 w-8 cursor-pointer items-center justify-center border duration-100 hover:bg-neutral-100 focus:ring-2 focus:ring-gray-500 active:ring-2 active:ring-gray-500";
+
+    const access_token = localStorage.getItem('access_token');
+    const role = jwtDecode(access_token).role;
+
     return (
         <div className="">
             <BrandBar />
@@ -80,19 +85,19 @@ const ProductDetail = () => {
                         {product.description}
                     </p>
                     <div className="mt-6">
-                        <p className="pb-2 text-xs text-gray-200">Quantity</p>
+                        {/* <p className="pb-2 text-xs text-gray-200">Quantity</p>
                         <div className="flex">
                             <button className={`${plusMinuceButton} text-gray-200`}>−</button>
                             <div className="flex h-8 w-8 cursor-text items-center justify-center border-t border-b active:ring-gray-500 text-gray-200">
                                 1
                             </div>
                             <button className={`${plusMinuceButton} text-gray-200`}> +</button>
-                        </div>
+                        </div> */}
                     </div>
-                    <div className="mt-7 flex flex-row items-center gap-6">
+                    <div className={`${role === 'client' ? 'mt-7 flex flex-row items-center gap-6' : 'hidden'} `}>
                         <button
                             className="flex h-12 w-1/3 items-center justify-center bg-violet-900 text-white duration-100 hover:bg-blue-800"
-                            onClick={() => { addToCart({...product, pieces_left: product.quantity})}}>
+                            onClick={() => { addToCart({ ...product, pieces_left: product.quantity }) }}>
                             <BiShoppingBag className="mx-2" />
                             Add to cart
                         </button>
@@ -105,7 +110,11 @@ const ProductDetail = () => {
             </section>
             <div style={{ 'width': 1300 }} className="m-auto flex flex-col">
                 <h1 className="flex text-white text-2xl mb-4 underline underline-offset-4">REVIEWS</h1>
-                {productReviews.map(review => {
+                {productReviews.length === 0 ? 
+                <div
+                className="text-white text-4xl mt-8"
+                >There is no reviews yet</div> :
+                productReviews.map(review => {
                     return (
                         <div className="flex flex-col mt-6" key={review.id}>
                             <div className="flex">

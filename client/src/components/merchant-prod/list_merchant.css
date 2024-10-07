@@ -98,13 +98,14 @@
 }
 
 .merchant-card {
+    color: aliceblue;
     display: flex;
     flex-wrap: nowrap;
     width: 1000px;
     min-height: 250px;
     box-shadow: 0px 10px 30px -10px rgba(0, 0, 0, 0.171);
     margin-top: 50px;
-    background-color: rgba(240, 248, 255, 0.908);
+    background-color: rgba(0, 0, 0, 0.528);
 }
 
 .merchant-photo {
@@ -147,7 +148,7 @@
 .desc-div {
     padding-top: 50px;
     font-size: 14px;
-    color: rgb(0, 0, 0);
+    color: rgb(198, 198, 198);
 }
 
 .merchant-btns div {

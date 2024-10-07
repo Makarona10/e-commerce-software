@@ -10,8 +10,8 @@ export const updateCart = () => {
 };
 
 export const addToCart = (obj) => {
+    console.log(obj);
     let cart = updateCart();
-    console.log(cart)
 
     if (obj.pieces_left === 0) return;
 

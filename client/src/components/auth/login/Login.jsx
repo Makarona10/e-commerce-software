@@ -14,7 +14,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(true);
   const [error, setError] = useState(null);
-  const [role, setRole] = useState('');
 
   const toggleVisibility = (e) => {
     setIsPassword(!isPassword);

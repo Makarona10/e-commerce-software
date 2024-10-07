@@ -12,7 +12,6 @@ export const LandingPage = () => {
     const [productsData, setProductsData] = useState([]);
     const [popularProducts, setPopularProducts] = useState([]);
     const [offerProducts, setOfferProducts] = useState([]);
-    const [hoveredCategoryIndex, setHoveredCategoryIndex] = useState(null);
 
     useEffect(() => {
         api.get('products/list-latest', { params: { page: 1 } })
@@ -30,9 +29,6 @@ export const LandingPage = () => {
     }, [])
 
 
-    const handleCategHover = (index) => {
-        setHoveredCategoryIndex(index);
-    }
 
 
     return (
