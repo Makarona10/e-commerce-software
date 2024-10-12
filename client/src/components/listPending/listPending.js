@@ -17,20 +17,20 @@ export const ListPending = () => {
     useEffect(() => {
         api.get('delivery')
             .then(res => setOrders(res.data.data))
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }, [])
 
 
     const acceptOrder = (id) => {
         api.post(`delivery/${id}`)
             .then(res => window.location.reload())
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     const get_items = (id) => {
         api.get(`customer/${id}`)
             .then(res => setContent(res.data.data))
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     const emptyContent = () => {
