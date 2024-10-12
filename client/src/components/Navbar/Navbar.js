@@ -22,7 +22,6 @@ import Modal from 'react-bootstrap/Modal';
 
 
 export const NavBar = () => {
-  // const [cartList, setCartList] = useState({ address: '', products: JSON.parse[localStorage.getItem('cartList')] || []});
   const [cartList, setCartList] = useState([]);
   const [isCartVisible, setIsCartVisible] = useState(false);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -114,10 +113,6 @@ export const NavBar = () => {
       setCartList(updatedCart);
     };
     handleCartUpdate();
-    // window.addEventListener('storage', updateCart);
-    // return () => {
-    //   window.removeEventListener('storage', updateCart);
-    // };
   }, [localStorage.getItem('cartList')]);
 
   const handleCheckout = async () => {
@@ -139,10 +134,10 @@ export const NavBar = () => {
       });
 
       if (error) {
-        console.log('Checkout failed!', error);
+        console.error('Checkout failed!', error);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
     
   };
@@ -183,7 +178,7 @@ export const NavBar = () => {
                 {cartList.map((item) => (
                   <li key={item.id} className="cart-item">
                     <div className='crt-img'>
-                      <img src={`http://localhost:3001/uploads/${item.image}`} alt='product pic' />
+                      <img src={`${process.env.REACT_APP_IMAGES_URL}${item.image}`} alt='product pic' />
                     </div>
                     <div className='crt-det'>
                       <div>{item.product_name}</div>

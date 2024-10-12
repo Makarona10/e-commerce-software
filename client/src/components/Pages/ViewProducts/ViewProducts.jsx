@@ -65,8 +65,7 @@ export const ViewProducts = () => {
                     .then(res => {
                         setProducts(res.data.data);
                         setTotalItems(res.data.pages * 24);
-                        console.log(res.data.pages)
-                    }).catch(err => console.log(err));
+                    }).catch(err => console.error(err));
             }
         }
         if (search) {
@@ -74,8 +73,7 @@ export const ViewProducts = () => {
                 .then(res => {
                     setProducts(res.data.data);
                     setTotalItems(res.data.pages * 24)
-                    console.log(res.data.data)
-                }).catch(err => { console.log(err) })
+                }).catch(err => { console.error(err) })
         }
 
     }, [searchParams]);
@@ -110,12 +108,10 @@ export const ViewProducts = () => {
 
     const handleCtgChange = (event) => {
         setSelectedCategory(event.target.value);
-        console.log(event.target.value);
     };
 
     const handleCheckChange = (event) => {
         setStockChecked(event.target.checked);
-        console.log(event.target.checked);
     };
 
 

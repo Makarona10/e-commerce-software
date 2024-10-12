@@ -67,7 +67,7 @@ export const ProdCard = ({ head, data, viewAll }) => {
                                         title="view product page"
                                         onClick={() => viewDetails(item.id)} />
                                 </div>
-                                <img src={`http://localhost:3001/uploads/${item.image}`} className="max-w-52" alt="product_photo" />
+                                <img src={`${process.env.REACT_APP_IMAGES_URL}${item.image}`} className="max-w-52" alt="product_photo" />
                             </div>
                             <div className="det">
                                 <div>

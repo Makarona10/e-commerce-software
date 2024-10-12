@@ -45,14 +45,14 @@ export const ClientOrders = () => {
     useEffect(() => {
         api.get('/customer')
             .then(res => setOrders(res.data))
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
     }, []);
 
 
     const getOrderItems = (id) => {
         api.get(`customer/${id}`)
             .then(res => { setItems(res.data.data) })
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
         setPrevVisible(true);
     };
 
@@ -60,10 +60,8 @@ export const ClientOrders = () => {
     const cancelOrder = (id) => {
         api.delete(`customer/${id}`)
             .then(res => window.location.reload())
-            .catch(error => console.log(error));
+            .catch(error => console.error(error));
     }
-
-
 
     return (
         <div className="orders-history">
@@ -99,7 +97,7 @@ export const ClientOrders = () => {
                     placeholder="Leave a comment for your review ..."
                     className="w-full h-56 resize-none mt-10"
                     value={review.comment}
-                    onChange={(e) => { setReview({ ...review, comment: e.target.value }); console.log(ratingValue) }}
+                    onChange={(e) => { setReview({ ...review, comment: e.target.value })}}
                 ></textarea>
                 <p className="mt-6 text-md text-red-500">{reviewError}</p>
                 <button
@@ -140,7 +138,7 @@ export const ClientOrders = () => {
                                 key={item.id}
                             >
                                 <div className="flex items-center w-20 h-18">
-                                    <img className="max-w-20 max-h-18" src={`http://localhost:3001/uploads/${item.image}`} alt='product pic' />
+                                    <img className="max-w-20 max-h-18" src={`${process.env.REACT_APP_IMAGES_URL}${item.image}`} alt='product pic' />
                                 </div>
                                 <div className="flex flex-col ml-10 w-100 ">
                                     <div className="flex text-md font-medium max-w-80 text-wrap text-left">{item.product_name}</div>

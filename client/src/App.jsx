@@ -17,15 +17,13 @@ import NotProtectedRoute from './components/auth/not_protected/NotProtected';
 import { ProductDetail } from './components/Pages/product_page/Product_Page';
 import { ViewProducts } from './components/Pages/ViewProducts/ViewProducts';
 
+
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route
-            path="/new-product"
-            element={<ProtectedRoute component={AddProduct} />}
-          />
+          {/* Auth routes */}
           <Route
             path="/login"
             element={<NotProtectedRoute component={Login} />}
@@ -34,10 +32,34 @@ function App() {
             path="/register"
             element={<NotProtectedRoute component={Register} />}
           />
+
+
+
+          {/* Customer routes */}
           <Route
-            path="/delivery-orders"
-            element={<ProtectedRoute component={DeliveryOrders} />}
-            hasErrorBoundary={false}
+            path="/prod-info"
+            element={<ProtectedRoute component={ProductDetail} />}
+          />
+          <Route
+            path="/orders-history"
+            element={<ProtectedRoute component={ClientOrders} />}
+          />
+          <Route
+            path="/success"
+            element={<ProtectedRoute component={PaymentHandle} />}
+          />
+          <Route
+            path="/view-prods"
+            element={<ProtectedRoute component={ViewProducts} />}
+          />
+          <Route path="/" element={<ProtectedRoute component={BrowseProd} />} />
+
+
+
+          {/* merchant routes */}
+          <Route
+            path="/new-product"
+            element={<ProtectedRoute component={AddProduct} />}
           />
           <Route
             path="/modify-product"
@@ -48,18 +70,6 @@ function App() {
             element={<ProtectedRoute component={ListMerchant} />}
           />
           <Route
-            path="/orders-history"
-            element={<ProtectedRoute component={ClientOrders} />}
-          />
-          <Route
-            path="/pending"
-            element={<ProtectedRoute component={ListPending} />}
-          />
-          <Route
-            path="/success"
-            element={<ProtectedRoute component={PaymentHandle} />}
-          />
-          <Route
             path="/merchant-best-sellers"
             element={<ProtectedRoute component={MerchantBestSellers} />}
           />
@@ -67,15 +77,20 @@ function App() {
             path="/store-info"
             element={<ProtectedRoute component={StoreInfo} />}
           />
+
+
+
+          {/* delivey boy routes */}
           <Route
-            path="/prod-info"
-            element={<ProtectedRoute component={ProductDetail} />}
+            path="/delivery-orders"
+            element={<ProtectedRoute component={DeliveryOrders} />}
+            hasErrorBoundary={false}
           />
           <Route
-            path="/view-prods"
-            element={<ProtectedRoute component={ViewProducts} />}
+            path="/pending"
+            element={<ProtectedRoute component={ListPending} />}
           />
-          <Route path="/" element={<ProtectedRoute component={BrowseProd} />} />
+
         </Routes>
       </div>
     </Router>

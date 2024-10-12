@@ -38,7 +38,6 @@ const Login = () => {
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
       const role = jwtDecode(access_token).role;
-      console.log(role)
       navigate(roleLinks[role]);
     } catch (err) {
       setError(err.response.data.message[0].msg ? err.response.data.message[0].msg : err.response.data.message);

@@ -12,8 +12,8 @@ export const PaymentHandle = () => {
 
     useEffect(() => {
         api.post(`customer/payment/${parseInt(specificParam)}`)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then()
+            .catch(err => console.error(err))
     }, [])
 
     return (

@@ -72,7 +72,7 @@ export const ListMerchant = () => {
                         return (
                             <div className="merchant-card" key={item.product_id}>
                                 <div className="merchant-photo">
-                                    <img src={`http://localhost:3001/uploads/${item.image}`} alt={item.name} />
+                                    <img src={`${process.env.REACT_APP_IMAGES_URL}${item.image}`} alt={item.name} />
                                 </div>
                                 <div className="det-div">
                                     <div className="det-merchant">

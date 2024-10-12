@@ -50,9 +50,8 @@ export const ModifyStoreModal = ({ toggle, handleToggle, data }) => {
         api.put('merchant/info', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
         }).then(res => {
-            console.log(res);
             if (res.status === 200) return window.location.reload();
-        }).catch(err => console.log(err));
+        }).catch(err => console.error(err));
     }
 
     return (

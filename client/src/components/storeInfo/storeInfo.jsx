@@ -38,7 +38,7 @@ export const StoreInfo = () => {
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
                 <div className="upr-inf">
-                    <div><img src={`http://localhost:3001/uploads/${merchant.img}`} alt="Store logo" /></div>
+                    <div><img src={`${process.env.REACT_APP_IMAGES_URL}${merchant.img}`} alt="Store logo" /></div>
                     <div>{merchant.store_name}</div>
                 </div>
                 <div className="inf-desc-div">

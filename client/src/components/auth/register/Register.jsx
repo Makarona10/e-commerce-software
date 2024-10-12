@@ -33,9 +33,8 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post('/auth/register', formData);
+      await api.post('/auth/register', formData);
       navigate('/login');
-      console.log('regiter', response);
     } catch (err) {
       setError(err.response.data.message ? err.response.data.message : err.response.data.errors[0].msg);
       console.error('Registration failed:', err);

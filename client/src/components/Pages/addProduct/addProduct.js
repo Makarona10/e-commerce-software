@@ -70,15 +70,12 @@ export const AddProduct = () => {
     }
 
     try {
-      console.log(formData.product_name);
       const response = await api.post('merchant', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log('Log the response', err)
       if (response?.response?.data?.statusCode === 400) {
         setErr(response?.response?.data.msg);
       };
-      console.log(`Product added successfully: ${response.data.msg}`);
       window.location.href = 'http://localhost:3000/list-merchant-products';
     } catch (error) {
       try {

@@ -39,7 +39,7 @@ export const ModifyProduct = () => {
             new_description: newDescription,
             new_offer: newOffer
         }).then(res => navigate(-1))
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
 
     }
 

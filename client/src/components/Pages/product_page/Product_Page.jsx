@@ -22,7 +22,6 @@ const ProductDetail = () => {
         api.get(`products/details/${id}`)
             .then(res => {
                 setProduct(res.data.data[0]);
-                console.log(res.data.data);
             }).catch();
 
         api.get(`products/reviews/${id}`)
@@ -44,7 +43,7 @@ const ProductDetail = () => {
             <section className="sec-inf container flex-grow mx-auto max-w-[1200px] border-b py-5 lg:grid lg:grid-cols-2 lg:py-10">
                 {/* image gallery */}
                 <div className="container mx-auto px-4">
-                    <img src={`http://localhost:3001/uploads/${product.image}`} alt='Product_photo' />
+                    <img src={`${process.env.REACT_APP_IMAGES_URL}${product.image}`} alt='Product_photo' />
                 </div>
 
                 <div className="px-5 lg:px text-left">

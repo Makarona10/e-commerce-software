@@ -14,7 +14,7 @@ export const MerchantBestSellers = () => {
             .then(result => {
                 setProd(result.data.data);
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }, [])
 
     return (
@@ -27,7 +27,7 @@ export const MerchantBestSellers = () => {
                     return (
                         <div className="mer-bst-card" key={idx}>
                             <div className="mer-bst-img">
-                                <img src={`http://localhost:3001/uploads/${item.image}`} />
+                                <img src={`${process.env.REACT_APP_IMAGES_URL}${item.image}`} alt='product pic'/>
                             </div>
                             <div className="bst-scnd">
                                 <div>#{idx + 1}</div>

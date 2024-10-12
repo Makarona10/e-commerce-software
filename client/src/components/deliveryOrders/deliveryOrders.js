@@ -29,7 +29,7 @@ export const DeliveryOrders = () => {
             .then(res => {
                 setOrders(res.data.data);
             }).catch(err => {
-                console.log(err);
+                console.error(err);
             })
     }, [])
 
@@ -44,9 +44,8 @@ export const DeliveryOrders = () => {
             }
         };
         api.patch(`delivery/${id}`, { status: stat })
-            .then(res => console.log(res))
             .then(window.location.reload())
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     };
 
     const emptyContent = () => {
@@ -56,7 +55,7 @@ export const DeliveryOrders = () => {
     const get_items = (id) => {
         api.get(`customer/${id}`)
             .then(res => setContent(res.data.data))
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     return (
