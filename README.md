@@ -35,3 +35,14 @@
    ```bash
    git clone https://github.com/Makarona10/e-commerce-software.git
    cd e-commerce-software
+
+2. install dependencies
+   ```bash
+   npm install
+
+3. Set up PostgreSQL and configure environment variables.
+
+4. Run the development server:
+   ```bash
+   npm run dev
+
